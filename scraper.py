@@ -163,54 +163,23 @@ def scrape_morimori(products):
 
 
 # ============================================================
-# ホムラ (Playwright - JSレンダリング必要)
+# ホムラ (Playwright - 個別商品ページに直接アクセス)
 # ============================================================
-HOMURA_SWITCH_URL = "https://kaitori-homura.com/products?q%5Bproduct_sub_category_id_eq%5D=124&q%5Bproduct_sub_category_product_category_id_eq%5D=13"
-HOMURA_PS_URL = "https://kaitori-homura.com/products?q%5Bproduct_sub_category_id_eq%5D=122&q%5Bproduct_sub_category_product_category_id_eq%5D=13"
 
-# ホムラのJANコード→product_idマッピング
-HOMURA_JAN_MAP = {
-    # Switch 系
-    "4902370553024": "switch2_domestic",   # Switch 2 国内専用
-    # 有機EL
-    "4902370548495": "oled_white",         # 有機EL ホワイト
-    "4902370548501": "oled_neon",          # 有機EL ネオン
-    # 通常Switch
-    "4902370549901": "standard_neon",      # 通常 ネオン
-    "4902370549895": "standard_gray",      # 通常 グレー
-    # Lite
-    "4902370542936": "lite_yellow",
-    "4902370542943": "lite_turquoise",
-    "4902370545302": "lite_coral",
-    "4902370542929": "lite_gray",
-    "4902370548204": "lite_blue",
-    # PS5 系
-    "4948872415934": "ps5_disc",           # PS5 Slim disc
-    "4948872415958": "ps5_de",             # PS5 DE
-    "4948872016674": "portal_white",       # Portal White
-}
-
-# キーワードマッチ（JANが見つからない場合のフォールバック）
-HOMURA_KEYWORDS = {
-    "switch2_domestic":   "Switch 2 日本国内専用版",
-    "switch2_mariokart":  "マリオカート ワールド セット",
-    "switch2_pokemon":    "Pokemon LEGENDS Z-A",
-    "oled_white":         "有機ELモデル ホワイト",
-    "oled_neon":          "有機EL",
-    "standard_neon":      "バッテリー強化版 新型ネオン",
-    "standard_gray":      "バッテリー強化版 新型グレー",
-    "lite_yellow":        "Lite イエロー",
-    "lite_turquoise":     "Lite ターコイズ",
-    "lite_coral":         "Lite コーラル",
-    "lite_gray":          "Lite グレー",
-    "lite_blue":          "Lite ブルー",
-    "ps5pro_7100":        "CFI-7100B01",
-    "ps5pro_7000":        "CFI-7000B01",
-    "ps5_disc":           "Slim CFI-2000A01",
-    "ps5_de":             "CFI-2000B01",
-    "ps5_jponly":         "日本語専用",
-    "portal_white":       "Portal リモートプレーヤー",
-    "portal_black":       "ミッドナイト ブラック",
+# 確認済み個別商品ページURL (ブラウザで動作確認済み)
+HOMURA_DIRECT_URLS = {
+    "switch2_domestic":  "https://kaitori-homura.com/products/5148",
+    "switch2_mariokart": "https://kaitori-homura.com/products/5147",
+    "switch2_pokemon":   "https://kaitori-homura.com/products/5146",
+    "oled_white":        "https://kaitori-homura.com/products/5144",
+    "oled_neon":         "https://kaitori-homura.com/products/5143",
+    "standard_neon":     "https://kaitori-homura.com/products/5138",
+    "standard_gray":     "https://kaitori-homura.com/products/5137",
+    "lite_turquoise":    "https://kaitori-homura.com/products/5136",
+    "lite_coral":        "https://kaitori-homura.com/products/5135",
+    "lite_yellow":       "https://kaitori-homura.com/products/5134",
+    "lite_gray":         "https://kaitori-homura.com/products/5133",
+    "lite_blue":         "https://kaitori-homura.com/products/5132",
 }
 
 
@@ -226,63 +195,72 @@ def scrape_homura(products):
             browser = pw.chromium.launch(headless=True)
             page = browser.new_page()
 
-            # 各商品の個別ページからJANと価格を取得
-            # まずSwitchカテゴリページから商品URL一覧を取得
-            all_product_urls = []
+            # まずトップページの「強化買取商品」リストから一括取得を試みる
+            page.goto("https://kaitori-homura.com/", wait_until="networkidle", timeout=30000)
+            time.sleep(3)
+            top_text = page.inner_text("body")
 
-            for cat_url in [HOMURA_SWITCH_URL, HOMURA_PS_URL]:
-                page.goto(cat_url, wait_until="networkidle", timeout=30000)
-                time.sleep(2)
+            # トップページから「商品名 買取金額（税込） XX,XXX円」パターンで抽出
+            # 例: "Nintendo Switch 有機ELモデル ホワイト ... 買取金額（税込） 42,300円"
+            top_items = re.findall(
+                r"(Nintendo\s+Switch[^\n]*?|PlayStation[^\n]*?|PS5[^\n]*?|Portal[^\n]*?)"
+                r"買取金額[（(]税込[）)]\s*([\d,]+)\s*円",
+                top_text
+            )
+            print(f"  Top page: {len(top_items)} items from featured list")
 
-                # 商品リンクを取得
-                links = page.query_selector_all("a[href*='/products/']")
-                for link in links:
-                    href = link.get_attribute("href") or ""
-                    if "/products/" in href and "?" not in href.split("/products/")[-1]:
-                        full_url = href if href.startswith("http") else f"https://kaitori-homura.com{href}"
-                        if full_url not in all_product_urls:
-                            all_product_urls.append(full_url)
+            # トップページの結果をキーワードマッチ
+            HOMURA_KW = {
+                "switch2_domestic":   "Switch 2 日本国内専用",
+                "switch2_mariokart":  "マリオカート ワールド",
+                "switch2_pokemon":    "Pokemon LEGENDS",
+                "oled_white":         "有機ELモデル ホワイト",
+                "oled_neon":          "ネオンブルーネオンレッド",
+                "standard_neon":      "バッテリー強化版 新型ネオン",
+                "standard_gray":      "バッテリー強化版 新型グレー",
+                "lite_turquoise":     "Lite ターコイズ",
+                "lite_coral":         "Lite コーラル",
+                "lite_yellow":        "Lite イエロー",
+                "lite_gray":          "Lite グレー",
+                "lite_blue":          "Lite ブルー",
+                "ps5_disc":           "Slim CFI-2000",
+                "ps5pro_7100":        "CFI-7100",
+                "ps5pro_7000":        "CFI-7000",
+                "portal_white":       "Portal",
+            }
+            for name_part, price_str in top_items:
+                price = int(price_str.replace(",", ""))
+                for pid, kw in HOMURA_KW.items():
+                    if pid not in prices and kw in name_part:
+                        prices[pid] = price
+                        print(f"  [OK] {pid}: {price:,} (top)")
+                        break
 
-            print(f"  {len(all_product_urls)} product pages found")
-
-            # 各商品ページにアクセスして価格取得
-            for url in all_product_urls:
+            # 足りない分は個別ページに直接アクセス
+            for pid, url in HOMURA_DIRECT_URLS.items():
+                if pid in prices:
+                    continue
                 time.sleep(DELAY)
                 try:
                     page.goto(url, wait_until="networkidle", timeout=20000)
-                    time.sleep(1)
+                    time.sleep(1.5)
                     text = page.inner_text("body")
 
-                    # 価格取得: "買取価格（税込）：XX,XXX円" パターン
-                    price_m = re.search(r"買取価格[（(]税込[）)][：:]\s*([\d,]+)\s*円", text)
-                    if not price_m:
-                        price_m = re.search(r"買取価格[：:]\s*([\d,]+)\s*円", text)
-                    if not price_m:
-                        continue
-
-                    price = int(price_m.group(1).replace(",", ""))
-                    if price < 1000:
-                        continue
-
-                    # JANコードでマッチ
-                    jan_m = re.search(r"JAN[コード]*[：:]\s*(\d{13})", text)
-                    if jan_m:
-                        jan = jan_m.group(1)
-                        pid = HOMURA_JAN_MAP.get(jan)
-                        if pid:
+                    # "買取価格（税込）：XX,XXX円"
+                    m = re.search(r"買取価格[（(]税込[）)][：:]\s*([\d,]+)\s*円", text)
+                    if not m:
+                        m = re.search(r"([\d,]+)\s*円", text)
+                    if m:
+                        price = int(m.group(1).replace(",", ""))
+                        if price > 1000:
                             prices[pid] = price
-                            print(f"  [OK] {pid}: {price:,} (JAN: {jan})")
-                            continue
-
-                    # JANで見つからない場合はキーワードマッチ
-                    for pid, kw in HOMURA_KEYWORDS.items():
-                        if pid not in prices and kw in text:
-                            prices[pid] = price
-                            print(f"  [OK] {pid}: {price:,} (keyword)")
-                            break
-
+                            print(f"  [OK] {pid}: {price:,} (direct)")
+                        else:
+                            print(f"  [NG] {pid}: price too low")
+                    else:
+                        print(f"  [NG] {pid}: not found")
                 except Exception as e:
-                    print(f"  [NG] {url}: {e}")
+                    print(f"  [NG] {pid}: {e}")
 
             browser.close()
 
@@ -333,34 +311,37 @@ def scrape_kaikyo(products):
             browser = pw.chromium.launch(headless=True)
             page = browser.new_page()
 
-            # トップページから商品一覧を取得
-            page.goto("https://www.mobile-ichiban.com/", wait_until="networkidle", timeout=30000)
-            time.sleep(3)
+            # Switch / PS5 カテゴリページに直接アクセス
+            for cat_name, cat_url in [("Switch", KAIKYO_SWITCH_URL), ("PS5", KAIKYO_PS5_URL)]:
+                try:
+                    page.goto(cat_url, wait_until="networkidle", timeout=30000)
+                    time.sleep(3)
 
-            # ページ全体のテキストから商品+価格を抽出
-            text = page.inner_text("body")
+                    # ページ全体のテキストから商品+価格を抽出
+                    text = page.inner_text("body")
+                    lines = text.split("\n")
+                    items = []
+                    for i, line in enumerate(lines):
+                        line = line.strip()
+                        price_m = re.search(r"([\d,]+)\s*円", line)
+                        if price_m:
+                            price = int(price_m.group(1).replace(",", ""))
+                            if price > 5000:
+                                # 前後の行もコンテキストとして取得
+                                context = " ".join(lines[max(0,i-2):i+1])
+                                items.append({"text": context, "price": price})
+                    print(f"  {cat_name}: {len(items)} items found")
 
-            # テーブル行やリスト形式で「商品名 XX,XXX円」を探す
-            # 海峡のフォーマット: 商品名 + 新品価格
-            lines = text.split("\n")
-            items = []
-            for line in lines:
-                line = line.strip()
-                price_m = re.search(r"([\d,]+)\s*円", line)
-                if price_m:
-                    price = int(price_m.group(1).replace(",", ""))
-                    if price > 5000:
-                        items.append({"text": line, "price": price})
-
-            print(f"  {len(items)} price items found")
-
-            # キーワードマッチ
-            for pid, kw in KAIKYO_KEYWORDS.items():
-                for item in items:
-                    if kw.lower() in item["text"].lower():
-                        prices[pid] = item["price"]
-                        print(f"  [OK] {pid}: {item['price']:,}")
-                        break
+                    for pid, kw in KAIKYO_KEYWORDS.items():
+                        if pid in prices:
+                            continue
+                        for item in items:
+                            if kw in item["text"]:
+                                prices[pid] = item["price"]
+                                print(f"  [OK] {pid}: {item['price']:,}")
+                                break
+                except Exception as e:
+                    print(f"  [NG] {cat_name}: {e}")
 
             browser.close()
 
