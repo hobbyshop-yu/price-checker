@@ -1,0 +1,194 @@
+{
+    "products": [
+        {
+            "id": "switch2_domestic",
+            "category": "switch2",
+            "name": "Switch 2",
+            "model": "国内専用",
+            "color": "BEE-S-KB6CA",
+            "retail_price": 49980,
+            "rudeya_keyword": "Nintendo Switch 2 日本国内専用版 BEE-S-KB6CA",
+            "morimori_jan": "4907437838205"
+        },
+        {
+            "id": "switch2_mariokart",
+            "category": "switch2",
+            "name": "Switch 2",
+            "model": "マリカセット",
+            "color": "国内専用",
+            "retail_price": 55980,
+            "rudeya_keyword": "Nintendo Switch 2 日本国内専用版 マリオカート ワールド セット BEE-S-KB6PA",
+            "morimori_jan": ""
+        },
+        {
+            "id": "switch2_pokemon",
+            "category": "switch2",
+            "name": "Switch 2",
+            "model": "ポケモンセット",
+            "color": "国内専用",
+            "retail_price": 55980,
+            "rudeya_keyword": "Nintendo Switch 2 日本国内専用版 Pokemon LEGENDS Z-A セット",
+            "morimori_jan": ""
+        },
+        {
+            "id": "oled_neon",
+            "category": "oled",
+            "name": "有機EL",
+            "model": "本体",
+            "color": "ネオン",
+            "retail_price": 37980,
+            "rudeya_keyword": "有機ELモデル ネオンブルー・ネオンレッド",
+            "morimori_jan": "4902370548501"
+        },
+        {
+            "id": "oled_white",
+            "category": "oled",
+            "name": "有機EL",
+            "model": "本体",
+            "color": "ホワイト",
+            "retail_price": 37980,
+            "rudeya_keyword": "有機ELモデル ホワイト",
+            "morimori_jan": "4902370548495"
+        },
+        {
+            "id": "standard_neon",
+            "category": "standard",
+            "name": "通常",
+            "model": "新型箱",
+            "color": "ネオン",
+            "retail_price": 32978,
+            "rudeya_keyword": "ネオンブルー/ネオンレッド 新モデル",
+            "morimori_jan": "4902370549901"
+        },
+        {
+            "id": "standard_gray",
+            "category": "standard",
+            "name": "通常",
+            "model": "新型箱",
+            "color": "グレー",
+            "retail_price": 32978,
+            "rudeya_keyword": "グレー 新モデル",
+            "morimori_jan": "4902370549895"
+        },
+        {
+            "id": "lite_yellow",
+            "category": "lite",
+            "name": "Lite",
+            "model": "本体",
+            "color": "イエロー",
+            "retail_price": 21978,
+            "rudeya_keyword": "Switch Lite イエロー",
+            "morimori_jan": "4902370542936"
+        },
+        {
+            "id": "lite_turquoise",
+            "category": "lite",
+            "name": "Lite",
+            "model": "本体",
+            "color": "ターコイズ",
+            "retail_price": 21978,
+            "rudeya_keyword": "Switch Lite ターコイズ",
+            "morimori_jan": "4902370542943"
+        },
+        {
+            "id": "lite_coral",
+            "category": "lite",
+            "name": "Lite",
+            "model": "本体",
+            "color": "コーラル",
+            "retail_price": 21978,
+            "rudeya_keyword": "Switch Lite コーラル",
+            "morimori_jan": "4902370545302"
+        },
+        {
+            "id": "lite_gray",
+            "category": "lite",
+            "name": "Lite",
+            "model": "本体",
+            "color": "グレー",
+            "retail_price": 21978,
+            "rudeya_keyword": "Switch Lite グレー",
+            "morimori_jan": "4902370542929"
+        },
+        {
+            "id": "lite_blue",
+            "category": "lite",
+            "name": "Lite",
+            "model": "本体",
+            "color": "ブルー",
+            "retail_price": 21978,
+            "rudeya_keyword": "Switch Lite ブルー",
+            "morimori_jan": "4902370548204"
+        },
+        {
+            "id": "ps5pro_7100",
+            "category": "pro",
+            "name": "PS5 Pro",
+            "model": "CFI-7100B01",
+            "color": "2025年版",
+            "retail_price": 119980,
+            "rudeya_keyword": "PlayStation5 Pro (CFI-7100B01)",
+            "morimori_jan": ""
+        },
+        {
+            "id": "ps5pro_7000",
+            "category": "pro",
+            "name": "PS5 Pro",
+            "model": "CFI-7000B01",
+            "color": "初期版",
+            "retail_price": 119980,
+            "rudeya_keyword": "PlayStation5 Pro (CFI-7000B01)",
+            "morimori_jan": ""
+        },
+        {
+            "id": "ps5_disc",
+            "category": "disc",
+            "name": "PS5 ディスク",
+            "model": "CFI-2000A01",
+            "color": "Slim",
+            "retail_price": 79980,
+            "rudeya_keyword": "PlayStation5 Slimモデル (CFI-2000A01)",
+            "morimori_jan": "4948872415934"
+        },
+        {
+            "id": "ps5_de",
+            "category": "digital",
+            "name": "PS5 DE",
+            "model": "CFI-2000B01",
+            "color": "Slim DE",
+            "retail_price": 72980,
+            "rudeya_keyword": "PlayStation5 Slimモデル (CFI-2000B01)デジタル・エディション",
+            "morimori_jan": "4948872415958"
+        },
+        {
+            "id": "ps5_jponly",
+            "category": "jponly",
+            "name": "PS5 日本語",
+            "model": "CFI-2100B JP",
+            "color": "日本語専用",
+            "retail_price": 55000,
+            "rudeya_keyword": "日本語専用 (CFI-2200B01)",
+            "morimori_jan": ""
+        },
+        {
+            "id": "portal_white",
+            "category": "portal",
+            "name": "Portal",
+            "model": "CFIJ-18000",
+            "color": "ホワイト",
+            "retail_price": 29980,
+            "rudeya_keyword": "PlayStation Portal リモートプレーヤー",
+            "morimori_jan": "4948872016674"
+        },
+        {
+            "id": "portal_black",
+            "category": "portal",
+            "name": "Portal",
+            "model": "CFIJ-18001",
+            "color": "ミッドナイトBK",
+            "retail_price": 29980,
+            "rudeya_keyword": "PlayStation Portal リモートプレーヤー ミッドナイト ブラック",
+            "morimori_jan": ""
+        }
+    ]
+}

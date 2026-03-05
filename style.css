@@ -1,0 +1,497 @@
+/* =============================================
+   買取価格表 共通スタイル
+   参考: is-checker.com iPhone買取価格表
+   ============================================= */
+
+/* --- Reset & Base --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", Meiryo, sans-serif;
+  font-size: 13px;
+  color: #333;
+  background: #fff;
+  line-height: 1.5;
+}
+
+a {
+  color: #1a73e8;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* --- Page Header / Title --- */
+.page-header {
+  padding: 12px 16px 4px;
+}
+
+.page-header h1 {
+  font-size: 18px;
+  color: #d63384;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.page-header .subtitle {
+  font-size: 12px;
+  color: #666;
+}
+
+/* --- Filter Bar --- */
+.filter-bar {
+  padding: 8px 16px;
+  border-bottom: 1px solid #e0e0e0;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+
+.filter-row:last-child {
+  margin-bottom: 0;
+}
+
+.filter-row label {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.filter-row label input[type="checkbox"] {
+  margin: 0;
+  cursor: pointer;
+}
+
+.filter-label {
+  font-weight: bold;
+  color: #333;
+  margin-right: 4px;
+}
+
+.filter-sep {
+  color: #ccc;
+  margin: 0 2px;
+}
+
+.btn-reset {
+  float: right;
+  font-size: 12px;
+  color: #1a73e8;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 2px 8px;
+}
+
+.btn-reset:hover {
+  text-decoration: underline;
+}
+
+/* --- Table Container --- */
+.table-container {
+  overflow-x: auto;
+  overflow-y: visible;
+  position: relative;
+  width: 100%;
+}
+
+/* --- Price Table --- */
+table.price-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: max-content;
+  min-width: 100%;
+  font-size: 12.5px;
+}
+
+table.price-table th,
+table.price-table td {
+  border: 1px solid #d0d0d0;
+  padding: 4px 6px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* --- Header Styles --- */
+table.price-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+table.price-table thead th {
+  background: #f0f7f0;
+  font-weight: bold;
+  font-size: 12px;
+  color: #333;
+}
+
+/* Store header row */
+table.price-table thead tr:first-child th {
+  padding: 6px 8px;
+  border-bottom: none;
+}
+
+/* Time row */
+table.price-table thead tr:nth-child(2) th {
+  font-size: 10.5px;
+  font-weight: normal;
+  color: #666;
+  padding: 2px 6px;
+  background: #f8faf8;
+}
+
+/* --- Store Name Links --- */
+.store-name {
+  display: block;
+  font-weight: bold;
+  font-size: 12px;
+  color: #333;
+}
+
+.store-links {
+  display: block;
+  font-size: 10px;
+  margin-top: 1px;
+}
+
+.store-links a {
+  color: #1a73e8;
+  font-size: 10px;
+}
+
+/* Store time display */
+.store-time {
+  display: block;
+  font-size: 10px;
+  color: #888;
+  font-weight: normal;
+  margin-top: 1px;
+}
+
+/* Sortable header */
+.sort-header {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s;
+}
+
+.sort-header:hover {
+  background-color: #d8ecd8 !important;
+}
+
+/* --- Left Sticky Columns --- */
+.left-sticky-1,
+.left-sticky-2,
+.left-sticky-3,
+.left-sticky-4,
+.left-sticky-5 {
+  position: sticky;
+  z-index: 10;
+  background: #fff;
+}
+
+/* In the header, raise z-index */
+thead .left-sticky-1,
+thead .left-sticky-2,
+thead .left-sticky-3,
+thead .left-sticky-4,
+thead .left-sticky-5 {
+  z-index: 25;
+  background: #f0f7f0;
+}
+
+thead tr:nth-child(2) .left-sticky-1,
+thead tr:nth-child(2) .left-sticky-2,
+thead tr:nth-child(2) .left-sticky-3,
+thead tr:nth-child(2) .left-sticky-4,
+thead tr:nth-child(2) .left-sticky-5 {
+  background: #f8faf8;
+}
+
+.left-sticky-1 {
+  left: 0;
+  min-width: 72px;
+}
+
+.left-sticky-2 {
+  left: 72px;
+  min-width: 60px;
+}
+
+.left-sticky-3 {
+  left: 132px;
+  min-width: 56px;
+}
+
+.left-sticky-4 {
+  left: 188px;
+  min-width: 68px;
+}
+
+.left-sticky-5 {
+  left: 256px;
+  min-width: 64px;
+}
+
+.left-sticky-5 {
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.06);
+}
+
+/* --- Model Row Colors --- */
+/* Switch colors */
+.row-switch2 td {
+  background-color: #e7f0ff;
+}
+
+.row-switch2 .left-sticky-1,
+.row-switch2 .left-sticky-2,
+.row-switch2 .left-sticky-3,
+.row-switch2 .left-sticky-4,
+.row-switch2 .left-sticky-5 {
+  background-color: #e7f0ff;
+}
+
+.row-oled td {
+  background-color: #e9f8ee;
+}
+
+.row-oled .left-sticky-1,
+.row-oled .left-sticky-2,
+.row-oled .left-sticky-3,
+.row-oled .left-sticky-4,
+.row-oled .left-sticky-5 {
+  background-color: #e9f8ee;
+}
+
+.row-standard td {
+  background-color: #eef2f7;
+}
+
+.row-standard .left-sticky-1,
+.row-standard .left-sticky-2,
+.row-standard .left-sticky-3,
+.row-standard .left-sticky-4,
+.row-standard .left-sticky-5 {
+  background-color: #eef2f7;
+}
+
+.row-lite td {
+  background-color: #fef0f5;
+}
+
+.row-lite .left-sticky-1,
+.row-lite .left-sticky-2,
+.row-lite .left-sticky-3,
+.row-lite .left-sticky-4,
+.row-lite .left-sticky-5 {
+  background-color: #fef0f5;
+}
+
+/* PS5 colors */
+.row-pro td {
+  background-color: #e7f0ff;
+}
+
+.row-pro .left-sticky-1,
+.row-pro .left-sticky-2,
+.row-pro .left-sticky-3,
+.row-pro .left-sticky-4,
+.row-pro .left-sticky-5 {
+  background-color: #e7f0ff;
+}
+
+.row-disc td {
+  background-color: #e9f8ee;
+}
+
+.row-disc .left-sticky-1,
+.row-disc .left-sticky-2,
+.row-disc .left-sticky-3,
+.row-disc .left-sticky-4,
+.row-disc .left-sticky-5 {
+  background-color: #e9f8ee;
+}
+
+.row-digital td {
+  background-color: #eef2f7;
+}
+
+.row-digital .left-sticky-1,
+.row-digital .left-sticky-2,
+.row-digital .left-sticky-3,
+.row-digital .left-sticky-4,
+.row-digital .left-sticky-5 {
+  background-color: #eef2f7;
+}
+
+.row-limited td {
+  background-color: #fef0f5;
+}
+
+.row-limited .left-sticky-1,
+.row-limited .left-sticky-2,
+.row-limited .left-sticky-3,
+.row-limited .left-sticky-4,
+.row-limited .left-sticky-5 {
+  background-color: #fef0f5;
+}
+
+.row-portal td {
+  background-color: #f3eefa;
+}
+
+.row-portal .left-sticky-1,
+.row-portal .left-sticky-2,
+.row-portal .left-sticky-3,
+.row-portal .left-sticky-4,
+.row-portal .left-sticky-5 {
+  background-color: #f3eefa;
+}
+
+.row-jponly td {
+  background-color: #fff8e7;
+}
+
+.row-jponly .left-sticky-1,
+.row-jponly .left-sticky-2,
+.row-jponly .left-sticky-3,
+.row-jponly .left-sticky-4,
+.row-jponly .left-sticky-5 {
+  background-color: #fff8e7;
+}
+
+/* --- Price Cell Styles --- */
+.price {
+  font-weight: normal;
+  font-variant-numeric: tabular-nums;
+}
+
+.is-best {
+  font-weight: bold;
+  color: #000;
+}
+
+.diff-gain {
+  color: #d40000;
+  font-size: 10.5px;
+}
+
+.diff-loss {
+  color: #0067c0;
+  font-size: 10.5px;
+}
+
+/* Margin column */
+.margin-plus {
+  color: #d40000;
+  font-weight: bold;
+}
+
+.margin-minus {
+  color: #0067c0;
+  font-weight: bold;
+}
+
+/* Price change display */
+.price-change {
+  display: block;
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.price-change.up {
+  color: #d40000;
+}
+
+.price-change.down {
+  color: #0067c0;
+}
+
+/* --- Special Store Highlights --- */
+.store-highlight {
+  background-color: #f0eafa !important;
+}
+
+thead .store-highlight {
+  background-color: #e8e0f6 !important;
+}
+
+/* --- Misc --- */
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-small {
+  font-size: 10.5px;
+  color: #888;
+}
+
+/* Hidden rows/columns for filter */
+tr.hidden-row {
+  display: none !important;
+}
+
+.hidden-col {
+  display: none !important;
+}
+
+/* --- Hover --- */
+table.price-table tbody tr:hover td {
+  background-color: rgba(255, 255, 200, 0.4) !important;
+}
+
+/* --- Footer --- */
+.page-footer {
+  padding: 16px;
+  font-size: 11px;
+  color: #999;
+  text-align: center;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 8px;
+}
+
+/* --- Print --- */
+@media print {
+  .filter-bar {
+    display: none;
+  }
+
+  .left-sticky-1,
+  .left-sticky-2,
+  .left-sticky-3,
+  .left-sticky-4,
+  .left-sticky-5 {
+    position: static;
+  }
+
+  thead {
+    position: static;
+  }
+}

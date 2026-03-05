@@ -1,0 +1,57 @@
+{
+  "updated_at": "2026/03/05 20:52",
+  "shops": {
+    "rudeya": {
+      "name": "買取ルデヤ",
+      "short_name": "ルデヤ",
+      "url": "https://kaitori-rudeya.com/",
+      "updated_at": "2026/03/05 20:52",
+      "prices": {
+        "switch2_domestic": 43500,
+        "switch2_mariokart": 51900,
+        "switch2_pokemon": 51900,
+        "oled_neon": 42700,
+        "oled_white": 42200,
+        "standard_neon": 33600,
+        "standard_gray": 33600,
+        "lite_yellow": 22800,
+        "lite_turquoise": 22400,
+        "lite_coral": 22800,
+        "lite_gray": 22700,
+        "lite_blue": 22800,
+        "ps5pro_7100": 110000,
+        "ps5pro_7000": 110000,
+        "ps5_disc": 76200,
+        "ps5_de": 64200,
+        "ps5_jponly": 47500,
+        "portal_white": 29700,
+        "portal_black": 29700
+      }
+    },
+    "morimori": {
+      "name": "森森買取",
+      "short_name": "森森",
+      "url": "https://www.morimori-kaitori.jp/",
+      "updated_at": "2026/03/05 20:52",
+      "prices": {
+        "oled_white": 42300,
+        "lite_coral": 22900,
+        "ps5_disc": 76400
+      }
+    },
+    "homura": {
+      "name": "買取ホムラ",
+      "short_name": "ホムラ",
+      "url": "https://kaitori-homura.com/",
+      "updated_at": "2026/03/05 20:52",
+      "prices": {}
+    },
+    "kaikyo": {
+      "name": "海峡通信",
+      "short_name": "海峡",
+      "url": "https://www.mobile-ichiban.com/",
+      "updated_at": "2026/03/05 20:52",
+      "prices": {}
+    }
+  }
+}

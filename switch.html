@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Switch / PS5 買取価格表</title>
+  <meta name="description" content="Nintendo Switch 2・有機ELモデル・Switch Lite・PS5 Pro・PS5の最新買取価格を主要買取店で比較。2026年3月最新データ。">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>Nintendo Switch / PS5 買取価格比較表</h1>
+    <p class="subtitle">最終確認：2026/03/05 (15:36)</p>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar" id="filter-bar">
+    <button class="btn-reset" id="btn-reset">初期状態に戻す</button>
+    <div class="filter-row">
+      <span class="filter-label">◆ Switch系:</span>
+      <label><input type="checkbox" class="kind-cb" value="switch2" checked> Switch 2</label>
+      <label><input type="checkbox" class="kind-cb" value="oled" checked> 有機EL</label>
+      <label><input type="checkbox" class="kind-cb" value="standard" checked> 通常モデル</label>
+      <label><input type="checkbox" class="kind-cb" value="lite" checked> Lite</label>
+      <span class="filter-sep">|</span>
+      <span class="filter-label">◆ PS5系:</span>
+      <label><input type="checkbox" class="kind-cb" value="pro" checked> PS5 Pro</label>
+      <label><input type="checkbox" class="kind-cb" value="disc" checked> ディスク搭載</label>
+      <label><input type="checkbox" class="kind-cb" value="digital" checked> デジタルED</label>
+      <label><input type="checkbox" class="kind-cb" value="jponly" checked> 日本語専用</label>
+      <label><input type="checkbox" class="kind-cb" value="portal" checked> PS Portal</label>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">◆ 買取屋:</span>
+      <label><input type="checkbox" class="shop-cb" value="mix" checked> モバイルミックス</label>
+      <label><input type="checkbox" class="shop-cb" value="kaikyo" checked> 海峡通信</label>
+      <label><input type="checkbox" class="shop-cb" value="ichome" checked> 買取一丁目</label>
+      <label><input type="checkbox" class="shop-cb" value="homura" checked> 買取ホムラ</label>
+      <label><input type="checkbox" class="shop-cb" value="rudeya" checked> 買取ルデヤ</label>
+      <label><input type="checkbox" class="shop-cb" value="rakuen" checked> 買取楽園</label>
+      <label><input type="checkbox" class="shop-cb" value="wiki" checked> 買取WIKI</label>
+      <label><input type="checkbox" class="shop-cb" value="mobaste" checked> モバステ</label>
+      <label><input type="checkbox" class="shop-cb" value="morimori" checked> 森森買取</label>
+      <label><input type="checkbox" class="shop-cb" value="shouten" checked> 買取商店</label>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-container">
+    <table class="price-table">
+      <thead>
+        <tr>
+          <th class="left-sticky-1">種別</th>
+          <th class="left-sticky-2">型番/ED</th>
+          <th class="left-sticky-3">カラー/備考</th>
+          <th class="left-sticky-4">定価</th>
+          <th class="left-sticky-5 sort-header" id="sort-margin">差益<br>(利益順) ▼</th>
+          <th data-shop="mix">MIX<br><span class="store-time">3/5 15:05</span><br><span class="store-links"><a
+                href="https://mobile-mix.jp/" target="_blank">X(公式)</a></span></th>
+          <th data-shop="kaikyo">海峡<br><span class="store-time">3/5 14:59</span><br><span class="store-links"><a
+                href="https://www.mobile-ichiban.com/" target="_blank">X(公式)</a></span></th>
+          <th data-shop="ichome">一丁目<br><span class="store-time">3/5 13:39</span><br><span class="store-links"><a
+                href="https://www.1-chome.com/" target="_blank">X(公式)</a></span></th>
+          <th data-shop="homura">ホムラ<br><span class="store-time">3/5 14:01</span><br><span class="store-links"><a
+                href="https://kaitori-homura.com/" target="_blank">X(公式)</a></span></th>
+          <th data-shop="rudeya" class="store-highlight">ルデヤ<br><span class="store-time">3/5 14:22</span><br><span
+              class="store-links"><a href="https://kaitori-rudeya.com/" target="_blank">X(公式)</a></span></th>
+          <th data-shop="rakuen">楽園<br><span class="store-time">3/5 14:29</span><br><span class="store-links"><a
+                href="https://www.keitairakuen.com/" target="_blank">X(公式)</a></span></th>
+          <th data-shop="wiki">WIKI<br><span class="store-time">3/5 14:15</span><br><span class="store-links"><a
+                href="https://iphonekaitori.tokyo/" target="_blank">X(公式)</a></span></th>
+          <th data-shop="mobaste">モバステ<br><span class="store-time">3/5 15:20</span></th>
+          <th data-shop="morimori" class="store-highlight">森森<br><span class="store-time">3/5 12:28</span><br><span
+              class="store-links"><a href="https://www.morimori-kaitori.jp/" target="_blank">X(1)</a> / <a href="#"
+                target="_blank">X(2)</a></span></th>
+          <th data-shop="shouten">商店<br><span class="store-time">3/5 14:09</span><br><span class="store-links"><a
+                href="https://www.kaitorishouten-co.jp/" target="_blank">X(公式)</a></span></th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- ============================================================ -->
+        <!-- =================== Nintendo Switch 2 ===================== -->
+        <!-- ============================================================ -->
+
+        <tr class="row-switch2" data-kind="switch2">
+          <td class="left-sticky-1">Switch 2</td>
+          <td class="left-sticky-2">国内専用</td>
+          <td class="left-sticky-3">BEE-S-KB6CA</td>
+          <td class="left-sticky-4">49,980</td>
+          <td class="left-sticky-5 margin-minus">-8,980</td>
+          <td data-shop="mix">39,000</td>
+          <td data-shop="kaikyo">40,000</td>
+          <td data-shop="ichome">40,500</td>
+          <td data-shop="homura">39,500</td>
+          <td data-shop="rudeya" class="store-highlight"><strong>40,000</strong></td>
+          <td data-shop="rakuen">39,000</td>
+          <td data-shop="wiki">40,000</td>
+          <td data-shop="mobaste">39,000</td>
+          <td data-shop="morimori" class="store-highlight is-best"><strong>41,000</strong></td>
+          <td data-shop="shouten">40,000</td>
+        </tr>
+        <tr class="row-switch2" data-kind="switch2">
+          <td class="left-sticky-1">Switch 2</td>
+          <td class="left-sticky-2">マリカセット</td>
+          <td class="left-sticky-3">国内専用</td>
+          <td class="left-sticky-4">55,980</td>
+          <td class="left-sticky-5 margin-minus">-7,980</td>
+          <td data-shop="mix">46,000</td>
+          <td data-shop="kaikyo">47,000</td>
+          <td data-shop="ichome">47,500</td>
+          <td data-shop="homura">46,500</td>
+          <td data-shop="rudeya" class="store-highlight"><strong>47,000</strong></td>
+          <td data-shop="rakuen">46,000</td>
+          <td data-shop="wiki">47,000</td>
+          <td data-shop="mobaste">46,000</td>
+          <td data-shop="morimori" class="store-highlight is-best"><strong>48,000</strong></td>
+          <td data-shop="shouten">47,000</td>
+        </tr>
+        <tr class="row-switch2" data-kind="switch2">
+          <td class="left-sticky-1">Switch 2</td>
+          <td class="left-sticky-2">ポケモンセット</td>
+          <td class="left-sticky-3">国内専用</td>
+          <td class="left-sticky-4">55,980</td>
+          <td class="left-sticky-5 margin-minus">-6,980</td>
+          <td data-shop="mix">47,000</td>
+          <td data-shop="kaikyo">48,000</td>
+          <td data-shop="ichome">48,500</td>
+          <td data-shop="homura">47,500</td>
+          <td data-shop="rudeya" class="store-highlight"><strong>48,000</strong></td>
+          <td data-shop="rakuen">47,000</td>
+          <td data-shop="wiki">48,000</td>
+          <td data-shop="mobaste">47,000</td>
+          <td data-shop="morimori" class="store-highlight is-best"><strong>49,000</strong></td>
+          <td data-shop="shouten">48,000</td>
+        </tr>
+
+        <!-- ============================================================ -->
+        <!-- =================== 有機ELモデル =========================== -->
+        <!-- ============================================================ -->
+        <tr class="row-oled" data-kind="oled">
+          <td class="left-sticky-1">有機EL</td>
+          <td class="left-sticky-2">本体</td>
+          <td class="left-sticky-3">ネオン</td>
+          <td class="left-sticky-4">37,980</td>
+          <td class="left-sticky-5 margin-plus">+4,720</td>
+          <td data-shop="mix">41,500</td>
+          <td data-shop="kaikyo">42,000</td>
+          <td data-shop="ichome">42,200</td>
+          <td data-shop="homura">41,800</td>
+          <td data-shop="rudeya" class="store-highlight is-best"><strong>42,700</strong></td>
+          <td data-shop="rakuen">41,500</td>
+          <td data-shop="wiki">42,000</td>
+          <td data-shop="mobaste">41,500</td>
+          <td data-shop="morimori" class="store-highlight"><strong>42,800</strong></td>
+          <td data-shop="shouten">42,000</td>
+        </tr>
+        <tr class="row-oled" data-kind="oled">
+          <td class="left-sticky-1">有機EL</td>
+          <td class="left-sticky-2">本体</td>
+          <td class="left-sticky-3">ホワイト</td>
+          <td class="left-sticky-4">37,980</td>
+          <td class="left-sticky-5 margin-plus">+4,320</td>
+          <td data-shop="mix">41,000</td>
+          <td data-shop="kaikyo">41,500</td>
+          <td data-shop="ichome">41,800</td>
+          <td data-shop="homura">41,300</td>
+          <td data-shop="rudeya" class="store-highlight is-best"><strong>42,200</strong></td>
+          <td data-shop="rakuen">41,000</td>
+          <td data-shop="wiki">41,500</td>
+          <td data-shop="mobaste">41,000</td>
+          <td data-shop="morimori" class="store-highlight"><strong>42,300</strong></td>
+          <td data-shop="shouten">41,500</td>
+        </tr>
+
+
+        <!-- ============================================================ -->
+        <!-- =================== 通常モデル ============================= -->
+        <!-- ============================================================ -->
+        <tr class="row-standard" data-kind="standard">
+          <td class="left-sticky-1">通常</td>
+          <td class="left-sticky-2">新型箱</td>
+          <td class="left-sticky-3">ネオン</td>
+          <td class="left-sticky-4">32,978</td>
+          <td class="left-sticky-5 margin-plus">+672</td>
+          <td data-shop="mix">32,500</td>
+          <td data-shop="kaikyo">33,000</td>
+          <td data-shop="ichome">33,200</td>
+          <td data-shop="homura">32,800</td>
+          <td data-shop="rudeya" class="store-highlight"><strong>33,000</strong></td>
+          <td data-shop="rakuen">32,500</td>
+          <td data-shop="wiki">33,000</td>
+          <td data-shop="mobaste">32,500</td>
+          <td data-shop="morimori" class="store-highlight is-best"><strong>33,650</strong></td>
+          <td data-shop="shouten">33,000</td>
+        </tr>
+        <tr class="row-standard" data-kind="standard">
+          <td class="left-sticky-1">通常</td>
+          <td class="left-sticky-2">新型箱</td>
+          <td class="left-sticky-3">グレー</td>
+          <td class="left-sticky-4">32,978</td>
+          <td class="left-sticky-5 margin-plus">+622</td>
+          <td data-shop="mix">32,500</td>
+          <td data-shop="kaikyo">33,000</td>
+          <td data-shop="ichome">33,100</td>
+          <td data-shop="homura">32,700</td>
+          <td data-shop="rudeya" class="store-highlight"><strong>33,000</strong></td>
+          <td data-shop="rakuen">32,500</td>
+          <td data-shop="wiki">33,000</td>
+          <td data-shop="mobaste">32,500</td>
+          <td data-shop="morimori" class="store-highlight is-best"><strong>33,600</strong></td>
+          <td data-shop="shouten">33,000</td>
+        </tr>
+
+        <!-- ============================================================ -->
+        <!-- =================== Switch Lite ============================ -->
+        <!-- ============================================================ -->
+        <tr class="row-lite" data-kind="lite">
+          <td class="left-sticky-1">Lite</td>
+          <td class="left-sticky-2">本体</td>
+          <td class="left-sticky-3">イエロー</td>
+          <td class="left-sticky-4">21,978</td>
+          <td class="left-sticky-5 margin-plus">+772</td>
+          <td data-shop="mix">22,000</td>
+          <td data-shop="kaikyo">22,200</td>
+          <td data-shop="ichome">22,500</td>
+          <td data-shop="homura">22,000</td>
+          <td data-shop="rudeya" class="store-highlight is-best"><strong>22,750</strong></td>
+          <td data-shop="rakuen">22,000</td>
+          <td data-shop="wiki">22,200</td>
+          <td data-shop="mobaste">22,000</td>
+          <td data-shop="morimori" class="store-highlight">22,500</td>
+          <td data-shop="shouten">22,200</td>
+        </tr>
+        <tr class="row-lite" data-kind="lite">
+          <td class="left-sticky-1">Lite</td>
+          <td class="left-sticky-2">本体</td>
+          <td class="left-sticky-3">ターコイズ</td>
+          <td class="left-sticky-4">21,978</td>
+          <td class="left-sticky-5 margin-plus">+422</td>
+          <td data-shop="mix">21,500</td>
+          <td data-shop="kaikyo">21,800</td>
+          <td data-shop="ichome">22,100</td>
+          <td data-shop="homura">21,500</td>
+          <td data-shop="rudeya" class="store-highlight is-best"><strong>22,400</strong></td>
+          <td data-shop="rakuen">21,500</td>
+          <td data-shop="wiki">21,800</td>
+          <td data-shop="mobaste">21,500</td>
+          <td data-shop="morimori" class="store-highlight">22,100</td>
+          <td data-shop="shouten">21,800</td>
+        </tr>
+        <tr class="row-lite" data-kind="lite">
+          <td class="left-sticky-1">Lite</td>
+          <td class="left-sticky-2">本体</td>
+          <td class="left-sticky-3">コーラル</td>
+          <td class="left-sticky-4">21,978</td>
+          <td class="left-sticky-5 margin-plus">+772</td>
+          <td data-shop="mix">22,000</td>
+          <td data-shop="kaikyo">22,200</td>
+          <td data-shop="ichome">22,500</td>
+          <td data-shop="homura">22,000</td>
+          <td data-shop="rudeya" class="store-highlight is-best"><strong>22,750</strong></td>
+          <td data-shop="rakuen">22,000</td>
+          <td data-shop="wiki">22,200</td>
+          <td data-shop="mobaste">22,000</td>
+          <td data-shop="morimori" class="store-highlight"><strong>22,900</strong></td>
+          <td data-shop="shouten">22,200</td>
+        </tr>
+        <tr class="row-lite" data-kind="lite">
+          <td class="left-sticky-1">Lite</td>
+          <td class="left-sticky-2">本体</td>
+          <td class="left-sticky-3">グレー</td>
+          <td class="left-sticky-4">21,978</td>
+          <td class="left-sticky-5 margin-plus">+672</td>
+          <td data-shop="mix">21,800</td>
+          <td data-shop="kaikyo">22,000</td>
+          <td data-shop="ichome">22,300</td>
+          <td data-shop="homura">21,800</td>
+          <td data-shop="rudeya" class="store-highlight is-best"><strong>22,650</strong></td>
+          <td data-shop="rakuen">21,800</td>
+          <td data-shop="wiki">22,000</td>
+          <td data-shop="mobaste">21,800</td>
+          <td data-shop="morimori" class="store-highlight">22,300</td>
+          <td data-shop="shouten">22,000</td>
+        </tr>
+        <tr class="row-lite" data-kind="lite">
+          <td class="left-sticky-1">Lite</td>
+          <td class="left-sticky-2">本体</td>
+          <td class="left-sticky-3">ブルー</td>
+          <td class="left-sticky-4">21,978</td>
+          <td class="left-sticky-5 margin-plus">+772</td>
+          <td data-shop="mix">22,000</td>
+          <td data-shop="kaikyo">22,200</td>
+          <td data-shop="ichome">22,500</td>
+          <td data-shop="homura">22,000</td>
+          <td data-shop="rudeya" class="store-highlight is-best"><strong>22,750</strong></td>
+          <td data-shop="rakuen">22,000</td>
+          <td data-shop="wiki">22,200</td>
+          <td data-shop="mobaste">22,000</td>
+          <td data-shop="morimori" class="store-highlight">22,500</td>
+          <td data-shop="shouten">22,200</td>
+        </tr>
+
+
+        <!-- ============================================================ -->
+        <!-- ===================== セクション区切り ===================== -->
+        <!-- ============================================================ -->
+
+        <!-- ============================================================ -->
+        <!-- =================== PS5 Pro ================================ -->
+        <!-- ============================================================ -->
+        <tr class="row-pro" data-kind="pro">
+          <td class="left-sticky-1">PS5 Pro</td>
+          <td class="left-sticky-2">CFI-7100B01</td>
+          <td class="left-sticky-3">2025年版</td>
+          <td class="left-sticky-4">119,980</td>
+          <td class="left-sticky-5 margin-minus">-10,380</td>
+          <td data-shop="mix">108,000</td>
+          <td data-shop="kaikyo">109,000</td>
+          <td data-shop="ichome"><strong>109,200</strong></td>
+          <td data-shop="homura">108,000</td>
+          <td data-shop="rudeya" class="store-highlight is-best"><strong>110,000</strong><span
+              class="price-change up">(+1,000↑)</span></td>
+          <td data-shop="rakuen">107,000</td>
+          <td data-shop="wiki">108,500</td>
+          <td data-shop="mobaste">107,000</td>
+          <td data-shop="morimori" class="store-highlight"><strong>109,600</strong></td>
+          <td data-shop="shouten">108,500</td>
+        </tr>
+        <tr class="row-pro" data-kind="pro">
+          <td class="left-sticky-1">PS5 Pro</td>
+          <td class="left-sticky-2">CFI-7000B01</td>
+          <td class="left-sticky-3">初期版</td>
+          <td class="left-sticky-4">119,980</td>
+          <td class="left-sticky-5 margin-minus">-8,980</td>
+          <td data-shop="mix">109,000</td>
+          <td data-shop="kaikyo">110,000</td>
+          <td data-shop="ichome">110,000</td>
+          <td data-shop="homura">109,000</td>
+          <td data-shop="rudeya" class="store-highlight is-best"><strong>111,000</strong></td>
+          <td data-shop="rakuen">108,000</td>
+          <td data-shop="wiki">109,500</td>
+          <td data-shop="mobaste">108,000</td>
+          <td data-shop="morimori" class="store-highlight">110,000</td>
+          <td data-shop="shouten">109,500</td>
+        </tr>
+
+        <!-- ============================================================ -->
+        <!-- =================== PS5 ディスク搭載 ======================= -->
+        <!-- ============================================================ -->
+        <tr class="row-disc" data-kind="disc">
+          <td class="left-sticky-1">PS5 ディスク</td>
+          <td class="left-sticky-2">CFI-2000A01</td>
+          <td class="left-sticky-3">Slim</td>
+          <td class="left-sticky-4">79,980</td>
+          <td class="left-sticky-5 margin-minus">-16,980</td>
+          <td data-shop="mix">62,000</td>
+          <td data-shop="kaikyo">63,000</td>
+          <td data-shop="ichome">62,500</td>
+          <td data-shop="homura">62,000</td>
+          <td data-shop="rudeya" class="store-highlight is-best"><strong>64,000</strong></td>
+          <td data-shop="rakuen">61,000</td>
+          <td data-shop="wiki">62,500</td>
+          <td data-shop="mobaste">61,000</td>
+          <td data-shop="morimori" class="store-highlight">63,500</td>
+          <td data-shop="shouten">62,500</td>
+        </tr>
+
+        <!-- ============================================================ -->
+        <!-- =================== PS5 デジタルED ========================= -->
+        <!-- ============================================================ -->
+        <tr class="row-digital" data-kind="digital">
+          <td class="left-sticky-1">PS5 DE</td>
+          <td class="left-sticky-2">CFI-2000B01</td>
+          <td class="left-sticky-3">Slim DE</td>
+          <td class="left-sticky-4">72,980</td>
+          <td class="left-sticky-5 margin-minus">-17,980</td>
+          <td data-shop="mix">54,000</td>
+          <td data-shop="kaikyo">55,000</td>
+          <td data-shop="ichome">54,500</td>
+          <td data-shop="homura">54,000</td>
+          <td data-shop="rudeya" class="store-highlight is-best"><strong>56,000</strong></td>
+          <td data-shop="rakuen">53,000</td>
+          <td data-shop="wiki">54,500</td>
+          <td data-shop="mobaste">53,000</td>
+          <td data-shop="morimori" class="store-highlight">55,000</td>
+          <td data-shop="shouten">54,500</td>
+        </tr>
+
+        <!-- ============================================================ -->
+        <!-- =================== PS5 日本語専用 ========================= -->
+        <!-- ============================================================ -->
+        <tr class="row-jponly" data-kind="jponly">
+          <td class="left-sticky-1">PS5 日本語</td>
+          <td class="left-sticky-2">CFI-2100B JP</td>
+          <td class="left-sticky-3">日本語専用</td>
+          <td class="left-sticky-4">55,000</td>
+          <td class="left-sticky-5 margin-minus">-15,000</td>
+          <td data-shop="mix">39,000</td>
+          <td data-shop="kaikyo">40,000</td>
+          <td data-shop="ichome">39,500</td>
+          <td data-shop="homura">39,000</td>
+          <td data-shop="rudeya" class="store-highlight is-best"><strong>41,000</strong></td>
+          <td data-shop="rakuen">38,000</td>
+          <td data-shop="wiki">39,500</td>
+          <td data-shop="mobaste">38,000</td>
+          <td data-shop="morimori" class="store-highlight">40,000</td>
+          <td data-shop="shouten">39,500</td>
+        </tr>
+
+        <!-- ============================================================ -->
+        <!-- =================== PS5 Portal ============================= -->
+        <!-- ============================================================ -->
+        <tr class="row-portal" data-kind="portal">
+          <td class="left-sticky-1">Portal</td>
+          <td class="left-sticky-2">CFIJ-18000</td>
+          <td class="left-sticky-3">ホワイト</td>
+          <td class="left-sticky-4">29,980</td>
+          <td class="left-sticky-5 margin-minus">-880</td>
+          <td data-shop="mix">28,000</td>
+          <td data-shop="kaikyo">28,500</td>
+          <td data-shop="ichome">28,800</td>
+          <td data-shop="homura">28,000</td>
+          <td data-shop="rudeya" class="store-highlight"><strong>29,100</strong></td>
+          <td data-shop="rakuen">28,000</td>
+          <td data-shop="wiki">28,500</td>
+          <td data-shop="mobaste">28,000</td>
+          <td data-shop="morimori" class="store-highlight is-best"><strong>29,400</strong></td>
+          <td data-shop="shouten">28,500</td>
+        </tr>
+        <tr class="row-portal" data-kind="portal">
+          <td class="left-sticky-1">Portal</td>
+          <td class="left-sticky-2">CFIJ-18001</td>
+          <td class="left-sticky-3">ミッドナイトBK</td>
+          <td class="left-sticky-4">29,980</td>
+          <td class="left-sticky-5 margin-minus">-380</td>
+          <td data-shop="mix">28,500</td>
+          <td data-shop="kaikyo">29,000</td>
+          <td data-shop="ichome">29,200</td>
+          <td data-shop="homura">28,500</td>
+          <td data-shop="rudeya" class="store-highlight"><strong>29,500</strong></td>
+          <td data-shop="rakuen">28,500</td>
+          <td data-shop="wiki">29,000</td>
+          <td data-shop="mobaste">28,500</td>
+          <td data-shop="morimori" class="store-highlight is-best"><strong>29,600</strong></td>
+          <td data-shop="shouten">29,000</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    ※ 価格は新品未開封品の買取価格です。中古品は別途査定となります。<br>
+    ※ 価格は随時変動します。最新価格は各買取店の公式サイトをご確認ください。<br>
+    ※ 各店舗の実際の買取価格と異なる場合があります。<br>
+    最終更新: 2026/03/05 15:36
+  </div>
+
+  <script src="filter.js"></script>
+</body>
+
+</html>
