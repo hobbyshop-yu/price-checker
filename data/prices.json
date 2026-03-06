@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026/03/06 11:00",
+  "updated_at": "2026/03/06 11:56",
   "shops": {
     "rudeya": {
       "name": "買取ルデヤ",
       "short_name": "ルデヤ",
       "url": "https://kaitori-rudeya.com/",
-      "updated_at": "2026/03/06 11:00",
+      "updated_at": "2026/03/06 11:56",
       "prices": {
         "switch2_domestic": 44000,
         "switch2_mariokart": 51900,
@@ -25,21 +25,14 @@
         "ps5_de": 64200,
         "ps5_jponly": 47500,
         "portal_white": 29700,
-        "portal_black": 29700,
-        "iphone17pm_256": 205000,
-        "iphone17pm_512": 234000,
-        "iphone17pm_1tb": 265000,
-        "iphone17p_256": 187500,
-        "iphone17p_512": 215000,
-        "iphoneair_256": 133000,
-        "iphoneair_512": 149000
+        "portal_black": 29700
       }
     },
     "morimori": {
       "name": "森森買取",
       "short_name": "森森",
       "url": "https://www.morimori-kaitori.jp/",
-      "updated_at": "2026/03/06 11:00",
+      "updated_at": "2026/03/06 11:56",
       "prices": {
         "switch2_domestic": 40500,
         "oled_neon": 42800,
@@ -63,9 +56,9 @@
       "name": "買取ホムラ",
       "short_name": "ホムラ",
       "url": "https://kaitori-homura.com/",
-      "updated_at": "2026/03/06 11:00",
+      "updated_at": "2026/03/06 11:56",
       "prices": {
-        "switch2_domestic": 44300,
+        "switch2_domestic": 44500,
         "switch2_mariokart": 51900,
         "switch2_pokemon": 51900,
         "oled_white": 42300,
@@ -83,32 +76,8 @@
       "name": "海峡通信",
       "short_name": "海峡",
       "url": "https://www.mobile-ichiban.com/",
-      "updated_at": "2026/03/06 11:00",
-      "prices": {
-        "oled_neon": 42500,
-        "oled_white": 42000,
-        "standard_neon": 42500,
-        "standard_gray": 33400,
-        "lite_yellow": 22650,
-        "lite_turquoise": 25100,
-        "lite_coral": 25100,
-        "lite_gray": 22600,
-        "lite_blue": 22650,
-        "ps5pro_7100": 109700,
-        "ps5pro_7000": 109700,
-        "ps5_disc": 75900,
-        "ps5_de": 63900,
-        "ps5_jponly": 47800,
-        "portal_white": 29500,
-        "portal_black": 29500,
-        "iphone17pm_256": 205000,
-        "iphone17pm_512": 234000,
-        "iphone17pm_1tb": 265000,
-        "iphone17p_256": 187500,
-        "iphone17p_512": 214000,
-        "iphoneair_256": 205000,
-        "iphoneair_512": 150000
-      }
+      "updated_at": "2026/03/06 11:56",
+      "prices": {}
     }
   }
 }
