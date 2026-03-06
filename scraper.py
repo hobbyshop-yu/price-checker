@@ -443,7 +443,13 @@ def scrape_homura(products):
 # ============================================================
 KAIKYO_SWITCH_URL = "https://www.mobile-ichiban.com/Prod/2/01/01"
 KAIKYO_PS5_URL = "https://www.mobile-ichiban.com/Prod/2/01/02"
-KAIKYO_IPHONE_URL = "https://www.mobile-ichiban.com/Prod/1/01"
+# iPhone: モデル別サブカテゴリURLで精度向上
+KAIKYO_IPHONE_URLS = [
+    ("iPhone17PM", "https://www.mobile-ichiban.com/Prod/1/01/37"),
+    ("iPhone17P",  "https://www.mobile-ichiban.com/Prod/1/01/36"),
+    ("iPhoneAir",  "https://www.mobile-ichiban.com/Prod/1/01/35"),
+    ("iPhone17",   "https://www.mobile-ichiban.com/Prod/1/01/34"),
+]
 
 KAIKYO_KEYWORDS = {
     "switch2_domestic":   ["Switch 2", "国内専用"],
@@ -451,8 +457,8 @@ KAIKYO_KEYWORDS = {
     "switch2_pokemon":    ["Pokemon", "LEGENDS"],
     "oled_neon":          ["有機EL", "ネオン"],
     "oled_white":         ["有機EL", "ホワイト"],
-    "standard_neon":      ["ネオンブルー", "ネオンレッド"],
-    "standard_gray":      ["グレー", "HAD"],
+    "standard_neon":      ["ネオンブルー"],
+    "standard_gray":      ["グレー"],
     "lite_yellow":        ["Lite", "イエロー"],
     "lite_turquoise":     ["Lite", "ターコイズ"],
     "lite_coral":         ["Lite", "コーラル"],
@@ -507,12 +513,13 @@ def scrape_kaikyo(products):
             browser = pw.chromium.launch(headless=True)
             page = browser.new_page()
 
-            # Switch / PS5 / iPhone カテゴリページに直接アクセス
+            # Switch / PS5 カテゴリページ
             categories = [
                 ("Switch", KAIKYO_SWITCH_URL),
                 ("PS5", KAIKYO_PS5_URL),
-                ("iPhone", KAIKYO_IPHONE_URL),
             ]
+            # iPhone: モデル別サブカテゴリ
+            categories += KAIKYO_IPHONE_URLS
             for cat_name, cat_url in categories:
                 try:
                     page.goto(cat_url, wait_until="domcontentloaded", timeout=60000)
@@ -597,6 +604,9 @@ def scrape_kaikyo(products):
                                 if pid.startswith("iphone17p_") and "Max" in item["name"]:
                                     continue
                                 if pid.startswith("iphone17_") and ("Pro" in item["name"] or "Air" in item["name"]):
+                                    continue
+                                # 通常Switchと有機ELの誤マッチ防止
+                                if pid.startswith("standard_") and "有機EL" in item["name"]:
                                     continue
                                 base_price = item["price"]
                                 # 色別価格調整
