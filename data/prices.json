@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026/03/06 09:41",
+  "updated_at": "2026/03/06 09:54",
   "shops": {
     "rudeya": {
       "name": "買取ルデヤ",
       "short_name": "ルデヤ",
       "url": "https://kaitori-rudeya.com/",
-      "updated_at": "2026/03/06 09:41",
+      "updated_at": "2026/03/06 09:54",
       "prices": {
         "switch2_domestic": 44000,
         "switch2_mariokart": 51900,
@@ -32,7 +32,7 @@
       "name": "森森買取",
       "short_name": "森森",
       "url": "https://www.morimori-kaitori.jp/",
-      "updated_at": "2026/03/06 09:41",
+      "updated_at": "2026/03/06 09:54",
       "prices": {
         "switch2_domestic": 40500,
         "oled_neon": 42800,
@@ -56,7 +56,7 @@
       "name": "買取ホムラ",
       "short_name": "ホムラ",
       "url": "https://kaitori-homura.com/",
-      "updated_at": "2026/03/06 09:41",
+      "updated_at": "2026/03/06 09:54",
       "prices": {
         "switch2_domestic": 44500,
         "switch2_mariokart": 51900,
@@ -76,7 +76,7 @@
       "name": "海峡通信",
       "short_name": "海峡",
       "url": "https://www.mobile-ichiban.com/",
-      "updated_at": "2026/03/06 09:41",
+      "updated_at": "2026/03/06 09:54",
       "prices": {}
     }
   }
