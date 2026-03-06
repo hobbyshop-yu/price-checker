@@ -487,11 +487,22 @@ table.price-table tbody tr:hover td {
   .left-sticky-2,
   .left-sticky-3,
   .left-sticky-4,
-  .left-sticky-5 {
+  .left-sticky-5,
+  .left-sticky-6 {
     position: static;
   }
 
   thead {
     position: static;
   }
+}
+
+/* --- Sort header cursor --- */
+.sort-header {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sort-header:hover {
+  background: #e8e0f0 !important;
 }

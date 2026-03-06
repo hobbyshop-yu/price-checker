@@ -119,10 +119,27 @@ def scrape_rudeya(products):
 # 森森 (requests)
 # ============================================================
 MORIMORI_URLS = {
-    "oled_white":  "https://www.morimori-kaitori.jp/category/0104001/product/68109",
-    "oled_neon":   "https://www.morimori-kaitori.jp/category/0104001/product/68111",
-    "lite_coral":  "https://www.morimori-kaitori.jp/category/0104001/product/281",
-    "ps5_disc":    "https://www.morimori-kaitori.jp/category/0101001/product/189440",
+    # Switch 2
+    "switch2_domestic":  "https://www.morimori-kaitori.jp/category/0104001/product/295062",
+    # 有機EL
+    "oled_white":        "https://www.morimori-kaitori.jp/category/0104001/product/68109",
+    "oled_neon":         "https://www.morimori-kaitori.jp/category/0104001/product/68110",
+    # 通常Switch
+    "standard_neon":     "https://www.morimori-kaitori.jp/category/0104001/product/154048",
+    "standard_gray":     "https://www.morimori-kaitori.jp/category/0104001/product/154158",
+    # Lite
+    "lite_coral":        "https://www.morimori-kaitori.jp/category/0104001/product/281",
+    "lite_gray":         "https://www.morimori-kaitori.jp/category/0104001/product/279",
+    "lite_turquoise":    "https://www.morimori-kaitori.jp/category/0104001/product/280",
+    "lite_blue":         "https://www.morimori-kaitori.jp/category/0104001/product/1588",
+    "lite_yellow":       "https://www.morimori-kaitori.jp/category/0104001/product/278",
+    # PS5
+    "ps5pro_7000":       "https://www.morimori-kaitori.jp/category/0101001/product/278515",
+    "ps5pro_7100":       "https://www.morimori-kaitori.jp/category/0101001/product/307430",
+    "ps5_disc":          "https://www.morimori-kaitori.jp/category/0101001/product/189440",
+    "ps5_de":            "https://www.morimori-kaitori.jp/category/0101001/product/189441",
+    "ps5_jponly":        "https://www.morimori-kaitori.jp/category/0101001/product/303985",
+    "portal_white":      "https://www.morimori-kaitori.jp/category/0101003/product/190534",
 }
 
 
@@ -273,29 +290,29 @@ def scrape_homura(products):
 # ============================================================
 # 海峡 / モバイル一番 (Playwright - JSレンダリング必要)
 # ============================================================
-KAIKYO_PS5_URL = "https://www.mobile-ichiban.com/categories/212"
-KAIKYO_SWITCH_URL = "https://www.mobile-ichiban.com/categories/128"
+KAIKYO_SWITCH_URL = "https://www.mobile-ichiban.com/Prod/2/01/01"
+KAIKYO_PS5_URL = "https://www.mobile-ichiban.com/Prod/2/01/02"
 
 KAIKYO_KEYWORDS = {
-    "switch2_domestic":   "Switch 2 日本国内専用",
-    "switch2_mariokart":  "マリオカート ワールド",
-    "switch2_pokemon":    "Pokemon LEGENDS",
-    "oled_neon":          "有機ELモデル ネオンブルー",
-    "oled_white":         "有機ELモデル ホワイト",
-    "standard_neon":      "ネオンブルー/ネオンレッド",
-    "standard_gray":      "グレー HAD-S",
-    "lite_yellow":        "Lite イエロー",
-    "lite_turquoise":     "Lite ターコイズ",
-    "lite_coral":         "Lite コーラル",
-    "lite_gray":          "Lite グレー",
-    "lite_blue":          "Lite ブルー",
-    "ps5pro_7100":        "CFI-7100B01",
-    "ps5pro_7000":        "CFI-7000B01",
-    "ps5_disc":           "slim CFI-2000A01",
-    "ps5_de":             "デジタル・エディション 日本語専用 CFI-2200",
-    "ps5_jponly":         "日本語専用 CFI-2200B",
-    "portal_white":       "Portal リモートプレーヤー",
-    "portal_black":       "ミッドナイト ブラック",
+    "switch2_domestic":   ["Switch 2", "国内専用"],
+    "switch2_mariokart":  ["マリオカート", "ワールド"],
+    "switch2_pokemon":    ["Pokemon", "LEGENDS"],
+    "oled_neon":          ["有機EL", "ネオン"],
+    "oled_white":         ["有機EL", "ホワイト"],
+    "standard_neon":      ["ネオンブルー", "ネオンレッド"],
+    "standard_gray":      ["グレー", "HAD"],
+    "lite_yellow":        ["Lite", "イエロー"],
+    "lite_turquoise":     ["Lite", "ターコイズ"],
+    "lite_coral":         ["Lite", "コーラル"],
+    "lite_gray":          ["Lite", "グレー"],
+    "lite_blue":          ["Lite", "ブルー"],
+    "ps5pro_7100":        ["CFI-7100"],
+    "ps5pro_7000":        ["CFI-7000"],
+    "ps5_disc":           ["CFI-2000A"],
+    "ps5_de":             ["CFI-2000B"],
+    "ps5_jponly":         ["日本語専用", "CFI-2"],
+    "portal_white":       ["Portal", "CFIJ-18000"],
+    "portal_black":       ["ミッドナイト"],
 }
 
 
@@ -315,31 +332,52 @@ def scrape_kaikyo(products):
             for cat_name, cat_url in [("Switch", KAIKYO_SWITCH_URL), ("PS5", KAIKYO_PS5_URL)]:
                 try:
                     page.goto(cat_url, wait_until="networkidle", timeout=30000)
-                    time.sleep(3)
+                    time.sleep(5)  # JSレンダリング待ち
 
-                    # ページ全体のテキストから商品+価格を抽出
-                    text = page.inner_text("body")
-                    lines = text.split("\n")
-                    items = []
-                    for i, line in enumerate(lines):
-                        line = line.strip()
-                        price_m = re.search(r"([\d,]+)\s*円", line)
-                        if price_m:
-                            price = int(price_m.group(1).replace(",", ""))
-                            if price > 5000:
-                                # 前後の行もコンテキストとして取得
-                                context = " ".join(lines[max(0,i-2):i+1])
-                                items.append({"text": context, "price": price})
-                    print(f"  {cat_name}: {len(items)} items found")
+                    # NewPrice_ ラベルから価格を取得
+                    price_labels = page.query_selector_all("label[id^='NewPrice_']")
+                    print(f"  {cat_name}: {len(price_labels)} NewPrice labels found")
 
-                    for pid, kw in KAIKYO_KEYWORDS.items():
-                        if pid in prices:
-                            continue
-                        for item in items:
-                            if kw in item["text"]:
-                                prices[pid] = item["price"]
-                                print(f"  [OK] {pid}: {item['price']:,}")
-                                break
+                    if len(price_labels) == 0:
+                        # フォールバック: テキスト全体から取得
+                        text = page.inner_text("body")
+                        lines = text.split("\n")
+                        items = []
+                        for i, line in enumerate(lines):
+                            line = line.strip()
+                            price_m = re.search(r"([\d,]+)\s*円", line)
+                            if price_m:
+                                price = int(price_m.group(1).replace(",", ""))
+                                if price > 5000:
+                                    context = " ".join(lines[max(0,i-3):i+1])
+                                    items.append({"text": context, "price": price})
+                        print(f"  {cat_name}: {len(items)} text items found (fallback)")
+                        for pid, kws in KAIKYO_KEYWORDS.items():
+                            if pid in prices:
+                                continue
+                            for item in items:
+                                if all(k in item["text"] for k in kws):
+                                    prices[pid] = item["price"]
+                                    print(f"  [OK] {pid}: {item['price']:,} (text)")
+                                    break
+                    else:
+                        # 各商品カードからラベルと価格をペアで取得
+                        cards = page.query_selector_all(".product-card, .item, [class*='prod'], tr, .row")
+                        if not cards:
+                            # カードが見つからない場合、ページ全体のテキストで処理
+                            text = page.inner_text("body")
+                            # 商品ブロック単位で分割してマッチ
+                            blocks = re.split(r"カートに入れる|カートへ", text)
+                            for block in blocks:
+                                price_m = re.search(r"(\d[\d,]+)\s*円", block)
+                                if price_m:
+                                    price = int(price_m.group(1).replace(",", ""))
+                                    if price > 5000:
+                                        for pid, kws in KAIKYO_KEYWORDS.items():
+                                            if pid not in prices and all(k in block for k in kws):
+                                                prices[pid] = price
+                                                print(f"  [OK] {pid}: {price:,}")
+                                                break
                 except Exception as e:
                     print(f"  [NG] {cat_name}: {e}")
 

@@ -84,6 +84,14 @@ def generate_html():
         margin_class = "margin-plus" if margin >= 0 else "margin-minus"
         margin_str = f"+{margin:,}" if margin >= 0 else f"{margin:,}"
 
+        # 差益率計算
+        if retail > 0 and best_price:
+            margin_pct = (best_price - retail) / retail * 100
+            margin_pct_str = f"+{margin_pct:.1f}%" if margin_pct >= 0 else f"{margin_pct:.1f}%"
+        else:
+            margin_pct = 0
+            margin_pct_str = "-"
+
         # 行HTML構築
         cells = []
         cells.append(f'          <td class="left-sticky-1">{meta["label"]}</td>')
@@ -91,6 +99,7 @@ def generate_html():
         cells.append(f'          <td class="left-sticky-3">{product["color"]}</td>')
         cells.append(f'          <td class="left-sticky-4">{fmt_price(retail)}</td>')
         cells.append(f'          <td class="left-sticky-5 {margin_class}">{margin_str}</td>')
+        cells.append(f'          <td class="left-sticky-6 {margin_class}" data-pct="{margin_pct:.2f}">{margin_pct_str}</td>')
 
         for shop in SHOPS:
             sid = shop["id"]
@@ -178,6 +187,7 @@ def generate_html():
           <th class="left-sticky-3">カラー/備考</th>
           <th class="left-sticky-4">定価</th>
           <th class="left-sticky-5 sort-header" id="sort-margin">差益<br>(利益順) ▼</th>
+          <th class="left-sticky-6 sort-header" id="sort-pct">差益率<br>(%) ▼</th>
 {chr(10).join(shop_headers)}
         </tr>
       </thead>

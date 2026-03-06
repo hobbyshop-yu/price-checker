@@ -105,6 +105,13 @@ document.addEventListener('DOMContentLoaded', function () {
     sortBtn.addEventListener('click', sortByMargin);
   }
 
+  // --- Margin % Sort ---
+  let sortPctAsc = false;
+  const sortPctBtn = document.getElementById('sort-pct');
+  if (sortPctBtn) {
+    sortPctBtn.addEventListener('click', sortByPct);
+  }
+
   function parseMarginValue(text) {
     // Remove commas, whitespace, and parse as number. "+22,020" -> 22020, "-8,980" -> -8980
     const cleaned = text.replace(/,/g, '').replace(/\s/g, '').replace(/\+/g, '');
@@ -134,5 +141,27 @@ document.addEventListener('DOMContentLoaded', function () {
     // Toggle direction and update indicator
     sortAsc = !sortAsc;
     sortBtn.innerHTML = '差益<br>(利益順) ' + (sortAsc ? '▲' : '▼');
+  }
+
+  function sortByPct() {
+    const table = document.querySelector('table.price-table');
+    if (!table) return;
+    const tbody = table.querySelector('tbody');
+    if (!tbody) return;
+
+    const rows = Array.from(tbody.querySelectorAll('tr[data-kind]'));
+
+    rows.sort((a, b) => {
+      const aCell = a.querySelector('.left-sticky-6');
+      const bCell = b.querySelector('.left-sticky-6');
+      const aVal = aCell ? parseFloat(aCell.getAttribute('data-pct') || '0') : 0;
+      const bVal = bCell ? parseFloat(bCell.getAttribute('data-pct') || '0') : 0;
+      return sortPctAsc ? aVal - bVal : bVal - aVal;
+    });
+
+    rows.forEach(row => tbody.appendChild(row));
+
+    sortPctAsc = !sortPctAsc;
+    sortPctBtn.innerHTML = '差益率<br>(%) ' + (sortPctAsc ? '▲' : '▼');
   }
 });
