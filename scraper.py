@@ -520,7 +520,9 @@ def scrape_kaikyo(products):
             ]
             # iPhone: モデル別サブカテゴリ
             categories += KAIKYO_IPHONE_URLS
-            for cat_name, cat_url in categories:
+            for cat_idx, (cat_name, cat_url) in enumerate(categories):
+                if cat_idx > 0:
+                    time.sleep(5)  # レート制限回避
                 try:
                     page.goto(cat_url, wait_until="domcontentloaded", timeout=60000)
                     time.sleep(8)  # JSレンダリング待ち（SPAのため長めに）
@@ -594,7 +596,7 @@ def scrape_kaikyo(products):
 
                     # キーワードマッチ (色割引反映)
                     # 色マッピング: 青=ディープブルー(db), 橙=コズミックオレンジ(co)
-                    COLOR_MAP = {"_db": "青", "_co": "橙", "_sv": None}  # sv=基準価格
+                    COLOR_MAP = {"_db": "青", "_co": "橙", "_sb": "青", "_sv": None}  # sv=基準価格, sb(スカイブルー)も青
                     # カテゴリフィルタ: 各カテゴリページでは関連キーワードのみ試す
                     CAT_FILTER = {
                         "iPhone17PM": "iphone17pm_",
@@ -618,6 +620,9 @@ def scrape_kaikyo(products):
                                     continue
                                 # 通常Switchと有機ELの誤マッチ防止
                                 if pid.startswith("standard_") and "有機EL" in item["name"]:
+                                    continue
+                                # Liteとあつ森セットの誤マッチ防止
+                                if pid.startswith("lite_") and ("どうぶつ" in item["name"] or "あつまれ" in item["name"]):
                                     continue
                                 base_price = item["price"]
                                 # 色別価格調整
