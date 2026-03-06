@@ -81,14 +81,31 @@ RUDEYA_MATCH = {
     "ps5_jponly":         "日本語専用",
     "portal_white":       "Portal リモートプレーヤー (CFIJ-18000)",
     "portal_black":       "ミッドナイト ブラック",
-    # iPhone
-    "iphone17pm_256":     "iPhone 17 Pro Max 256GB",
-    "iphone17pm_512":     "iPhone 17 Pro Max 512GB",
-    "iphone17pm_1tb":     "iPhone 17 Pro Max 1TB",
-    "iphone17p_256":      "iPhone 17 Pro 256GB",
-    "iphone17p_512":      "iPhone 17 Pro 512GB",
-    "iphoneair_256":      "iPhone Air 256GB",
-    "iphoneair_512":      "iPhone Air 512GB",
+    # iPhone 17 Pro Max
+    "iphone17pm_256_sv":  "iPhone 17 Pro Max 256GB [シルバー]",
+    "iphone17pm_256_db":  "iPhone 17 Pro Max 256GB [ディープブルー]",
+    "iphone17pm_256_co":  "iPhone 17 Pro Max 256GB [コズミックオレンジ]",
+    "iphone17pm_512_sv":  "iPhone 17 Pro Max 512GB [シルバー]",
+    "iphone17pm_512_db":  "iPhone 17 Pro Max 512GB [ディープブルー]",
+    "iphone17pm_512_co":  "iPhone 17 Pro Max 512GB [コズミックオレンジ]",
+    "iphone17pm_1tb_sv":  "iPhone 17 Pro Max 1TB [シルバー]",
+    "iphone17pm_1tb_db":  "iPhone 17 Pro Max 1TB [ディープブルー]",
+    "iphone17pm_1tb_co":  "iPhone 17 Pro Max 1TB [コズミックオレンジ]",
+    # iPhone 17 Pro
+    "iphone17p_256_sv":   "iPhone 17 Pro 256GB [シルバー]",
+    "iphone17p_256_db":   "iPhone 17 Pro 256GB [ディープブルー]",
+    "iphone17p_256_co":   "iPhone 17 Pro 256GB [コズミックオレンジ]",
+    "iphone17p_512_sv":   "iPhone 17 Pro 512GB [シルバー]",
+    "iphone17p_512_db":   "iPhone 17 Pro 512GB [ディープブルー]",
+    "iphone17p_512_co":   "iPhone 17 Pro 512GB [コズミックオレンジ]",
+    # iPhone Air
+    "iphoneair_256_lg":   "iPhone Air 256GB [ライトゴールド]",
+    "iphoneair_256_sb":   "iPhone Air 256GB [スカイブルー]",
+    "iphoneair_256_cw":   "iPhone Air 256GB [クラウドホワイト]",
+    "iphoneair_256_bk":   "iPhone Air 256GB [スペースブラック]",
+    "iphoneair_512_lg":   "iPhone Air 512GB [ライトゴールド]",
+    "iphoneair_512_sb":   "iPhone Air 512GB [スカイブルー]",
+    # iPhone 17
     "iphone17_256":       "iPhone 17 256GB SIMフリー",
     "iphone17_512":       "iPhone 17 512GB SIMフリー",
 }
@@ -324,14 +341,31 @@ KAIKYO_KEYWORDS = {
     "ps5_jponly":         ["日本語専用", "CFI-2"],
     "portal_white":       ["Portal", "CFIJ-18000"],
     "portal_black":       ["ミッドナイト"],
-    # iPhone
-    "iphone17pm_256":     ["17 Pro Max", "256"],
-    "iphone17pm_512":     ["17 Pro Max", "512"],
-    "iphone17pm_1tb":     ["17 Pro Max", "1TB"],
-    "iphone17p_256":      ["17 Pro", "256"],
-    "iphone17p_512":      ["17 Pro", "512"],
-    "iphoneair_256":      ["iPhone Air", "256"],
-    "iphoneair_512":      ["iPhone Air", "512"],
+    # iPhone 17 Pro Max
+    "iphone17pm_256_sv":  ["17 Pro Max", "256", "シルバー"],
+    "iphone17pm_256_db":  ["17 Pro Max", "256", "ディープブルー"],
+    "iphone17pm_256_co":  ["17 Pro Max", "256", "コズミック"],
+    "iphone17pm_512_sv":  ["17 Pro Max", "512", "シルバー"],
+    "iphone17pm_512_db":  ["17 Pro Max", "512", "ディープブルー"],
+    "iphone17pm_512_co":  ["17 Pro Max", "512", "コズミック"],
+    "iphone17pm_1tb_sv":  ["17 Pro Max", "1TB", "シルバー"],
+    "iphone17pm_1tb_db":  ["17 Pro Max", "1TB", "ディープブルー"],
+    "iphone17pm_1tb_co":  ["17 Pro Max", "1TB", "コズミック"],
+    # iPhone 17 Pro
+    "iphone17p_256_sv":   ["17 Pro", "256", "シルバー"],
+    "iphone17p_256_db":   ["17 Pro", "256", "ディープブルー"],
+    "iphone17p_256_co":   ["17 Pro", "256", "コズミック"],
+    "iphone17p_512_sv":   ["17 Pro", "512", "シルバー"],
+    "iphone17p_512_db":   ["17 Pro", "512", "ディープブルー"],
+    "iphone17p_512_co":   ["17 Pro", "512", "コズミック"],
+    # iPhone Air
+    "iphoneair_256_lg":   ["iPhone Air", "256", "ライトゴールド"],
+    "iphoneair_256_sb":   ["iPhone Air", "256", "スカイブルー"],
+    "iphoneair_256_cw":   ["iPhone Air", "256", "クラウドホワイト"],
+    "iphoneair_256_bk":   ["iPhone Air", "256", "スペースブラック"],
+    "iphoneair_512_lg":   ["iPhone Air", "512", "ライトゴールド"],
+    "iphoneair_512_sb":   ["iPhone Air", "512", "スカイブルー"],
+    # iPhone 17
     "iphone17_256":       ["iPhone 17", "256"],
     "iphone17_512":       ["iPhone 17", "512"],
 }
@@ -360,33 +394,25 @@ def scrape_kaikyo(products):
                     page.goto(cat_url, wait_until="domcontentloaded", timeout=60000)
                     time.sleep(8)  # JSレンダリング待ち（SPAのため長めに）
 
-                    # NewPrice_ ラベルから価格を取得
-                    price_labels = page.query_selector_all("label[id^='NewPrice_']")
-                    print(f"  {cat_name}: {len(price_labels)} NewPrice labels found")
+                    # DOM構造ベース: div.imgShowResult 内の
+                    # label.hideText (商品名) + label[id^='NewPrice_'] (価格) をペアで取得
+                    cards = page.query_selector_all("div.imgShowResult")
+                    print(f"  {cat_name}: {len(cards)} product cards found")
 
-                    # ページ全体のテキストを取得してブロック分割でマッチ
-                    text = page.inner_text("body")
-
-                    # 商品ブロック単位で分割してマッチ
-                    # 各商品は「カートに入れる」や価格表示で区切られる
-                    lines = text.split("\n")
                     items = []
-                    current_name = ""
-                    for line in lines:
-                        line = line.strip()
-                        if not line:
+                    for card in cards:
+                        # 商品名: label.hideText の title属性 or テキスト
+                        name_label = card.query_selector("label.hideText")
+                        price_label = card.query_selector("label[id^='NewPrice_']")
+                        if not name_label or not price_label:
                             continue
-                        # 価格行を検出
-                        price_m = re.search(r"([\d,]+)\s*円", line)
+                        name = name_label.get_attribute("title") or name_label.inner_text()
+                        price_text = price_label.inner_text()
+                        price_m = re.search(r"([\d,]+)\s*円", price_text)
                         if price_m:
                             price = int(price_m.group(1).replace(",", ""))
-                            if price > 5000 and current_name:
-                                items.append({"name": current_name, "price": price})
-                                current_name = ""
-                        else:
-                            # 商品名行として蓄積
-                            if len(line) > 5 and "円" not in line:
-                                current_name = current_name + " " + line if current_name else line
+                            if price > 1000:
+                                items.append({"name": name.strip(), "price": price})
 
                     print(f"  {cat_name}: {len(items)} name-price pairs")
 
@@ -399,9 +425,7 @@ def scrape_kaikyo(products):
                                 # Pro MaxとProの誤マッチ防止
                                 if pid.startswith("iphone17p_") and "Max" in item["name"]:
                                     continue
-                                if pid == "iphone17_256" and ("Pro" in item["name"] or "Air" in item["name"]):
-                                    continue
-                                if pid == "iphone17_512" and ("Pro" in item["name"] or "Air" in item["name"]):
+                                if pid.startswith("iphone17_") and ("Pro" in item["name"] or "Air" in item["name"]):
                                     continue
                                 prices[pid] = item["price"]
                                 print(f"  [OK] {pid}: {item['price']:,}")

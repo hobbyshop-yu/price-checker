@@ -77,7 +77,7 @@
             "model": "本体",
             "color": "イエロー",
             "retail_price": 21978,
-            "rudeya_keyword": "Switch Lite イエロー",
+            "rudeya_keyword": "Switch Lite [イエロー]",
             "morimori_jan": "4902370542936"
         },
         {
@@ -87,7 +87,7 @@
             "model": "本体",
             "color": "ターコイズ",
             "retail_price": 21978,
-            "rudeya_keyword": "Switch Lite ターコイズ",
+            "rudeya_keyword": "Switch Lite [ターコイズ]",
             "morimori_jan": "4902370542943"
         },
         {
@@ -97,7 +97,7 @@
             "model": "本体",
             "color": "コーラル",
             "retail_price": 21978,
-            "rudeya_keyword": "Switch Lite コーラル",
+            "rudeya_keyword": "Switch Lite [コーラル]",
             "morimori_jan": "4902370545302"
         },
         {
@@ -107,7 +107,7 @@
             "model": "本体",
             "color": "グレー",
             "retail_price": 21978,
-            "rudeya_keyword": "Switch Lite グレー",
+            "rudeya_keyword": "Switch Lite [グレー]",
             "morimori_jan": "4902370542929"
         },
         {
@@ -117,7 +117,7 @@
             "model": "本体",
             "color": "ブルー",
             "retail_price": 21978,
-            "rudeya_keyword": "Switch Lite ブルー",
+            "rudeya_keyword": "Switch Lite [ブルー]",
             "morimori_jan": "4902370548204"
         },
         {
@@ -177,7 +177,7 @@
             "model": "CFIJ-18000",
             "color": "ホワイト",
             "retail_price": 29980,
-            "rudeya_keyword": "PlayStation Portal リモートプレーヤー",
+            "rudeya_keyword": "PlayStation Portal リモートプレーヤー (CFIJ-18000)",
             "morimori_jan": "4948872016674"
         },
         {
@@ -191,94 +191,211 @@
             "morimori_jan": ""
         },
         {
-            "id": "iphone17pm_256",
+            "id": "iphone17pm_256_sv",
             "category": "iphone17pm",
             "name": "17 Pro Max",
             "model": "256GB",
-            "color": "SIMフリー",
+            "color": "シルバー",
             "retail_price": 194800,
-            "rudeya_keyword": "iPhone 17 Pro Max 256GB",
-            "morimori_jan": ""
+            "rudeya_keyword": "iPhone 17 Pro Max 256GB [シルバー]"
         },
         {
-            "id": "iphone17pm_512",
+            "id": "iphone17pm_256_db",
+            "category": "iphone17pm",
+            "name": "17 Pro Max",
+            "model": "256GB",
+            "color": "ディープブルー",
+            "retail_price": 194800,
+            "rudeya_keyword": "iPhone 17 Pro Max 256GB [ディープブルー]"
+        },
+        {
+            "id": "iphone17pm_256_co",
+            "category": "iphone17pm",
+            "name": "17 Pro Max",
+            "model": "256GB",
+            "color": "コズミックオレンジ",
+            "retail_price": 194800,
+            "rudeya_keyword": "iPhone 17 Pro Max 256GB [コズミックオレンジ]"
+        },
+        {
+            "id": "iphone17pm_512_sv",
             "category": "iphone17pm",
             "name": "17 Pro Max",
             "model": "512GB",
-            "color": "SIMフリー",
+            "color": "シルバー",
             "retail_price": 224800,
-            "rudeya_keyword": "iPhone 17 Pro Max 512GB",
-            "morimori_jan": ""
+            "rudeya_keyword": "iPhone 17 Pro Max 512GB [シルバー]"
         },
         {
-            "id": "iphone17pm_1tb",
+            "id": "iphone17pm_512_db",
+            "category": "iphone17pm",
+            "name": "17 Pro Max",
+            "model": "512GB",
+            "color": "ディープブルー",
+            "retail_price": 224800,
+            "rudeya_keyword": "iPhone 17 Pro Max 512GB [ディープブルー]"
+        },
+        {
+            "id": "iphone17pm_512_co",
+            "category": "iphone17pm",
+            "name": "17 Pro Max",
+            "model": "512GB",
+            "color": "コズミックオレンジ",
+            "retail_price": 224800,
+            "rudeya_keyword": "iPhone 17 Pro Max 512GB [コズミックオレンジ]"
+        },
+        {
+            "id": "iphone17pm_1tb_sv",
             "category": "iphone17pm",
             "name": "17 Pro Max",
             "model": "1TB",
-            "color": "SIMフリー",
+            "color": "シルバー",
             "retail_price": 264800,
-            "rudeya_keyword": "iPhone 17 Pro Max 1TB",
-            "morimori_jan": ""
+            "rudeya_keyword": "iPhone 17 Pro Max 1TB [シルバー]"
         },
         {
-            "id": "iphone17p_256",
+            "id": "iphone17pm_1tb_db",
+            "category": "iphone17pm",
+            "name": "17 Pro Max",
+            "model": "1TB",
+            "color": "ディープブルー",
+            "retail_price": 264800,
+            "rudeya_keyword": "iPhone 17 Pro Max 1TB [ディープブルー]"
+        },
+        {
+            "id": "iphone17pm_1tb_co",
+            "category": "iphone17pm",
+            "name": "17 Pro Max",
+            "model": "1TB",
+            "color": "コズミックオレンジ",
+            "retail_price": 264800,
+            "rudeya_keyword": "iPhone 17 Pro Max 1TB [コズミックオレンジ]"
+        },
+        {
+            "id": "iphone17p_256_sv",
             "category": "iphone17p",
             "name": "17 Pro",
             "model": "256GB",
-            "color": "SIMフリー",
+            "color": "シルバー",
             "retail_price": 179800,
-            "rudeya_keyword": "iPhone 17 Pro 256GB",
-            "morimori_jan": ""
+            "rudeya_keyword": "iPhone 17 Pro 256GB [シルバー]"
         },
         {
-            "id": "iphone17p_512",
+            "id": "iphone17p_256_db",
+            "category": "iphone17p",
+            "name": "17 Pro",
+            "model": "256GB",
+            "color": "ディープブルー",
+            "retail_price": 179800,
+            "rudeya_keyword": "iPhone 17 Pro 256GB [ディープブルー]"
+        },
+        {
+            "id": "iphone17p_256_co",
+            "category": "iphone17p",
+            "name": "17 Pro",
+            "model": "256GB",
+            "color": "コズミックオレンジ",
+            "retail_price": 179800,
+            "rudeya_keyword": "iPhone 17 Pro 256GB [コズミックオレンジ]"
+        },
+        {
+            "id": "iphone17p_512_sv",
             "category": "iphone17p",
             "name": "17 Pro",
             "model": "512GB",
-            "color": "SIMフリー",
+            "color": "シルバー",
             "retail_price": 209800,
-            "rudeya_keyword": "iPhone 17 Pro 512GB",
-            "morimori_jan": ""
+            "rudeya_keyword": "iPhone 17 Pro 512GB [シルバー]"
         },
         {
-            "id": "iphoneair_256",
+            "id": "iphone17p_512_db",
+            "category": "iphone17p",
+            "name": "17 Pro",
+            "model": "512GB",
+            "color": "ディープブルー",
+            "retail_price": 209800,
+            "rudeya_keyword": "iPhone 17 Pro 512GB [ディープブルー]"
+        },
+        {
+            "id": "iphone17p_512_co",
+            "category": "iphone17p",
+            "name": "17 Pro",
+            "model": "512GB",
+            "color": "コズミックオレンジ",
+            "retail_price": 209800,
+            "rudeya_keyword": "iPhone 17 Pro 512GB [コズミックオレンジ]"
+        },
+        {
+            "id": "iphoneair_256_lg",
             "category": "iphoneair",
             "name": "iPhone Air",
             "model": "256GB",
-            "color": "SIMフリー",
+            "color": "ライトゴールド",
             "retail_price": 159800,
-            "rudeya_keyword": "iPhone Air 256GB",
-            "morimori_jan": ""
+            "rudeya_keyword": "iPhone Air 256GB [ライトゴールド]"
         },
         {
-            "id": "iphoneair_512",
+            "id": "iphoneair_256_sb",
+            "category": "iphoneair",
+            "name": "iPhone Air",
+            "model": "256GB",
+            "color": "スカイブルー",
+            "retail_price": 159800,
+            "rudeya_keyword": "iPhone Air 256GB [スカイブルー]"
+        },
+        {
+            "id": "iphoneair_256_cw",
+            "category": "iphoneair",
+            "name": "iPhone Air",
+            "model": "256GB",
+            "color": "クラウドホワイト",
+            "retail_price": 159800,
+            "rudeya_keyword": "iPhone Air 256GB [クラウドホワイト]"
+        },
+        {
+            "id": "iphoneair_256_bk",
+            "category": "iphoneair",
+            "name": "iPhone Air",
+            "model": "256GB",
+            "color": "スペースブラック",
+            "retail_price": 159800,
+            "rudeya_keyword": "iPhone Air 256GB [スペースブラック]"
+        },
+        {
+            "id": "iphoneair_512_lg",
             "category": "iphoneair",
             "name": "iPhone Air",
             "model": "512GB",
-            "color": "SIMフリー",
+            "color": "ライトゴールド",
             "retail_price": 189800,
-            "rudeya_keyword": "iPhone Air 512GB",
-            "morimori_jan": ""
+            "rudeya_keyword": "iPhone Air 512GB [ライトゴールド]"
+        },
+        {
+            "id": "iphoneair_512_sb",
+            "category": "iphoneair",
+            "name": "iPhone Air",
+            "model": "512GB",
+            "color": "スカイブルー",
+            "retail_price": 189800,
+            "rudeya_keyword": "iPhone Air 512GB [スカイブルー]"
         },
         {
             "id": "iphone17_256",
             "category": "iphone17",
             "name": "iPhone 17",
             "model": "256GB",
-            "color": "SIMフリー",
+            "color": "全色共通",
             "retail_price": 129800,
-            "rudeya_keyword": "iPhone 17 256GB SIMフリー",
-            "morimori_jan": ""
+            "rudeya_keyword": "iPhone 17 256GB SIMフリー"
         },
         {
             "id": "iphone17_512",
             "category": "iphone17",
             "name": "iPhone 17",
             "model": "512GB",
-            "color": "SIMフリー",
+            "color": "全色共通",
             "retail_price": 159800,
-            "rudeya_keyword": "iPhone 17 512GB SIMフリー",
-            "morimori_jan": ""
+            "rudeya_keyword": "iPhone 17 512GB SIMフリー"
         }
     ]
 }
