@@ -169,6 +169,40 @@ MORIMORI_URLS = {
     "portal_white":      "https://www.morimori-kaitori.jp/category/0101003/product/190534",
 }
 
+# 森森 iPhone カテゴリページ (キーワードマッチで価格取得)
+MORIMORI_IPHONE_CATS = {
+    "promax": "https://www.morimori-kaitori.jp/category/0301066",
+    "pro":    "https://www.morimori-kaitori.jp/category/0301065",
+    "air":    "https://www.morimori-kaitori.jp/category/0301064",
+    "17":     "https://www.morimori-kaitori.jp/category/0301063",
+}
+
+MORIMORI_IPHONE_KW = {
+    "iphone17pm_256_sv":  ["ProMax", "256", "シルバー"],
+    "iphone17pm_256_db":  ["ProMax", "256", "ディープブルー"],
+    "iphone17pm_256_co":  ["ProMax", "256", "コズミック"],
+    "iphone17pm_512_sv":  ["ProMax", "512", "シルバー"],
+    "iphone17pm_512_db":  ["ProMax", "512", "ディープブルー"],
+    "iphone17pm_512_co":  ["ProMax", "512", "コズミック"],
+    "iphone17pm_1tb_sv":  ["ProMax", "1TB", "シルバー"],
+    "iphone17pm_1tb_db":  ["ProMax", "1TB", "ディープブルー"],
+    "iphone17pm_1tb_co":  ["ProMax", "1TB", "コズミック"],
+    "iphone17p_256_sv":   ["Pro", "256", "シルバー"],
+    "iphone17p_256_db":   ["Pro", "256", "ディープブルー"],
+    "iphone17p_256_co":   ["Pro", "256", "コズミック"],
+    "iphone17p_512_sv":   ["Pro", "512", "シルバー"],
+    "iphone17p_512_db":   ["Pro", "512", "ディープブルー"],
+    "iphone17p_512_co":   ["Pro", "512", "コズミック"],
+    "iphoneair_256_lg":   ["Air", "256", "ライトゴールド"],
+    "iphoneair_256_sb":   ["Air", "256", "スカイブルー"],
+    "iphoneair_256_cw":   ["Air", "256", "クラウドホワイト"],
+    "iphoneair_256_bk":   ["Air", "256", "スペースブラック"],
+    "iphoneair_512_lg":   ["Air", "512", "ライトゴールド"],
+    "iphoneair_512_sb":   ["Air", "512", "スカイブルー"],
+    "iphone17_256":       ["iPhone17", "256"],
+    "iphone17_512":       ["iPhone17", "512"],
+}
+
 
 def scrape_morimori(products):
     print("\n=== 森森 ===")
@@ -201,6 +235,40 @@ def scrape_morimori(products):
                     print(f"  [NG] {p['id']}: price not found")
             except Exception as e:
                 print(f"  [NG] {p['id']}: {e}")
+
+        # iPhone カテゴリページからキーワードマッチ
+        for cat_label, cat_url in MORIMORI_IPHONE_CATS.items():
+            time.sleep(DELAY)
+            try:
+                soup_cat = fetch(cat_url)
+                rows = soup_cat.select("tr")
+                for row in rows:
+                    cells = row.find_all("td")
+                    if len(cells) < 2:
+                        continue
+                    name = cells[0].get_text(separator=" ", strip=True)
+                    price_text = cells[1].get_text(strip=True)
+                    pm = re.search(r"([\d,]+)", price_text)
+                    if not pm:
+                        continue
+                    price = int(pm.group(1).replace(",", ""))
+                    if price < 1000:
+                        continue
+                    for pid, kws in MORIMORI_IPHONE_KW.items():
+                        if pid in prices:
+                            continue
+                        if all(k in name for k in kws):
+                            # ProとProMaxの誤マッチ防止
+                            if pid.startswith("iphone17p_") and "Max" in name:
+                                continue
+                            if pid.startswith("iphone17_") and ("Pro" in name or "Air" in name):
+                                continue
+                            prices[pid] = price
+                            print(f"  [OK] {pid}: {price:,} (morimori-cat)")
+                            break
+            except Exception as e:
+                print(f"  [NG] iPhone-{cat_label}: {e}")
+
     except Exception as e:
         print(f"  [ERROR] {e}")
     return prices
@@ -306,6 +374,62 @@ def scrape_homura(products):
                 except Exception as e:
                     print(f"  [NG] {pid}: {e}")
 
+            # iPhone カテゴリページから取得
+            HOMURA_IPHONE_URL = "https://kaitori-homura.com/products?category_id=73"
+            HOMURA_IPHONE_KW = {
+                "iphone17pm_256_sv":  ["17 Pro Max", "256", "silver"],
+                "iphone17pm_256_db":  ["17 Pro Max", "256", "blue"],
+                "iphone17pm_256_co":  ["17 Pro Max", "256", "orange"],
+                "iphone17pm_512_sv":  ["17 Pro Max", "512", "silver"],
+                "iphone17pm_512_db":  ["17 Pro Max", "512", "blue"],
+                "iphone17pm_512_co":  ["17 Pro Max", "512", "orange"],
+                "iphone17pm_1tb_sv":  ["17 Pro Max", "1TB", "silver"],
+                "iphone17pm_1tb_db":  ["17 Pro Max", "1TB", "blue"],
+                "iphone17pm_1tb_co":  ["17 Pro Max", "1TB", "orange"],
+                "iphone17p_256_sv":   ["17 Pro", "256", "silver"],
+                "iphone17p_256_db":   ["17 Pro", "256", "blue"],
+                "iphone17p_256_co":   ["17 Pro", "256", "orange"],
+                "iphone17p_512_sv":   ["17 Pro", "512", "silver"],
+                "iphone17p_512_db":   ["17 Pro", "512", "blue"],
+                "iphone17p_512_co":   ["17 Pro", "512", "orange"],
+                "iphoneair_256_lg":   ["Air", "256", "gold"],
+                "iphoneair_256_sb":   ["Air", "256", "blue"],
+                "iphoneair_256_cw":   ["Air", "256", "white"],
+                "iphoneair_256_bk":   ["Air", "256", "black"],
+                "iphoneair_512_lg":   ["Air", "512", "gold"],
+                "iphoneair_512_sb":   ["Air", "512", "blue"],
+                "iphone17_256":       ["iPhone 17", "256"],
+                "iphone17_512":       ["iPhone 17", "512"],
+            }
+            try:
+                page.goto(HOMURA_IPHONE_URL, wait_until="networkidle", timeout=30000)
+                time.sleep(3)
+                text = page.inner_text("body")
+                # 行単位で商品名+価格を抽出
+                lines = text.split("\n")
+                iphone_items = []
+                for i, line in enumerate(lines):
+                    pm = re.search(r"([\d,]+)\s*円", line)
+                    if pm and int(pm.group(1).replace(",", "")) > 10000:
+                        ctx = " ".join(lines[max(0,i-5):i+1])
+                        iphone_items.append((ctx, pm.group(1)))
+                print(f"  iPhone (homura): {len(iphone_items)} items found")
+                for name_part, price_str in iphone_items:
+                    price = int(price_str.replace(",", ""))
+                    for pid, kws in HOMURA_IPHONE_KW.items():
+                        if pid in prices:
+                            continue
+                        if all(k.lower() in name_part.lower() for k in kws):
+                            if pid.startswith("iphone17p_") and "max" in name_part.lower():
+                                continue
+                            if pid.startswith("iphone17_") and ("pro" in name_part.lower() or "air" in name_part.lower()):
+                                continue
+                            prices[pid] = price
+                            print(f"  [OK] {pid}: {price:,} (homura-iphone)")
+                            break
+            except Exception as e:
+                print(f"  [NG] iPhone (homura): {e}")
+
             browser.close()
 
     except Exception as e:
@@ -400,6 +524,7 @@ def scrape_kaikyo(products):
                     print(f"  {cat_name}: {len(cards)} product cards found")
 
                     items = []
+                    color_discounts = {}  # {name_base: {"青": -5000, "橙": -8000}}
                     if len(cards) > 0:
                         for card in cards:
                             name_label = card.query_selector("label.hideText")
@@ -413,6 +538,29 @@ def scrape_kaikyo(products):
                                 price = int(price_m.group(1).replace(",", ""))
                                 if price > 1000:
                                     items.append({"name": name.strip(), "price": price})
+                            # 色割引テキストを取得 (label.px-5)
+                            discount_label = card.query_selector("label.px-5")
+                            if discount_label:
+                                disc_text = discount_label.inner_text().strip()
+                                if disc_text:
+                                    discounts = {}
+                                    # "青-5000\n橙-8000" or "青、橙-5000" 形式をパース
+                                    for part in re.split(r"[\n\r]+", disc_text):
+                                        part = part.strip()
+                                        # "青、橙-5000" パターン
+                                        m_multi = re.match(r"([青橙赤白黑、・]+)-?(\d+)", part)
+                                        if m_multi:
+                                            colors = re.findall(r"[青橙赤白黑]", m_multi.group(1))
+                                            val = int(m_multi.group(2))
+                                            for c in colors:
+                                                discounts[c] = -val
+                                        else:
+                                            # "青-5000" 単色パターン
+                                            m_single = re.match(r"([青橙赤白黑])-?(\d+)", part)
+                                            if m_single:
+                                                discounts[m_single.group(1)] = -int(m_single.group(2))
+                                    if discounts:
+                                        color_discounts[name.strip()] = discounts
                     else:
                         # フォールバック: テキスト解析
                         print(f"  {cat_name}: フォールバックテキスト解析")
@@ -434,8 +582,12 @@ def scrape_kaikyo(products):
                                     current_name = current_name + " " + line if current_name else line
 
                     print(f"  {cat_name}: {len(items)} name-price pairs")
+                    if color_discounts:
+                        print(f"  {cat_name}: {len(color_discounts)} items with color discounts")
 
-                    # キーワードマッチ
+                    # キーワードマッチ (色割引反映)
+                    # 色マッピング: 青=ディープブルー(db), 橙=コズミックオレンジ(co)
+                    COLOR_MAP = {"_db": "青", "_co": "橙", "_sv": None}  # sv=基準価格
                     for pid, kws in KAIKYO_KEYWORDS.items():
                         if pid in prices:
                             continue
@@ -446,8 +598,20 @@ def scrape_kaikyo(products):
                                     continue
                                 if pid.startswith("iphone17_") and ("Pro" in item["name"] or "Air" in item["name"]):
                                     continue
-                                prices[pid] = item["price"]
-                                print(f"  [OK] {pid}: {item['price']:,}")
+                                base_price = item["price"]
+                                # 色別価格調整
+                                color_suffix = None
+                                for suffix in ["_db", "_co", "_sv", "_lg", "_sb", "_cw", "_bk"]:
+                                    if pid.endswith(suffix):
+                                        color_suffix = suffix
+                                        break
+                                if color_suffix and color_suffix in COLOR_MAP:
+                                    color_key = COLOR_MAP[color_suffix]
+                                    if color_key and item["name"] in color_discounts:
+                                        disc = color_discounts[item["name"]].get(color_key, 0)
+                                        base_price = item["price"] + disc  # disc は負の値
+                                prices[pid] = base_price
+                                print(f"  [OK] {pid}: {base_price:,}")
                                 break
                 except Exception as e:
                     print(f"  [NG] {cat_name}: {e}")
