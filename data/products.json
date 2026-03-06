@@ -189,6 +189,96 @@
             "retail_price": 29980,
             "rudeya_keyword": "PlayStation Portal リモートプレーヤー ミッドナイト ブラック",
             "morimori_jan": ""
+        },
+        {
+            "id": "iphone17pm_256",
+            "category": "iphone17pm",
+            "name": "17 Pro Max",
+            "model": "256GB",
+            "color": "SIMフリー",
+            "retail_price": 194800,
+            "rudeya_keyword": "iPhone 17 Pro Max 256GB",
+            "morimori_jan": ""
+        },
+        {
+            "id": "iphone17pm_512",
+            "category": "iphone17pm",
+            "name": "17 Pro Max",
+            "model": "512GB",
+            "color": "SIMフリー",
+            "retail_price": 224800,
+            "rudeya_keyword": "iPhone 17 Pro Max 512GB",
+            "morimori_jan": ""
+        },
+        {
+            "id": "iphone17pm_1tb",
+            "category": "iphone17pm",
+            "name": "17 Pro Max",
+            "model": "1TB",
+            "color": "SIMフリー",
+            "retail_price": 264800,
+            "rudeya_keyword": "iPhone 17 Pro Max 1TB",
+            "morimori_jan": ""
+        },
+        {
+            "id": "iphone17p_256",
+            "category": "iphone17p",
+            "name": "17 Pro",
+            "model": "256GB",
+            "color": "SIMフリー",
+            "retail_price": 179800,
+            "rudeya_keyword": "iPhone 17 Pro 256GB",
+            "morimori_jan": ""
+        },
+        {
+            "id": "iphone17p_512",
+            "category": "iphone17p",
+            "name": "17 Pro",
+            "model": "512GB",
+            "color": "SIMフリー",
+            "retail_price": 209800,
+            "rudeya_keyword": "iPhone 17 Pro 512GB",
+            "morimori_jan": ""
+        },
+        {
+            "id": "iphoneair_256",
+            "category": "iphoneair",
+            "name": "iPhone Air",
+            "model": "256GB",
+            "color": "SIMフリー",
+            "retail_price": 159800,
+            "rudeya_keyword": "iPhone Air 256GB",
+            "morimori_jan": ""
+        },
+        {
+            "id": "iphoneair_512",
+            "category": "iphoneair",
+            "name": "iPhone Air",
+            "model": "512GB",
+            "color": "SIMフリー",
+            "retail_price": 189800,
+            "rudeya_keyword": "iPhone Air 512GB",
+            "morimori_jan": ""
+        },
+        {
+            "id": "iphone17_256",
+            "category": "iphone17",
+            "name": "iPhone 17",
+            "model": "256GB",
+            "color": "SIMフリー",
+            "retail_price": 129800,
+            "rudeya_keyword": "iPhone 17 256GB SIMフリー",
+            "morimori_jan": ""
+        },
+        {
+            "id": "iphone17_512",
+            "category": "iphone17",
+            "name": "iPhone 17",
+            "model": "512GB",
+            "color": "SIMフリー",
+            "retail_price": 159800,
+            "rudeya_keyword": "iPhone 17 512GB SIMフリー",
+            "morimori_jan": ""
         }
     ]
 }

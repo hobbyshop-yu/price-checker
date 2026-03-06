@@ -81,6 +81,16 @@ RUDEYA_MATCH = {
     "ps5_jponly":         "日本語専用",
     "portal_white":       "Portal リモートプレーヤー (CFIJ-18000)",
     "portal_black":       "ミッドナイト ブラック",
+    # iPhone
+    "iphone17pm_256":     "iPhone 17 Pro Max 256GB",
+    "iphone17pm_512":     "iPhone 17 Pro Max 512GB",
+    "iphone17pm_1tb":     "iPhone 17 Pro Max 1TB",
+    "iphone17p_256":      "iPhone 17 Pro 256GB",
+    "iphone17p_512":      "iPhone 17 Pro 512GB",
+    "iphoneair_256":      "iPhone Air 256GB",
+    "iphoneair_512":      "iPhone Air 512GB",
+    "iphone17_256":       "iPhone 17 256GB SIMフリー",
+    "iphone17_512":       "iPhone 17 512GB SIMフリー",
 }
 
 
@@ -292,6 +302,7 @@ def scrape_homura(products):
 # ============================================================
 KAIKYO_SWITCH_URL = "https://www.mobile-ichiban.com/Prod/2/01/01"
 KAIKYO_PS5_URL = "https://www.mobile-ichiban.com/Prod/2/01/02"
+KAIKYO_IPHONE_URL = "https://www.mobile-ichiban.com/Prod/1/01/01"
 
 KAIKYO_KEYWORDS = {
     "switch2_domestic":   ["Switch 2", "国内専用"],
@@ -313,6 +324,16 @@ KAIKYO_KEYWORDS = {
     "ps5_jponly":         ["日本語専用", "CFI-2"],
     "portal_white":       ["Portal", "CFIJ-18000"],
     "portal_black":       ["ミッドナイト"],
+    # iPhone
+    "iphone17pm_256":     ["17 Pro Max", "256"],
+    "iphone17pm_512":     ["17 Pro Max", "512"],
+    "iphone17pm_1tb":     ["17 Pro Max", "1TB"],
+    "iphone17p_256":      ["17 Pro", "256"],
+    "iphone17p_512":      ["17 Pro", "512"],
+    "iphoneair_256":      ["iPhone Air", "256"],
+    "iphoneair_512":      ["iPhone Air", "512"],
+    "iphone17_256":       ["iPhone 17", "256"],
+    "iphone17_512":       ["iPhone 17", "512"],
 }
 
 
@@ -328,8 +349,13 @@ def scrape_kaikyo(products):
             browser = pw.chromium.launch(headless=True)
             page = browser.new_page()
 
-            # Switch / PS5 カテゴリページに直接アクセス
-            for cat_name, cat_url in [("Switch", KAIKYO_SWITCH_URL), ("PS5", KAIKYO_PS5_URL)]:
+            # Switch / PS5 / iPhone カテゴリページに直接アクセス
+            categories = [
+                ("Switch", KAIKYO_SWITCH_URL),
+                ("PS5", KAIKYO_PS5_URL),
+                ("iPhone", KAIKYO_IPHONE_URL),
+            ]
+            for cat_name, cat_url in categories:
                 try:
                     page.goto(cat_url, wait_until="domcontentloaded", timeout=60000)
                     time.sleep(8)  # JSレンダリング待ち（SPAのため長めに）
@@ -338,46 +364,48 @@ def scrape_kaikyo(products):
                     price_labels = page.query_selector_all("label[id^='NewPrice_']")
                     print(f"  {cat_name}: {len(price_labels)} NewPrice labels found")
 
-                    if len(price_labels) == 0:
-                        # フォールバック: テキスト全体から取得
-                        text = page.inner_text("body")
-                        lines = text.split("\n")
-                        items = []
-                        for i, line in enumerate(lines):
-                            line = line.strip()
-                            price_m = re.search(r"([\d,]+)\s*円", line)
-                            if price_m:
-                                price = int(price_m.group(1).replace(",", ""))
-                                if price > 5000:
-                                    context = " ".join(lines[max(0,i-3):i+1])
-                                    items.append({"text": context, "price": price})
-                        print(f"  {cat_name}: {len(items)} text items found (fallback)")
-                        for pid, kws in KAIKYO_KEYWORDS.items():
-                            if pid in prices:
-                                continue
-                            for item in items:
-                                if all(k in item["text"] for k in kws):
-                                    prices[pid] = item["price"]
-                                    print(f"  [OK] {pid}: {item['price']:,} (text)")
-                                    break
-                    else:
-                        # 各商品カードからラベルと価格をペアで取得
-                        cards = page.query_selector_all(".product-card, .item, [class*='prod'], tr, .row")
-                        if not cards:
-                            # カードが見つからない場合、ページ全体のテキストで処理
-                            text = page.inner_text("body")
-                            # 商品ブロック単位で分割してマッチ
-                            blocks = re.split(r"カートに入れる|カートへ", text)
-                            for block in blocks:
-                                price_m = re.search(r"(\d[\d,]+)\s*円", block)
-                                if price_m:
-                                    price = int(price_m.group(1).replace(",", ""))
-                                    if price > 5000:
-                                        for pid, kws in KAIKYO_KEYWORDS.items():
-                                            if pid not in prices and all(k in block for k in kws):
-                                                prices[pid] = price
-                                                print(f"  [OK] {pid}: {price:,}")
-                                                break
+                    # ページ全体のテキストを取得してブロック分割でマッチ
+                    text = page.inner_text("body")
+
+                    # 商品ブロック単位で分割してマッチ
+                    # 各商品は「カートに入れる」や価格表示で区切られる
+                    lines = text.split("\n")
+                    items = []
+                    current_name = ""
+                    for line in lines:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        # 価格行を検出
+                        price_m = re.search(r"([\d,]+)\s*円", line)
+                        if price_m:
+                            price = int(price_m.group(1).replace(",", ""))
+                            if price > 5000 and current_name:
+                                items.append({"name": current_name, "price": price})
+                                current_name = ""
+                        else:
+                            # 商品名行として蓄積
+                            if len(line) > 5 and "円" not in line:
+                                current_name = current_name + " " + line if current_name else line
+
+                    print(f"  {cat_name}: {len(items)} name-price pairs")
+
+                    # キーワードマッチ
+                    for pid, kws in KAIKYO_KEYWORDS.items():
+                        if pid in prices:
+                            continue
+                        for item in items:
+                            if all(k in item["name"] for k in kws):
+                                # Pro MaxとProの誤マッチ防止
+                                if pid.startswith("iphone17p_") and "Max" in item["name"]:
+                                    continue
+                                if pid == "iphone17_256" and ("Pro" in item["name"] or "Air" in item["name"]):
+                                    continue
+                                if pid == "iphone17_512" and ("Pro" in item["name"] or "Air" in item["name"]):
+                                    continue
+                                prices[pid] = item["price"]
+                                print(f"  [OK] {pid}: {item['price']:,}")
+                                break
                 except Exception as e:
                     print(f"  [NG] {cat_name}: {e}")
 

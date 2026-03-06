@@ -16,15 +16,19 @@ OUTPUT_FILE = os.path.join(SCRIPT_DIR, "index.html")
 
 # カテゴリ→CSSクラス名＆表示名
 CATEGORY_META = {
-    "switch2":  {"row_class": "row-switch2",  "label": "Switch 2"},
-    "oled":     {"row_class": "row-oled",     "label": "有機EL"},
-    "standard": {"row_class": "row-standard", "label": "通常"},
-    "lite":     {"row_class": "row-lite",     "label": "Lite"},
-    "pro":      {"row_class": "row-pro",      "label": "PS5 Pro"},
-    "disc":     {"row_class": "row-disc",     "label": "PS5 ディスク"},
-    "digital":  {"row_class": "row-digital",  "label": "PS5 DE"},
-    "jponly":   {"row_class": "row-jponly",    "label": "PS5 日本語"},
-    "portal":   {"row_class": "row-portal",   "label": "Portal"},
+    "switch2":    {"row_class": "row-switch2",    "label": "Switch 2"},
+    "oled":       {"row_class": "row-oled",       "label": "有機EL"},
+    "standard":   {"row_class": "row-standard",   "label": "通常"},
+    "lite":       {"row_class": "row-lite",       "label": "Lite"},
+    "pro":        {"row_class": "row-pro",        "label": "PS5 Pro"},
+    "disc":       {"row_class": "row-disc",       "label": "PS5 ディスク"},
+    "digital":    {"row_class": "row-digital",    "label": "PS5 DE"},
+    "jponly":     {"row_class": "row-jponly",     "label": "PS5 日本語"},
+    "portal":     {"row_class": "row-portal",     "label": "Portal"},
+    "iphone17pm": {"row_class": "row-iphone17pm", "label": "17 Pro Max"},
+    "iphone17p":  {"row_class": "row-iphone17p",  "label": "17 Pro"},
+    "iphoneair":  {"row_class": "row-iphoneair",  "label": "iPhone Air"},
+    "iphone17":   {"row_class": "row-iphone17",   "label": "iPhone 17"},
 }
 
 SHOPS = [
@@ -155,14 +159,14 @@ def generate_html():
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Switch / PS5 買取価格比較表</title>
-  <meta name="description" content="Nintendo Switch 2・有機ELモデル・Switch Lite・PS5 Pro・PS5の最新買取価格を主要買取店で比較。自動更新データ。">
+  <title>Switch / PS5 / iPhone 買取価格比較表</title>
+  <meta name="description" content="Nintendo Switch 2・PS5 Pro・iPhone 17 Pro Maxの最新買取価格を主要買取店で比較。自動更新データ。">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="page-header">
-    <h1>Nintendo Switch / PS5 買取価格比較表</h1>
+    <h1>Nintendo Switch / PS5 / iPhone 買取価格比較表</h1>
     <p class="subtitle">最終更新：{now_str}（自動取得）</p>
   </div>
 
