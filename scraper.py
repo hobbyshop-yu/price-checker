@@ -595,8 +595,19 @@ def scrape_kaikyo(products):
                     # キーワードマッチ (色割引反映)
                     # 色マッピング: 青=ディープブルー(db), 橙=コズミックオレンジ(co)
                     COLOR_MAP = {"_db": "青", "_co": "橙", "_sv": None}  # sv=基準価格
+                    # カテゴリフィルタ: 各カテゴリページでは関連キーワードのみ試す
+                    CAT_FILTER = {
+                        "iPhone17PM": "iphone17pm_",
+                        "iPhone17P":  "iphone17p_",
+                        "iPhoneAir":  "iphoneair_",
+                        "iPhone17":   "iphone17_",
+                    }
+                    cat_prefix = CAT_FILTER.get(cat_name, "")
                     for pid, kws in KAIKYO_KEYWORDS.items():
                         if pid in prices:
+                            continue
+                        # カテゴリフィルタ: iPhoneサブカテゴリでは対応pidのみ
+                        if cat_prefix and not pid.startswith(cat_prefix):
                             continue
                         for item in items:
                             if all(k in item["name"] for k in kws):
