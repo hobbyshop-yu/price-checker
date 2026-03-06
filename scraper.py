@@ -82,29 +82,29 @@ RUDEYA_MATCH = {
     "portal_white":       "Portal リモートプレーヤー (CFIJ-18000)",
     "portal_black":       "ミッドナイト ブラック",
     # iPhone 17 Pro Max
-    "iphone17pm_256_sv":  "iPhone 17 Pro Max 256GB [シルバー]",
-    "iphone17pm_256_db":  "iPhone 17 Pro Max 256GB [ディープブルー]",
-    "iphone17pm_256_co":  "iPhone 17 Pro Max 256GB [コズミックオレンジ]",
-    "iphone17pm_512_sv":  "iPhone 17 Pro Max 512GB [シルバー]",
-    "iphone17pm_512_db":  "iPhone 17 Pro Max 512GB [ディープブルー]",
-    "iphone17pm_512_co":  "iPhone 17 Pro Max 512GB [コズミックオレンジ]",
-    "iphone17pm_1tb_sv":  "iPhone 17 Pro Max 1TB [シルバー]",
-    "iphone17pm_1tb_db":  "iPhone 17 Pro Max 1TB [ディープブルー]",
-    "iphone17pm_1tb_co":  "iPhone 17 Pro Max 1TB [コズミックオレンジ]",
+    "iphone17pm_256_sv":  "iPhone 17 Pro Max 256GB シルバー",
+    "iphone17pm_256_db":  "iPhone 17 Pro Max 256GB ディープブルー",
+    "iphone17pm_256_co":  "iPhone 17 Pro Max 256GB コズミックオレンジ",
+    "iphone17pm_512_sv":  "iPhone 17 Pro Max 512GB シルバー",
+    "iphone17pm_512_db":  "iPhone 17 Pro Max 512GB ディープブルー",
+    "iphone17pm_512_co":  "iPhone 17 Pro Max 512GB コズミックオレンジ",
+    "iphone17pm_1tb_sv":  "iPhone 17 Pro Max 1TB シルバー",
+    "iphone17pm_1tb_db":  "iPhone 17 Pro Max 1TB ディープブルー",
+    "iphone17pm_1tb_co":  "iPhone 17 Pro Max 1TB コズミックオレンジ",
     # iPhone 17 Pro
-    "iphone17p_256_sv":   "iPhone 17 Pro 256GB [シルバー]",
-    "iphone17p_256_db":   "iPhone 17 Pro 256GB [ディープブルー]",
-    "iphone17p_256_co":   "iPhone 17 Pro 256GB [コズミックオレンジ]",
-    "iphone17p_512_sv":   "iPhone 17 Pro 512GB [シルバー]",
-    "iphone17p_512_db":   "iPhone 17 Pro 512GB [ディープブルー]",
-    "iphone17p_512_co":   "iPhone 17 Pro 512GB [コズミックオレンジ]",
+    "iphone17p_256_sv":   "iPhone 17 Pro 256GB シルバー",
+    "iphone17p_256_db":   "iPhone 17 Pro 256GB ディープブルー",
+    "iphone17p_256_co":   "iPhone 17 Pro 256GB コズミックオレンジ",
+    "iphone17p_512_sv":   "iPhone 17 Pro 512GB シルバー",
+    "iphone17p_512_db":   "iPhone 17 Pro 512GB ディープブルー",
+    "iphone17p_512_co":   "iPhone 17 Pro 512GB コズミックオレンジ",
     # iPhone Air
-    "iphoneair_256_lg":   "iPhone Air 256GB [ライトゴールド]",
-    "iphoneair_256_sb":   "iPhone Air 256GB [スカイブルー]",
-    "iphoneair_256_cw":   "iPhone Air 256GB [クラウドホワイト]",
-    "iphoneair_256_bk":   "iPhone Air 256GB [スペースブラック]",
-    "iphoneair_512_lg":   "iPhone Air 512GB [ライトゴールド]",
-    "iphoneair_512_sb":   "iPhone Air 512GB [スカイブルー]",
+    "iphoneair_256_lg":   "iPhone Air 256GB ライトゴールド",
+    "iphoneair_256_sb":   "iPhone Air 256GB スカイブルー",
+    "iphoneair_256_cw":   "iPhone Air 256GB クラウドホワイト",
+    "iphoneair_256_bk":   "iPhone Air 256GB スペースブラック",
+    "iphoneair_512_lg":   "iPhone Air 512GB ライトゴールド",
+    "iphoneair_512_sb":   "iPhone Air 512GB スカイブルー",
     # iPhone 17
     "iphone17_256":       "iPhone 17 256GB SIMフリー",
     "iphone17_512":       "iPhone 17 512GB SIMフリー",
@@ -400,19 +400,38 @@ def scrape_kaikyo(products):
                     print(f"  {cat_name}: {len(cards)} product cards found")
 
                     items = []
-                    for card in cards:
-                        # 商品名: label.hideText の title属性 or テキスト
-                        name_label = card.query_selector("label.hideText")
-                        price_label = card.query_selector("label[id^='NewPrice_']")
-                        if not name_label or not price_label:
-                            continue
-                        name = name_label.get_attribute("title") or name_label.inner_text()
-                        price_text = price_label.inner_text()
-                        price_m = re.search(r"([\d,]+)\s*円", price_text)
-                        if price_m:
-                            price = int(price_m.group(1).replace(",", ""))
-                            if price > 1000:
-                                items.append({"name": name.strip(), "price": price})
+                    if len(cards) > 0:
+                        for card in cards:
+                            name_label = card.query_selector("label.hideText")
+                            price_label = card.query_selector("label[id^='NewPrice_']")
+                            if not name_label or not price_label:
+                                continue
+                            name = name_label.get_attribute("title") or name_label.inner_text()
+                            price_text = price_label.inner_text()
+                            price_m = re.search(r"([\d,]+)\s*円", price_text)
+                            if price_m:
+                                price = int(price_m.group(1).replace(",", ""))
+                                if price > 1000:
+                                    items.append({"name": name.strip(), "price": price})
+                    else:
+                        # フォールバック: テキスト解析
+                        print(f"  {cat_name}: フォールバックテキスト解析")
+                        text = page.inner_text("body")
+                        lines = text.split("\n")
+                        current_name = ""
+                        for line in lines:
+                            line = line.strip()
+                            if not line:
+                                continue
+                            price_m = re.search(r"([\d,]+)\s*円", line)
+                            if price_m:
+                                price = int(price_m.group(1).replace(",", ""))
+                                if price > 1000 and current_name:
+                                    items.append({"name": current_name, "price": price})
+                                    current_name = ""
+                            else:
+                                if len(line) > 5 and "円" not in line:
+                                    current_name = current_name + " " + line if current_name else line
 
                     print(f"  {cat_name}: {len(items)} name-price pairs")
 
