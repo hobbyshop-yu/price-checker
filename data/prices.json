@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026/03/06 12:45",
+  "updated_at": "2026/03/06 13:08",
   "shops": {
     "rudeya": {
       "name": "買取ルデヤ",
       "short_name": "ルデヤ",
       "url": "https://kaitori-rudeya.com/",
-      "updated_at": "2026/03/06 12:45",
+      "updated_at": "2026/03/06 13:08",
       "prices": {
         "switch2_domestic": 44000,
         "switch2_mariokart": 51900,
@@ -55,7 +55,7 @@
       "name": "森森買取",
       "short_name": "森森",
       "url": "https://www.morimori-kaitori.jp/",
-      "updated_at": "2026/03/06 12:45",
+      "updated_at": "2026/03/06 13:08",
       "prices": {
         "switch2_domestic": 40500,
         "oled_neon": 42800,
@@ -79,7 +79,7 @@
       "name": "買取ホムラ",
       "short_name": "ホムラ",
       "url": "https://kaitori-homura.com/",
-      "updated_at": "2026/03/06 12:45",
+      "updated_at": "2026/03/06 13:08",
       "prices": {
         "switch2_domestic": 44500,
         "switch2_mariokart": 51900,
@@ -92,24 +92,32 @@
         "lite_coral": 22800,
         "lite_yellow": 22800,
         "lite_gray": 22800,
-        "lite_blue": 22700
+        "lite_blue": 22700,
+        "iphone17p_256_co": 187000,
+        "iphone17p_256_sv": 188000,
+        "iphone17p_256_db": 186000,
+        "iphone17p_512_co": 210000,
+        "iphone17p_512_sv": 214000,
+        "iphone17p_512_db": 210000,
+        "iphone17pm_256_co": 198000,
+        "iphone17pm_256_sv": 206000
       }
     },
     "kaikyo": {
       "name": "海峡通信",
       "short_name": "海峡",
       "url": "https://www.mobile-ichiban.com/",
-      "updated_at": "2026/03/06 12:45",
+      "updated_at": "2026/03/06 13:08",
       "prices": {
         "oled_neon": 42500,
         "oled_white": 42000,
         "standard_neon": 42500,
         "standard_gray": 33400,
-        "lite_yellow": 22650,
+        "lite_yellow": 22700,
         "lite_turquoise": 25100,
         "lite_coral": 25100,
         "lite_gray": 22600,
-        "lite_blue": 22650,
+        "lite_blue": 22700,
         "ps5pro_7100": 109700,
         "ps5pro_7000": 109700,
         "ps5_disc": 75900,
