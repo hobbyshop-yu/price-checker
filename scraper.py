@@ -331,8 +331,8 @@ def scrape_kaikyo(products):
             # Switch / PS5 カテゴリページに直接アクセス
             for cat_name, cat_url in [("Switch", KAIKYO_SWITCH_URL), ("PS5", KAIKYO_PS5_URL)]:
                 try:
-                    page.goto(cat_url, wait_until="networkidle", timeout=30000)
-                    time.sleep(5)  # JSレンダリング待ち
+                    page.goto(cat_url, wait_until="domcontentloaded", timeout=60000)
+                    time.sleep(8)  # JSレンダリング待ち（SPAのため長めに）
 
                     # NewPrice_ ラベルから価格を取得
                     price_labels = page.query_selector_all("label[id^='NewPrice_']")
