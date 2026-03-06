@@ -302,7 +302,7 @@ def scrape_homura(products):
 # ============================================================
 KAIKYO_SWITCH_URL = "https://www.mobile-ichiban.com/Prod/2/01/01"
 KAIKYO_PS5_URL = "https://www.mobile-ichiban.com/Prod/2/01/02"
-KAIKYO_IPHONE_URL = "https://www.mobile-ichiban.com/Prod/1/01/01"
+KAIKYO_IPHONE_URL = "https://www.mobile-ichiban.com/Prod/1/01"
 
 KAIKYO_KEYWORDS = {
     "switch2_domestic":   ["Switch 2", "国内専用"],
