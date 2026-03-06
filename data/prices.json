@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026/03/06 11:56",
+  "updated_at": "2026/03/06 12:31",
   "shops": {
     "rudeya": {
       "name": "買取ルデヤ",
       "short_name": "ルデヤ",
       "url": "https://kaitori-rudeya.com/",
-      "updated_at": "2026/03/06 11:56",
+      "updated_at": "2026/03/06 12:31",
       "prices": {
         "switch2_domestic": 44000,
         "switch2_mariokart": 51900,
@@ -25,14 +25,35 @@
         "ps5_de": 64200,
         "ps5_jponly": 47500,
         "portal_white": 29700,
-        "portal_black": 29700
+        "portal_black": 29700,
+        "iphone17pm_256_sv": 206000,
+        "iphone17pm_256_db": 201000,
+        "iphone17pm_256_co": 200000,
+        "iphone17pm_512_sv": 235000,
+        "iphone17pm_512_db": 229000,
+        "iphone17pm_512_co": 228000,
+        "iphone17pm_1tb_sv": 266000,
+        "iphone17pm_1tb_db": 261000,
+        "iphone17pm_1tb_co": 260000,
+        "iphone17p_256_sv": 188000,
+        "iphone17p_256_db": 187000,
+        "iphone17p_256_co": 187000,
+        "iphone17p_512_sv": 214000,
+        "iphone17p_512_db": 212000,
+        "iphone17p_512_co": 212000,
+        "iphoneair_256_lg": 133000,
+        "iphoneair_256_sb": 130000,
+        "iphoneair_256_cw": 133000,
+        "iphoneair_256_bk": 133000,
+        "iphoneair_512_lg": 149000,
+        "iphoneair_512_sb": 146000
       }
     },
     "morimori": {
       "name": "森森買取",
       "short_name": "森森",
       "url": "https://www.morimori-kaitori.jp/",
-      "updated_at": "2026/03/06 11:56",
+      "updated_at": "2026/03/06 12:31",
       "prices": {
         "switch2_domestic": 40500,
         "oled_neon": 42800,
@@ -56,7 +77,7 @@
       "name": "買取ホムラ",
       "short_name": "ホムラ",
       "url": "https://kaitori-homura.com/",
-      "updated_at": "2026/03/06 11:56",
+      "updated_at": "2026/03/06 12:31",
       "prices": {
         "switch2_domestic": 44500,
         "switch2_mariokart": 51900,
@@ -76,8 +97,25 @@
       "name": "海峡通信",
       "short_name": "海峡",
       "url": "https://www.mobile-ichiban.com/",
-      "updated_at": "2026/03/06 11:56",
-      "prices": {}
+      "updated_at": "2026/03/06 12:31",
+      "prices": {
+        "oled_neon": 42500,
+        "oled_white": 42000,
+        "standard_neon": 42500,
+        "standard_gray": 33400,
+        "lite_yellow": 22650,
+        "lite_turquoise": 25100,
+        "lite_coral": 25100,
+        "lite_gray": 22600,
+        "lite_blue": 22650,
+        "ps5pro_7100": 109700,
+        "ps5pro_7000": 109700,
+        "ps5_disc": 75900,
+        "ps5_de": 63900,
+        "ps5_jponly": 47800,
+        "portal_white": 29500,
+        "portal_black": 29500
+      }
     }
   }
 }
