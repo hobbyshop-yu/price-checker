@@ -27,7 +27,6 @@ CATEGORY_META = {
     "portal":     {"row_class": "row-portal",     "label": "Portal"},
     "iphone17pm": {"row_class": "row-iphone17pm", "label": "17 Pro Max"},
     "iphone17p":  {"row_class": "row-iphone17p",  "label": "17 Pro"},
-    "iphoneair":  {"row_class": "row-iphoneair",  "label": "iPhone Air"},
     "iphone17":   {"row_class": "row-iphone17",   "label": "iPhone 17"},
 }
 

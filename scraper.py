@@ -98,13 +98,6 @@ RUDEYA_MATCH = {
     "iphone17p_512_sv":   "iPhone 17 Pro 512GB シルバー",
     "iphone17p_512_db":   "iPhone 17 Pro 512GB ディープブルー",
     "iphone17p_512_co":   "iPhone 17 Pro 512GB コズミックオレンジ",
-    # iPhone Air
-    "iphoneair_256_lg":   "iPhone Air 256GB ライトゴールド",
-    "iphoneair_256_sb":   "iPhone Air 256GB スカイブルー",
-    "iphoneair_256_cw":   "iPhone Air 256GB クラウドホワイト",
-    "iphoneair_256_bk":   "iPhone Air 256GB スペースブラック",
-    "iphoneair_512_lg":   "iPhone Air 512GB ライトゴールド",
-    "iphoneair_512_sb":   "iPhone Air 512GB スカイブルー",
     # iPhone 17
     "iphone17_256":       "iPhone 17 256GB",
     "iphone17_512":       "iPhone 17 512GB",
@@ -173,7 +166,6 @@ MORIMORI_URLS = {
 MORIMORI_IPHONE_CATS = {
     "promax": "https://www.morimori-kaitori.jp/category/0301066",
     "pro":    "https://www.morimori-kaitori.jp/category/0301065",
-    "air":    "https://www.morimori-kaitori.jp/category/0301064",
     "17":     "https://www.morimori-kaitori.jp/category/0301063",
 }
 
@@ -193,12 +185,6 @@ MORIMORI_IPHONE_KW = {
     "iphone17p_512_sv":   ["Pro", "512", "シルバー"],
     "iphone17p_512_db":   ["Pro", "512", "ディープブルー"],
     "iphone17p_512_co":   ["Pro", "512", "コズミック"],
-    "iphoneair_256_lg":   ["Air", "256", "ライトゴールド"],
-    "iphoneair_256_sb":   ["Air", "256", "スカイブルー"],
-    "iphoneair_256_cw":   ["Air", "256", "クラウドホワイト"],
-    "iphoneair_256_bk":   ["Air", "256", "スペースブラック"],
-    "iphoneair_512_lg":   ["Air", "512", "ライトゴールド"],
-    "iphoneair_512_sb":   ["Air", "512", "スカイブルー"],
     "iphone17_256":       ["iPhone17", "256"],
     "iphone17_512":       ["iPhone17", "512"],
 }
@@ -236,35 +222,41 @@ def scrape_morimori(products):
             except Exception as e:
                 print(f"  [NG] {p['id']}: {e}")
 
-        # iPhone カテゴリページからキーワードマッチ
+        # iPhone カテゴリページからリンクを取得し個別ページで価格取得
         for cat_label, cat_url in MORIMORI_IPHONE_CATS.items():
             time.sleep(DELAY)
             try:
                 soup_cat = fetch(cat_url)
-                rows = soup_cat.select("tr")
-                for row in rows:
-                    cells = row.find_all("td")
-                    if len(cells) < 2:
+                # a[href*=/product/]リンクから商品名とURLを取得
+                for link in soup_cat.select("a[href*='/product/']"):
+                    name = link.get_text(separator=" ", strip=True)
+                    href = link.get("href", "")
+                    if not href or not name:
                         continue
-                    name = cells[0].get_text(separator=" ", strip=True)
-                    price_text = cells[1].get_text(strip=True)
-                    pm = re.search(r"([\d,]+)", price_text)
-                    if not pm:
-                        continue
-                    price = int(pm.group(1).replace(",", ""))
-                    if price < 1000:
-                        continue
+                    # キーワードマッチ
                     for pid, kws in MORIMORI_IPHONE_KW.items():
                         if pid in prices:
                             continue
                         if all(k in name for k in kws):
-                            # ProとProMaxの誤マッチ防止
                             if pid.startswith("iphone17p_") and "Max" in name:
                                 continue
                             if pid.startswith("iphone17_") and ("Pro" in name or "Air" in name):
                                 continue
-                            prices[pid] = price
-                            print(f"  [OK] {pid}: {price:,} (morimori-cat)")
+                            # 個別ページにアクセスして価格取得
+                            product_url = "https://www.morimori-kaitori.jp" + href
+                            time.sleep(DELAY)
+                            try:
+                                soup_prod = fetch(product_url)
+                                pt = soup_prod.get_text()
+                                pm = re.search(r"通常買取価格\s*([\d,]+)\s*円", pt)
+                                if not pm:
+                                    pm = re.search(r"買取価格\s*([\d,]+)\s*円", pt)
+                                if pm:
+                                    price = int(pm.group(1).replace(",", ""))
+                                    prices[pid] = price
+                                    print(f"  [OK] {pid}: {price:,} (morimori-cat)")
+                            except Exception as e2:
+                                print(f"  [NG] {pid}: {e2}")
                             break
             except Exception as e:
                 print(f"  [NG] iPhone-{cat_label}: {e}")
@@ -392,12 +384,6 @@ def scrape_homura(products):
                 "iphone17p_512_sv":   ["17 Pro", "512", "silver"],
                 "iphone17p_512_db":   ["17 Pro", "512", "blue"],
                 "iphone17p_512_co":   ["17 Pro", "512", "orange"],
-                "iphoneair_256_lg":   ["Air", "256", "gold"],
-                "iphoneair_256_sb":   ["Air", "256", "blue"],
-                "iphoneair_256_cw":   ["Air", "256", "white"],
-                "iphoneair_256_bk":   ["Air", "256", "black"],
-                "iphoneair_512_lg":   ["Air", "512", "gold"],
-                "iphoneair_512_sb":   ["Air", "512", "blue"],
                 "iphone17_256":       ["iPhone 17", "256"],
                 "iphone17_512":       ["iPhone 17", "512"],
             }
@@ -447,7 +433,6 @@ KAIKYO_PS5_URL = "https://www.mobile-ichiban.com/Prod/2/01/02"
 KAIKYO_IPHONE_URLS = [
     ("iPhone17PM", "https://www.mobile-ichiban.com/Prod/1/01/37"),
     ("iPhone17P",  "https://www.mobile-ichiban.com/Prod/1/01/36"),
-    ("iPhoneAir",  "https://www.mobile-ichiban.com/Prod/1/01/35"),
     ("iPhone17",   "https://www.mobile-ichiban.com/Prod/1/01/34"),
 ]
 
@@ -488,13 +473,6 @@ KAIKYO_KEYWORDS = {
     "iphone17p_512_sv":   ["17 Pro", "512"],
     "iphone17p_512_db":   ["17 Pro", "512"],
     "iphone17p_512_co":   ["17 Pro", "512"],
-    # iPhone Air
-    "iphoneair_256_lg":   ["iPhone Air", "256"],
-    "iphoneair_256_sb":   ["iPhone Air", "256"],
-    "iphoneair_256_cw":   ["iPhone Air", "256"],
-    "iphoneair_256_bk":   ["iPhone Air", "256"],
-    "iphoneair_512_lg":   ["iPhone Air", "512"],
-    "iphoneair_512_sb":   ["iPhone Air", "512"],
     # iPhone 17
     "iphone17_256":       ["iPhone 17", "256"],
     "iphone17_512":       ["iPhone 17", "512"],
@@ -601,7 +579,6 @@ def scrape_kaikyo(products):
                     CAT_FILTER = {
                         "iPhone17PM": "iphone17pm_",
                         "iPhone17P":  "iphone17p_",
-                        "iPhoneAir":  "iphoneair_",
                         "iPhone17":   "iphone17_",
                     }
                     cat_prefix = CAT_FILTER.get(cat_name, "")

@@ -326,60 +326,6 @@
             "rudeya_keyword": "iPhone 17 Pro 512GB [コズミックオレンジ]"
         },
         {
-            "id": "iphoneair_256_lg",
-            "category": "iphoneair",
-            "name": "iPhone Air",
-            "model": "256GB",
-            "color": "ライトゴールド",
-            "retail_price": 159800,
-            "rudeya_keyword": "iPhone Air 256GB [ライトゴールド]"
-        },
-        {
-            "id": "iphoneair_256_sb",
-            "category": "iphoneair",
-            "name": "iPhone Air",
-            "model": "256GB",
-            "color": "スカイブルー",
-            "retail_price": 159800,
-            "rudeya_keyword": "iPhone Air 256GB [スカイブルー]"
-        },
-        {
-            "id": "iphoneair_256_cw",
-            "category": "iphoneair",
-            "name": "iPhone Air",
-            "model": "256GB",
-            "color": "クラウドホワイト",
-            "retail_price": 159800,
-            "rudeya_keyword": "iPhone Air 256GB [クラウドホワイト]"
-        },
-        {
-            "id": "iphoneair_256_bk",
-            "category": "iphoneair",
-            "name": "iPhone Air",
-            "model": "256GB",
-            "color": "スペースブラック",
-            "retail_price": 159800,
-            "rudeya_keyword": "iPhone Air 256GB [スペースブラック]"
-        },
-        {
-            "id": "iphoneair_512_lg",
-            "category": "iphoneair",
-            "name": "iPhone Air",
-            "model": "512GB",
-            "color": "ライトゴールド",
-            "retail_price": 189800,
-            "rudeya_keyword": "iPhone Air 512GB [ライトゴールド]"
-        },
-        {
-            "id": "iphoneair_512_sb",
-            "category": "iphoneair",
-            "name": "iPhone Air",
-            "model": "512GB",
-            "color": "スカイブルー",
-            "retail_price": 189800,
-            "rudeya_keyword": "iPhone Air 512GB [スカイブルー]"
-        },
-        {
             "id": "iphone17_256",
             "category": "iphone17",
             "name": "iPhone 17",
