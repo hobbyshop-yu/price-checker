@@ -891,3 +891,23 @@ table.price-table tbody tr:hover td {
   margin-bottom: 8px;
   font-size: 14px;
 }
+
+.banner-area {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin: 24px 0;
+  flex-wrap: wrap;
+}
+
+.banner-item {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.banner-item img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
