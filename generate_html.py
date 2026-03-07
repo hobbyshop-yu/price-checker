@@ -164,6 +164,18 @@ def generate_html():
 </head>
 <body>
 
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">📊 買取価格比較表</a>
+      <div class="nav-links">
+        <a href="index.html" class="active">価格表</a>
+        <a href="about.html">サイトについて</a>
+        <a href="contact.html">お問い合わせ</a>
+        <a href="privacy.html">プライバシーポリシー</a>
+      </div>
+    </div>
+  </nav>
+
   <div class="page-header">
     <h1>Nintendo Switch / PS5 / iPhone 買取価格比較表</h1>
     <p class="subtitle">最終更新：{now_str}（自動取得）</p>
@@ -208,6 +220,18 @@ def generate_html():
   </div>
 
   <script src="filter.js"></script>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="index.html">価格表</a>
+        <a href="about.html">サイトについて</a>
+        <a href="contact.html">お問い合わせ</a>
+        <a href="privacy.html">プライバシーポリシー</a>
+      </div>
+      <p class="copyright">&copy; 2026 買取価格比較表 - kaitori.hobbyshop-yu.com</p>
+    </div>
+  </footer>
 </body>
 </html>"""
 
