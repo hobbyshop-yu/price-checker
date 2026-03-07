@@ -11,26 +11,6 @@
             "morimori_jan": "4907437838205"
         },
         {
-            "id": "switch2_mariokart",
-            "category": "switch2",
-            "name": "Switch 2",
-            "model": "マリカセット",
-            "color": "国内専用",
-            "retail_price": 55980,
-            "rudeya_keyword": "Nintendo Switch 2 日本国内専用版 マリオカート ワールド セット BEE-S-KB6PA",
-            "morimori_jan": ""
-        },
-        {
-            "id": "switch2_pokemon",
-            "category": "switch2",
-            "name": "Switch 2",
-            "model": "ポケモンセット",
-            "color": "国内専用",
-            "retail_price": 55980,
-            "rudeya_keyword": "Nintendo Switch 2 日本国内専用版 Pokemon LEGENDS Z-A セット",
-            "morimori_jan": ""
-        },
-        {
             "id": "oled_neon",
             "category": "oled",
             "name": "有機EL",

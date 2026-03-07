@@ -63,8 +63,6 @@ def fetch(url):
 # ============================================================
 RUDEYA_MATCH = {
     "switch2_domestic":   "日本国内専用版 BEE-S-KB6CA",
-    "switch2_mariokart":  "マリオカート ワールド セット BEE-S-KB6PA",
-    "switch2_pokemon":    "Pokemon LEGENDS Z-A セット",
     "oled_neon":          "有機ELモデル ネオンブルー・ネオンレッド",
     "oled_white":         "有機ELモデル ホワイト",
     "standard_neon":      "2022年箱小型版 ネオン HADSKABAH",
@@ -273,8 +271,6 @@ def scrape_morimori(products):
 # 確認済み個別商品ページURL (ブラウザで動作確認済み)
 HOMURA_DIRECT_URLS = {
     "switch2_domestic":  "https://kaitori-homura.com/products/5148",
-    "switch2_mariokart": "https://kaitori-homura.com/products/5147",
-    "switch2_pokemon":   "https://kaitori-homura.com/products/5146",
     "oled_white":        "https://kaitori-homura.com/products/5144",
     "oled_neon":         "https://kaitori-homura.com/products/5143",
     "standard_neon":     "https://kaitori-homura.com/products/5138",
@@ -316,8 +312,6 @@ def scrape_homura(products):
             # トップページの結果をキーワードマッチ
             HOMURA_KW = {
                 "switch2_domestic":   "Switch 2 日本国内専用",
-                "switch2_mariokart":  "マリオカート ワールド",
-                "switch2_pokemon":    "Pokemon LEGENDS",
                 "oled_white":         "有機ELモデル ホワイト",
                 "oled_neon":          "ネオンブルーネオンレッド",
                 "standard_neon":      "バッテリー強化版 新型ネオン",
@@ -438,8 +432,6 @@ KAIKYO_IPHONE_URLS = [
 
 KAIKYO_KEYWORDS = {
     "switch2_domestic":   ["Switch 2", "国内専用"],
-    "switch2_mariokart":  ["マリオカート", "ワールド"],
-    "switch2_pokemon":    ["Pokemon", "LEGENDS"],
     "oled_neon":          ["有機EL", "ネオン"],
     "oled_white":         ["有機EL", "ホワイト"],
     "standard_neon":      ["ネオンブルー"],
