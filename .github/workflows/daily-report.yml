@@ -1,0 +1,63 @@
+name: Daily Report
+
+on:
+  schedule:
+    # 毎日21:00 JST (12:00 UTC) - 日報ツイート
+    - cron: '0 12 * * *'
+    # 毎日0:00 JST (15:00 UTC前日) - 始値保存
+    - cron: '0 15 * * *'
+  workflow_dispatch:
+    inputs:
+      command:
+        description: 'Command to run (daily or save_open)'
+        required: true
+        default: 'daily'
+        type: choice
+        options:
+          - daily
+          - save_open
+
+permissions:
+  contents: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install tweepy
+
+      - name: Determine command
+        id: cmd
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "command=${{ github.event.inputs.command }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event.schedule }}" = "0 15 * * *" ]; then
+            echo "command=save_open" >> $GITHUB_OUTPUT
+          else
+            echo "command=daily" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run tweet bot
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+        run: python tweet_bot.py ${{ steps.cmd.outputs.command }}
+
+      - name: Commit data files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "Update daily data $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
