@@ -157,7 +157,7 @@ def generate_html():
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=1200, initial-scale=0.3, minimum-scale=0.2, maximum-scale=3.0, user-scalable=yes">
   <title>Switch / PS5 / iPhone 買取価格比較表</title>
   <meta name="description" content="Nintendo Switch 2・PS5 Pro・iPhone 17 Pro Maxの最新買取価格を主要買取店で比較。自動更新データ。">
   <link rel="stylesheet" href="style.css">
