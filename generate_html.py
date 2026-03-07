@@ -161,6 +161,14 @@ def generate_html():
   <title>Switch / PS5 / iPhone 買取価格比較表</title>
   <meta name="description" content="Nintendo Switch 2・PS5 Pro・iPhone 17 Pro Maxの最新買取価格を主要買取店で比較。自動更新データ。">
   <link rel="stylesheet" href="style.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V9CWRP3CNG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+    gtag('config', 'G-V9CWRP3CNG');
+  </script>
 </head>
 <body>
 
