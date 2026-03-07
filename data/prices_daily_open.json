@@ -1,9 +1,7 @@
 {
-  "date": "2026-03-07",
+  "date": "2026-03-08",
   "prices": {
     "switch2_domestic": 44500,
-    "switch2_mariokart": 51900,
-    "switch2_pokemon": 51900,
     "oled_neon": 43000,
     "oled_white": 42400,
     "standard_neon": 33650,
@@ -30,8 +28,8 @@
     "iphone17pm_1tb_db": 265000,
     "iphone17pm_1tb_co": 265000,
     "iphone17p_256_sv": 188000,
-    "iphone17p_256_db": 187000,
-    "iphone17p_256_co": 187000,
+    "iphone17p_256_db": 187500,
+    "iphone17p_256_co": 187500,
     "iphone17p_512_sv": 214000,
     "iphone17p_512_db": 214000,
     "iphone17p_512_co": 214000,
