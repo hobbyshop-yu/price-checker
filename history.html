@@ -13,6 +13,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
     <style>
         body {
             background: #0e1117;
@@ -217,6 +219,20 @@
             'iphone17_512': '#2ea043',
         };
 
+        // Apple定価（税込）
+        const RETAIL_PRICES = {
+            'iphone17pm_256': 194800,
+            'iphone17pm_512': 224800,
+            'iphone17pm_1tb': 254800,
+            'iphone17p_256': 159800,
+            'iphone17p_512': 189800,
+            'iphone17p_1tb': 219800,
+            'iphone_air_256': 128800,
+            'iphone_air_512': 158800,
+            'iphone17_256': 112800,
+            'iphone17_512': 142800,
+        };
+
         const GROUPS = [
             { name: 'iPhone 17 Pro Max', ids: ['iphone17pm_256', 'iphone17pm_512', 'iphone17pm_1tb'] },
             { name: 'iPhone 17 Pro', ids: ['iphone17p_256', 'iphone17p_512', 'iphone17p_1tb'] },
@@ -291,6 +307,30 @@
                     });
                 });
 
+                // 定価の水平線アノテーション
+                const annotations = {};
+                group.ids.forEach(id => {
+                    if (!RETAIL_PRICES[id]) return;
+                    const displayName = historyData.display_names[id] || id;
+                    annotations['retail_' + id] = {
+                        type: 'line',
+                        yMin: RETAIL_PRICES[id],
+                        yMax: RETAIL_PRICES[id],
+                        borderColor: (CHART_COLORS[id] || '#999') + '80',
+                        borderWidth: 1.5,
+                        borderDash: [6, 4],
+                        label: {
+                            display: true,
+                            content: displayName + ' 定価 ' + RETAIL_PRICES[id].toLocaleString() + '円',
+                            position: 'start',
+                            backgroundColor: '#161b22ee',
+                            color: (CHART_COLORS[id] || '#ccc'),
+                            font: { size: 10 },
+                            padding: { top: 2, bottom: 2, left: 4, right: 4 },
+                        }
+                    };
+                });
+
                 const chart = new Chart(ctx, {
                     type: 'line',
                     data: { datasets },
@@ -317,6 +357,9 @@
                             }
                         },
                         plugins: {
+                            annotation: {
+                                annotations: annotations
+                            },
                             legend: {
                                 labels: { color: '#c9d1d9', usePointStyle: true, padding: 16 }
                             },
