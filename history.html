@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone買取価格推移 | 買取価格比較</title>
+    <meta name="description" content="iPhone 17 Pro Max / Pro / Air / 17 の買取価格推移チャート。発売日からの価格変動を日次で追跡。">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V9CWRP3CNG"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-V9CWRP3CNG');</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <style>
+        body {
+            background: #0e1117;
+            color: #e6edf3;
+            font-family: 'Segoe UI', 'Hiragino Sans', sans-serif;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin: 20px 0 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #8b949e;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .chart-controls {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .chart-controls button {
+            background: #21262d;
+            color: #c9d1d9;
+            border: 1px solid #30363d;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .chart-controls button:hover {
+            background: #30363d;
+        }
+
+        .chart-controls button.active {
+            background: #1f6feb;
+            border-color: #1f6feb;
+            color: #fff;
+        }
+
+        .chart-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chart-card h2 {
+            font-size: 16px;
+            margin: 0 0 12px;
+            color: #58a6ff;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 350px;
+        }
+
+        .legend-hint {
+            text-align: center;
+            color: #8b949e;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .stat-card .label {
+            font-size: 12px;
+            color: #8b949e;
+        }
+
+        .stat-card .value {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 4px 0;
+        }
+
+        .stat-card .sub {
+            font-size: 11px;
+            color: #8b949e;
+        }
+
+        .up {
+            color: #3fb950;
+        }
+
+        .down {
+            color: #f85149;
+        }
+
+        .neutral {
+            color: #8b949e;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #8b949e;
+            font-size: 16px;
+        }
+
+        .footer-nav {
+            text-align: center;
+            padding: 24px;
+            border-top: 1px solid #30363d;
+            margin-top: 32px;
+        }
+
+        .footer-nav a {
+            color: #58a6ff;
+            text-decoration: none;
+            margin: 0 12px;
+            font-size: 14px;
+        }
+
+        .footer-nav a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .chart-wrapper {
+                height: 260px;
+            }
+
+            .chart-controls button {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>📈 iPhone買取価格推移</h1>
+        <p class="subtitle">発売日からの最高買取価格を日次で追跡</p>
+
+        <div class="chart-controls" id="period-controls">
+            <button data-days="7">1週間</button>
+            <button data-days="30" class="active">1ヶ月</button>
+            <button data-days="90">3ヶ月</button>
+            <button data-days="0">全期間</button>
+        </div>
+
+        <div id="charts-area">
+            <div class="loading" id="loading">データを読み込み中...</div>
+        </div>
+
+        <div id="stats-area"></div>
+
+        <div class="footer-nav">
+            <a href="index.html">🏠 価格比較トップ</a>
+            <a href="article-iphone-rakuten.html">📱 転売ガイド</a>
+            <a href="about.html">📖 サイトについて</a>
+            <a href="privacy.html">🔒 プライバシー</a>
+            <a href="contact.html">📧 お問い合わせ</a>
+        </div>
+    </div>
+
+    <script>
+        const CHART_COLORS = {
+            'iphone17pm_256': '#ff6384',
+            'iphone17pm_512': '#ff9f40',
+            'iphone17pm_1tb': '#ffcd56',
+            'iphone17p_256': '#4bc0c0',
+            'iphone17p_512': '#36a2eb',
+            'iphone17p_1tb': '#9966ff',
+            'iphone_air_256': '#c9cbcf',
+            'iphone_air_512': '#7c8a97',
+            'iphone17_256': '#3fb950',
+            'iphone17_512': '#2ea043',
+        };
+
+        const GROUPS = [
+            { name: 'iPhone 17 Pro Max', ids: ['iphone17pm_256', 'iphone17pm_512', 'iphone17pm_1tb'] },
+            { name: 'iPhone 17 Pro', ids: ['iphone17p_256', 'iphone17p_512', 'iphone17p_1tb'] },
+            { name: 'iPhone Air / 17', ids: ['iphone_air_256', 'iphone_air_512', 'iphone17_256', 'iphone17_512'] },
+        ];
+
+        let historyData = null;
+        let charts = [];
+        let currentDays = 30;
+
+        async function loadData() {
+            try {
+                const resp = await fetch('data/history.json?' + Date.now());
+                historyData = await resp.json();
+                document.getElementById('loading').style.display = 'none';
+                renderCharts();
+                renderStats();
+            } catch (e) {
+                document.getElementById('loading').textContent = 'データの読み込みに失敗しました';
+                console.error(e);
+            }
+        }
+
+        function filterDates(days) {
+            if (!historyData) return { dates: [], startIdx: 0 };
+            const allDates = historyData.dates;
+            if (days === 0) return { dates: allDates, startIdx: 0 };
+            const cutoff = new Date();
+            cutoff.setDate(cutoff.getDate() - days);
+            const cutoffStr = cutoff.toISOString().split('T')[0];
+            const startIdx = allDates.findIndex(d => d >= cutoffStr);
+            if (startIdx === -1) return { dates: allDates, startIdx: 0 };
+            return { dates: allDates.slice(startIdx), startIdx };
+        }
+
+        function renderCharts() {
+            charts.forEach(c => c.destroy());
+            charts = [];
+            const area = document.getElementById('charts-area');
+            area.innerHTML = '';
+
+            const { dates, startIdx } = filterDates(currentDays);
+
+            GROUPS.forEach(group => {
+                const card = document.createElement('div');
+                card.className = 'chart-card';
+                card.innerHTML = `<h2>${group.name}</h2><div class="chart-wrapper"><canvas></canvas></div><p class="legend-hint">クリックで表示/非表示を切り替え</p>`;
+                area.appendChild(card);
+
+                const ctx = card.querySelector('canvas').getContext('2d');
+                const datasets = [];
+
+                group.ids.forEach(id => {
+                    if (!historyData.products[id]) return;
+                    const allPrices = historyData.products[id];
+                    const prices = allPrices.slice(startIdx);
+                    const displayName = historyData.display_names[id] || id;
+
+                    datasets.push({
+                        label: displayName,
+                        data: dates.map((d, i) => ({
+                            x: d,
+                            y: prices[i]
+                        })).filter(p => p.y != null),
+                        borderColor: CHART_COLORS[id] || '#999',
+                        backgroundColor: (CHART_COLORS[id] || '#999') + '20',
+                        borderWidth: 2,
+                        pointRadius: dates.length > 60 ? 0 : 2,
+                        pointHoverRadius: 5,
+                        tension: 0.3,
+                        fill: false,
+                    });
+                });
+
+                const chart = new Chart(ctx, {
+                    type: 'line',
+                    data: { datasets },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        scales: {
+                            x: {
+                                type: 'time',
+                                time: { unit: dates.length > 90 ? 'month' : 'week', tooltipFormat: 'yyyy/MM/dd' },
+                                grid: { color: '#21262d' },
+                                ticks: { color: '#8b949e', maxTicksLimit: 10 },
+                            },
+                            y: {
+                                grid: { color: '#21262d' },
+                                ticks: {
+                                    color: '#8b949e',
+                                    callback: v => (v / 10000).toFixed(1) + '万',
+                                },
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: { color: '#c9d1d9', usePointStyle: true, padding: 16 }
+                            },
+                            tooltip: {
+                                backgroundColor: '#1c2128',
+                                titleColor: '#e6edf3',
+                                bodyColor: '#c9d1d9',
+                                borderColor: '#30363d',
+                                borderWidth: 1,
+                                callbacks: {
+                                    label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString() + '円',
+                                }
+                            }
+                        }
+                    }
+                });
+                charts.push(chart);
+            });
+        }
+
+        function renderStats() {
+            const area = document.getElementById('stats-area');
+            area.innerHTML = '<h2 style="font-size:16px;margin:24px 0 12px;color:#58a6ff;">📊 統計情報</h2>';
+            const grid = document.createElement('div');
+            grid.className = 'stats-grid';
+
+            const dates = historyData.dates;
+            const todayIdx = dates.length - 1;
+
+            for (const [pid, prices] of Object.entries(historyData.products)) {
+                const name = historyData.display_names[pid] || pid;
+                const current = prices[todayIdx];
+                if (!current) continue;
+
+                // 7日前との比較
+                const weekIdx = Math.max(0, todayIdx - 7);
+                const weekAgo = prices[weekIdx];
+                const weekDiff = weekAgo ? current - weekAgo : 0;
+
+                // 最高値・最安値
+                const validPrices = prices.filter(p => p != null);
+                const maxP = Math.max(...validPrices);
+                const minP = Math.min(...validPrices);
+
+                const diffClass = weekDiff > 0 ? 'up' : weekDiff < 0 ? 'down' : 'neutral';
+                const diffSign = weekDiff > 0 ? '+' : '';
+
+                const card = document.createElement('div');
+                card.className = 'stat-card';
+                card.innerHTML = `
+                <div class="label">${name}</div>
+                <div class="value">${current.toLocaleString()}円</div>
+                <div class="sub ${diffClass}">7日比: ${diffSign}${weekDiff.toLocaleString()}円</div>
+                <div class="sub">最高 ${maxP.toLocaleString()} / 最安 ${minP.toLocaleString()}</div>
+            `;
+                grid.appendChild(card);
+            }
+            area.appendChild(grid);
+        }
+
+        // Period controls
+        document.getElementById('period-controls').addEventListener('click', e => {
+            if (e.target.tagName !== 'BUTTON') return;
+            document.querySelectorAll('#period-controls button').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            currentDays = parseInt(e.target.dataset.days);
+            renderCharts();
+        });
+
+        loadData();
+    </script>
+</body>
+
+</html>
