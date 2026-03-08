@@ -2,9 +2,15 @@ name: Update Prices
 
 on:
   schedule:
-    # 毎15分ごとに実行
-    - cron: '*/15 * * * *'
+    # バックアップ: 30分ごと（外部cronが止まった時の保険）
+    - cron: '*/30 * * * *'
   workflow_dispatch:  # 手動実行も可能
+  repository_dispatch:  # 外部cronからのトリガー
+    types: [update-prices]
+
+concurrency:
+  group: update-prices
+  cancel-in-progress: false
 
 permissions:
   contents: write
