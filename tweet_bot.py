@@ -19,6 +19,7 @@ DATA_DIR = Path(__file__).parent / "data"
 PRICES_FILE = DATA_DIR / "prices.json"
 PREV_FILE = DATA_DIR / "prices_prev.json"
 DAILY_OPEN_FILE = DATA_DIR / "prices_daily_open.json"
+NOON_POSTED_FILE = DATA_DIR / "noon_posted.json"
 SITE_URL = "https://kaitori.hobbyshop-yu.com"
 
 # 商品表示名マッピング
@@ -218,8 +219,20 @@ def save_daily_open():
 # 昼 iPhone速報（前日比）
 # ============================================================
 def post_noon_iphone(dry_run=False):
-    """昼のiPhone価格速報。前日始値と比較してツイート。"""
-    print("=== iPhone 昼速報 ===")
+    """iPhone価格の前日比速報。変動検知時に1日1回だけツイート。"""
+    print("=== iPhone 速報チェック ===")
+
+    # 当日既に投稿済みかチェック
+    try:
+        today = datetime.now(JST).strftime("%-m/%-d")
+    except ValueError:
+        today = datetime.now(JST).strftime("%m/%d").lstrip("0").replace("/0", "/")
+    today_key = datetime.now(JST).strftime("%Y-%m-%d")
+
+    noon_posted = load_json(NOON_POSTED_FILE)
+    if noon_posted.get("date") == today_key:
+        print("  本日は投稿済み。スキップ。")
+        return
 
     current = load_json(PRICES_FILE)
     daily_open = load_json(DAILY_OPEN_FILE)
@@ -238,15 +251,23 @@ def post_noon_iphone(dry_run=False):
         print("  iPhone価格データなし。スキップ。")
         return
 
-    try:
-        today = datetime.now(JST).strftime("%-m/%-d")
-    except ValueError:
-        today = datetime.now(JST).strftime("%m/%d").lstrip("0").replace("/0", "/")
+    # 変動があるかチェック
+    has_any_change = False
+    for pid in iphone_pids:
+        if pid in open_prices and open_prices[pid] > 0:
+            if cur_best[pid]["price"] != open_prices[pid]:
+                has_any_change = True
+                break
+
+    if not has_any_change:
+        print("  iPhone価格に変動なし。スキップ。")
+        return
+
+    print("  ⚡ iPhone価格変動を検知！ツイートします。")
 
     lines = [f"📱 iPhone買取速報（{today}）\n"]
 
-    # 容量別に最高値を取得（モデル×容量でグループ化）
-    # groups: (表示名, prefix, 容量リスト)
+    # 容量別に最高値を取得
     groups = [
         ("17PM", "iphone17pm_", ["256", "512", "1tb"]),
         ("17Pro", "iphone17p_", ["256", "512"]),
@@ -256,7 +277,6 @@ def post_noon_iphone(dry_run=False):
     for group_name, prefix, capacities in groups:
         cap_lines = []
         for cap in capacities:
-            # この容量の全色から最高値を探す
             cap_pids = []
             for pid in iphone_pids:
                 if not pid.startswith(prefix):
@@ -271,10 +291,8 @@ def post_noon_iphone(dry_run=False):
             if not cap_pids:
                 continue
 
-            # 最高値のpidを取得
             best_pid = max(cap_pids, key=lambda p: cur_best[p]["price"])
             cur_price = cur_best[best_pid]["price"]
-            shop = SHOP_NAMES.get(cur_best[best_pid]["shop"], cur_best[best_pid]["shop"])
             cap_display = cap.upper() if cap == "1tb" else cap
 
             if best_pid in open_prices and open_prices[best_pid] > 0:
@@ -296,7 +314,10 @@ def post_noon_iphone(dry_run=False):
     lines.append(f"\n👇 色別・全店比較\n{SITE_URL}")
     text = "\n".join(lines)
 
-    post_tweet(text, dry_run)
+    result = post_tweet(text, dry_run)
+    if result and not dry_run:
+        save_json(NOON_POSTED_FILE, {"date": today_key})
+        print("  投稿済みフラグを保存。")
 
 
 # ============================================================

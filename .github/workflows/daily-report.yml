@@ -2,8 +2,6 @@ name: Daily Report
 
 on:
   schedule:
-    # 毎日12:15 JST (03:15 UTC) - iPhone昼速報
-    - cron: '15 3 * * *'
     # 毎日21:00 JST (12:00 UTC) - 日報ツイート
     - cron: '0 12 * * *'
     # 毎日0:00 JST (15:00 UTC前日) - 始値保存
@@ -11,12 +9,11 @@ on:
   workflow_dispatch:
     inputs:
       command:
-        description: 'Command to run (noon, daily, or save_open)'
+        description: 'Command to run (daily or save_open)'
         required: true
         default: 'daily'
         type: choice
         options:
-          - noon
           - daily
           - save_open
 
@@ -45,8 +42,6 @@ jobs:
             echo "command=${{ github.event.inputs.command }}" >> $GITHUB_OUTPUT
           elif [ "${{ github.event.schedule }}" = "0 15 * * *" ]; then
             echo "command=save_open" >> $GITHUB_OUTPUT
-          elif [ "${{ github.event.schedule }}" = "15 3 * * *" ]; then
-            echo "command=noon" >> $GITHUB_OUTPUT
           else
             echo "command=daily" >> $GITHUB_OUTPUT
           fi

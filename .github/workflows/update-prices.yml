@@ -42,10 +42,19 @@ jobs:
         run: python tweet_bot.py alert
         continue-on-error: true
 
+      - name: Check iPhone price update
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+        run: python tweet_bot.py noon
+        continue-on-error: true
+
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/prices.json data/prices_prev.json index.html
+          git add data/prices.json data/prices_prev.json data/noon_posted.json index.html
           git diff --cached --quiet || git commit -m "Update prices $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push
