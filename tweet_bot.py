@@ -20,7 +20,14 @@ PRICES_FILE = DATA_DIR / "prices.json"
 PREV_FILE = DATA_DIR / "prices_prev.json"
 DAILY_OPEN_FILE = DATA_DIR / "prices_daily_open.json"
 NOON_POSTED_FILE = DATA_DIR / "noon_posted.json"
+PRODUCTS_FILE = DATA_DIR / "products.json"
 SITE_URL = "https://kaitori.hobbyshop-yu.com"
+HISTORY_URL = "https://kaitori.hobbyshop-yu.com/history.html"
+
+# ハッシュタグ（ツイート末尾に追加）
+HASHTAGS_IPHONE = "#iPhone転売 #iPhone17ProMax #買取価格 #せどり"
+HASHTAGS_SWITCH = "#Switch2 #NintendoSwitch #買取価格 #せどり"
+HASHTAGS_GENERAL = "#買取価格 #せどり #転売"
 
 # 商品表示名マッピング
 DISPLAY_NAMES = {
@@ -98,6 +105,29 @@ def format_price(n):
     return f"{n:,}"
 
 
+def get_retail_prices():
+    """products.jsonから商品IDと定価のマッピングを返す。"""
+    data = load_json(PRODUCTS_FILE)
+    retail = {}
+    for p in data.get("products", []):
+        pid = p.get("id", "")
+        rp = p.get("retail_price", 0)
+        if pid and rp:
+            retail[pid] = rp
+    return retail
+
+
+def get_hashtags(pids):
+    """商品IDリストに基づいて適切なハッシュタグを返す。"""
+    has_iphone = any(p.startswith("iphone") for p in pids)
+    has_switch = any(p.startswith("switch") or p.startswith("oled") or p.startswith("standard") or p.startswith("lite") for p in pids)
+    if has_iphone:
+        return HASHTAGS_IPHONE
+    elif has_switch:
+        return HASHTAGS_SWITCH
+    return HASHTAGS_GENERAL
+
+
 def post_tweet(text, dry_run=False):
     """ツイートを投稿する。dry_run=Trueならログ出力のみ。"""
     print(f"\n{'[DRY RUN] ' if dry_run else ''}Tweet ({len(text)}字):")
@@ -173,25 +203,37 @@ def check_price_alerts(dry_run=False):
     # 変動率が大きい順にソート
     alerts.sort(key=lambda x: abs(x["pct"]), reverse=True)
 
+    # 定価データを取得して利益計算
+    retail_prices = get_retail_prices()
+
     # ツイート作成（280字制限を考慮して最大5件）
     lines = []
     for a in alerts[:5]:
         arrow = "📈" if a["pct"] > 0 else "📉"
         sign = "+" if a["pct"] > 0 else ""
         diff = a["cur"] - a["prev"]
+        # 利益表示（定価との差額）
+        profit_str = ""
+        if a["pid"] in retail_prices:
+            profit = a["cur"] - retail_prices[a["pid"]]
+            if profit > 0:
+                profit_str = f"💰利益+{profit:,}円"
+            elif profit < 0:
+                profit_str = f"⚠️定価割れ{profit:,}円"
         lines.append(
             f"{arrow} {a['name']}\n"
-            f"  {format_price(a['prev'])}→{format_price(a['cur'])}円"
-            f"（{sign}{diff:,}円/{sign}{a['pct']:.1f}%）"
-            f"by {a['shop']}"
+            f"  {format_price(a['cur'])}円（{sign}{diff:,}円）"
+            f"{' ' + profit_str if profit_str else ''}"
         )
 
-    text = "⚡ 買取価格速報\n\n" + "\n\n".join(lines) + f"\n\n👇 最新価格\n{SITE_URL}"
+    all_pids = [a["pid"] for a in alerts]
+    tags = get_hashtags(all_pids)
+    text = "⚡ 買取価格速報\n\n" + "\n\n".join(lines) + f"\n\n👇 最新価格\n{SITE_URL}\n{tags}"
 
     # 280字超えたら件数を減らす
     while len(text) > 270 and len(lines) > 1:
         lines.pop()
-        text = "⚡ 買取価格速報\n\n" + "\n\n".join(lines) + f"\n\n👇 最新価格\n{SITE_URL}"
+        text = "⚡ 買取価格速報\n\n" + "\n\n".join(lines) + f"\n\n👇 最新価格\n{SITE_URL}\n{tags}"
 
     post_tweet(text, dry_run)
     save_json(PREV_FILE, current)
@@ -265,6 +307,7 @@ def post_noon_iphone(dry_run=False):
 
     print("  ⚡ iPhone価格変動を検知！ツイートします。")
 
+    retail_prices = get_retail_prices()
     lines = [f"📱 iPhone買取速報（{today}）\n"]
 
     # 容量別に最高値を取得
@@ -295,23 +338,38 @@ def post_noon_iphone(dry_run=False):
             cur_price = cur_best[best_pid]["price"]
             cap_display = cap.upper() if cap == "1tb" else cap
 
+            # 前日比
+            diff_str = ""
             if best_pid in open_prices and open_prices[best_pid] > 0:
                 prev_price = open_prices[best_pid]
                 diff = cur_price - prev_price
                 if diff > 0:
-                    mark = f"🔺+{diff:,}"
+                    diff_str = f"🔺+{diff:,}"
                 elif diff < 0:
-                    mark = f"🔻{diff:,}"
+                    diff_str = f"🔻{diff:,}"
                 else:
-                    mark = "→"
-                cap_lines.append(f" {cap_display} {format_price(cur_price)}円({mark})")
-            else:
-                cap_lines.append(f" {cap_display} {format_price(cur_price)}円")
+                    diff_str = "→"
+
+            # 利益表示
+            profit_str = ""
+            if best_pid in retail_prices:
+                profit = cur_price - retail_prices[best_pid]
+                if profit > 0:
+                    profit_str = f"💰+{profit:,}"
+                elif profit < 0:
+                    profit_str = f"⚠️{profit:,}"
+
+            parts = [f"{cap_display} {format_price(cur_price)}円"]
+            if diff_str:
+                parts.append(f"({diff_str})")
+            if profit_str:
+                parts.append(profit_str)
+            cap_lines.append(" ".join(parts))
 
         if cap_lines:
-            lines.append(f"【{group_name}】" + " ".join(cap_lines))
+            lines.append(f"【{group_name}】\n" + "\n".join(f" {cl}" for cl in cap_lines))
 
-    lines.append(f"\n👇 色別・全店比較\n{SITE_URL}")
+    lines.append(f"\n👇 全店比較\n{SITE_URL}\n{HASHTAGS_IPHONE}")
     text = "\n".join(lines)
 
     result = post_tweet(text, dry_run)
@@ -366,9 +424,15 @@ def post_daily_report(dry_run=False):
         today = datetime.now(JST).strftime("%m/%d").lstrip("0").replace("/0", "/")
 
     if not changes:
-        text = f"📊 本日の買取価格まとめ（{today}）\n\n本日は大きな値動きはありませんでした。\n\n👇 最新価格\n{SITE_URL}"
+        text = f"📊 本日の買取価格まとめ（{today}）\n\n本日は大きな値動きはありませんでした。\n\n👇 最新価格\n{SITE_URL}\n{HASHTAGS_GENERAL}"
         post_tweet(text, dry_run)
         return
+
+    # 利益データも追加
+    retail_prices = get_retail_prices()
+    for c in changes:
+        rp = retail_prices.get(c["pid"], 0)
+        c["profit"] = c["close"] - rp if rp else None
 
     # 値上がり/値下がりに分けてソート
     ups = sorted([c for c in changes if c["diff"] > 0], key=lambda x: abs(x["pct"]), reverse=True)
@@ -379,17 +443,22 @@ def post_daily_report(dry_run=False):
     if ups:
         lines.append("🔺 値上がり")
         for u in ups[:3]:
-            lines.append(f"・{u['name']} +{u['diff']:,}円（+{u['pct']:.1f}%）")
+            profit_mark = ""
+            if u["profit"] is not None and u["profit"] > 0:
+                profit_mark = f" 💰+{u['profit']:,}"
+            lines.append(f"・{u['name']} +{u['diff']:,}円{profit_mark}")
 
     if downs:
         lines.append("\n🔻 値下がり")
         for d in downs[:3]:
-            lines.append(f"・{d['name']} {d['diff']:,}円（{d['pct']:.1f}%）")
+            lines.append(f"・{d['name']} {d['diff']:,}円")
 
     if not ups and not downs:
         lines.append("変動なし")
 
-    lines.append(f"\n👇 最新価格\n{SITE_URL}")
+    all_pids = [c["pid"] for c in changes]
+    tags = get_hashtags(all_pids)
+    lines.append(f"\n👇 最新価格\n{SITE_URL}\n{tags}")
     text = "\n".join(lines)
 
     # 文字数制限
@@ -404,12 +473,97 @@ def post_daily_report(dry_run=False):
         if ups:
             lines.append("🔺 値上がり")
             for u in ups:
-                lines.append(f"・{u['name']} +{u['diff']:,}円（+{u['pct']:.1f}%）")
+                profit_mark = ""
+                if u["profit"] is not None and u["profit"] > 0:
+                    profit_mark = f" 💰+{u['profit']:,}"
+                lines.append(f"・{u['name']} +{u['diff']:,}円{profit_mark}")
         if downs:
             lines.append("\n🔻 値下がり")
             for d in downs:
-                lines.append(f"・{d['name']} {d['diff']:,}円（{d['pct']:.1f}%）")
-        lines.append(f"\n👇 最新価格\n{SITE_URL}")
+                lines.append(f"・{d['name']} {d['diff']:,}円")
+        lines.append(f"\n👇 最新価格\n{SITE_URL}\n{tags}")
+        text = "\n".join(lines)
+
+    post_tweet(text, dry_run)
+
+
+# ============================================================
+# 週次利益ランキング
+# ============================================================
+def post_weekly_ranking(dry_run=False):
+    """今週の利益ランキングTOP5をツイート。"""
+    print("=== 週次利益ランキング ===")
+
+    current = load_json(PRICES_FILE)
+    if not current.get("shops"):
+        print("  価格データなし。スキップ。")
+        return
+
+    cur_best = get_best_prices(current)
+    retail_prices = get_retail_prices()
+
+    # 利益ランキング作成
+    rankings = []
+    seen_models = set()  # 同モデル重複防止
+    for pid, info in cur_best.items():
+        if pid not in retail_prices:
+            continue
+        profit = info["price"] - retail_prices[pid]
+        # モデル名で重複排除（色違いは最高利益のみ）
+        base_name = DISPLAY_NAMES.get(pid, pid).split(" ")[0]  # 「17PM" etc
+        cap_part = DISPLAY_NAMES.get(pid, pid).split(" ")[1] if len(DISPLAY_NAMES.get(pid, pid).split(" ")) > 1 else ""
+        model_key = f"{base_name}_{cap_part}"
+        if model_key in seen_models:
+            # 既に同モデルがある場合、利益が高い方を採用
+            existing = [r for r in rankings if r["model_key"] == model_key]
+            if existing and profit > existing[0]["profit"]:
+                rankings.remove(existing[0])
+                seen_models.discard(model_key)
+            else:
+                continue
+        seen_models.add(model_key)
+        rankings.append({
+            "pid": pid,
+            "name": DISPLAY_NAMES.get(pid, pid),
+            "price": info["price"],
+            "retail": retail_prices[pid],
+            "profit": profit,
+            "pct": profit / retail_prices[pid] * 100,
+            "model_key": model_key,
+        })
+
+    rankings.sort(key=lambda x: x["profit"], reverse=True)
+
+    medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"]
+    lines = ["🏆 今週の転売利益ランキング\n"]
+
+    for i, r in enumerate(rankings[:5]):
+        if r["profit"] > 0:
+            lines.append(f"{medals[i]} {r['name']} +{r['profit']:,}円（{r['pct']:.1f}%）")
+        else:
+            lines.append(f"{medals[i]} {r['name']} {r['profit']:,}円")
+
+    # 定価割れワースト
+    worst = sorted(rankings, key=lambda x: x["profit"])[:2]
+    if worst and worst[0]["profit"] < 0:
+        lines.append("\n⚠️ 仕入れ注意")
+        for w in worst:
+            if w["profit"] < 0:
+                lines.append(f"・{w['name']} {w['profit']:,}円")
+
+    lines.append(f"\n📈 価格推移\n{HISTORY_URL}\n{HASHTAGS_IPHONE}")
+    text = "\n".join(lines)
+
+    # 文字数制限
+    while len(text) > 270 and len(rankings) > 3:
+        rankings.pop()
+        lines = ["🏆 今週の転売利益ランキング\n"]
+        for i, r in enumerate(rankings[:5]):
+            if r["profit"] > 0:
+                lines.append(f"{medals[i]} {r['name']} +{r['profit']:,}円（{r['pct']:.1f}%）")
+            else:
+                lines.append(f"{medals[i]} {r['name']} {r['profit']:,}円")
+        lines.append(f"\n📈 価格推移\n{HISTORY_URL}\n{HASHTAGS_IPHONE}")
         text = "\n".join(lines)
 
     post_tweet(text, dry_run)
@@ -420,7 +574,7 @@ def post_daily_report(dry_run=False):
 # ============================================================
 def main():
     if len(sys.argv) < 2:
-        print("Usage: tweet_bot.py [alert|noon|daily|save_open] [--dry-run]")
+        print("Usage: tweet_bot.py [alert|noon|daily|weekly|save_open] [--dry-run]")
         return 1
 
     cmd = sys.argv[1]
@@ -435,6 +589,8 @@ def main():
         post_noon_iphone(dry_run)
     elif cmd == "daily":
         post_daily_report(dry_run)
+    elif cmd == "weekly":
+        post_weekly_ranking(dry_run)
     elif cmd == "save_open":
         save_daily_open()
     else:
