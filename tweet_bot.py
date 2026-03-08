@@ -157,7 +157,7 @@ def post_tweet(text, dry_run=False):
 # 価格変動アラート
 # ============================================================
 def check_price_alerts(dry_run=False):
-    """最高買取価格が1%以上変動した商品をツイート。"""
+    """最高買取価格が3%以上変動した商品をツイート（色違い重複排除）。"""
     print("=== 価格変動アラート ===")
 
     current = load_json(PRICES_FILE)
@@ -185,7 +185,7 @@ def check_price_alerts(dry_run=False):
         if prev_price == 0:
             continue
         change_pct = (cur_price - prev_price) / prev_price * 100
-        if abs(change_pct) >= 1.0:
+        if abs(change_pct) >= 3.0:
             alerts.append({
                 "pid": pid,
                 "name": DISPLAY_NAMES.get(pid, pid),
@@ -196,12 +196,24 @@ def check_price_alerts(dry_run=False):
             })
 
     if not alerts:
-        print("  1%以上の変動なし。")
+        print("  3%以上の変動なし。")
         save_json(PREV_FILE, current)
         return
 
     # 変動率が大きい順にソート
     alerts.sort(key=lambda x: abs(x["pct"]), reverse=True)
+
+    # 色違い重複排除（同モデル・同容量は最大変動の1件だけ残す）
+    seen_models = set()
+    deduped = []
+    for a in alerts:
+        # "17PM 256 シルバー" → "17PM 256" でグルーピング
+        parts = a["name"].split(" ")
+        model_key = " ".join(parts[:2]) if len(parts) >= 2 else a["name"]
+        if model_key not in seen_models:
+            seen_models.add(model_key)
+            deduped.append(a)
+    alerts = deduped
 
     # 定価データを取得して利益計算
     retail_prices = get_retail_prices()
