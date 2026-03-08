@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
 X (Twitter) 自動ツイート Bot
-- alert  : 最高買取価格が1%以上変動した商品をツイート
-- daily  : 日報ツイート（本日の値動きサマリー）
+- alert     : 最高買取価格が1%以上変動した商品をツイート
+- noon      : 昼のiPhone速報（前日比）
+- daily     : 日報ツイート（本日の値動きサマリー）
 - save_open : 日次始値を保存（毎日0:00 JSTに実行）
 """
 
@@ -214,6 +215,91 @@ def save_daily_open():
 
 
 # ============================================================
+# 昼 iPhone速報（前日比）
+# ============================================================
+def post_noon_iphone(dry_run=False):
+    """昼のiPhone価格速報。前日始値と比較してツイート。"""
+    print("=== iPhone 昼速報 ===")
+
+    current = load_json(PRICES_FILE)
+    daily_open = load_json(DAILY_OPEN_FILE)
+
+    if not current.get("shops") or not daily_open.get("prices"):
+        print("  データ不足。スキップ。")
+        return
+
+    cur_best = get_best_prices(current)
+    open_prices = daily_open["prices"]
+
+    # iPhoneのみ抽出
+    iphone_pids = [pid for pid in cur_best if pid.startswith("iphone")]
+
+    if not iphone_pids:
+        print("  iPhone価格データなし。スキップ。")
+        return
+
+    try:
+        today = datetime.now(JST).strftime("%-m/%-d")
+    except ValueError:
+        today = datetime.now(JST).strftime("%m/%d").lstrip("0").replace("/0", "/")
+
+    lines = [f"📱 iPhone買取速報（{today}）\n"]
+
+    # 容量別に最高値を取得（モデル×容量でグループ化）
+    # groups: (表示名, prefix, 容量リスト)
+    groups = [
+        ("17PM", "iphone17pm_", ["256", "512", "1tb"]),
+        ("17Pro", "iphone17p_", ["256", "512"]),
+        ("17", "iphone17_", ["256", "512"]),
+    ]
+
+    for group_name, prefix, capacities in groups:
+        cap_lines = []
+        for cap in capacities:
+            # この容量の全色から最高値を探す
+            cap_pids = []
+            for pid in iphone_pids:
+                if not pid.startswith(prefix):
+                    continue
+                if prefix == "iphone17p_" and pid.startswith("iphone17pm_"):
+                    continue
+                if prefix == "iphone17_" and pid.startswith("iphone17p"):
+                    continue
+                if f"_{cap}_" in pid or pid.endswith(f"_{cap}"):
+                    cap_pids.append(pid)
+
+            if not cap_pids:
+                continue
+
+            # 最高値のpidを取得
+            best_pid = max(cap_pids, key=lambda p: cur_best[p]["price"])
+            cur_price = cur_best[best_pid]["price"]
+            shop = SHOP_NAMES.get(cur_best[best_pid]["shop"], cur_best[best_pid]["shop"])
+            cap_display = cap.upper() if cap == "1tb" else cap
+
+            if best_pid in open_prices and open_prices[best_pid] > 0:
+                prev_price = open_prices[best_pid]
+                diff = cur_price - prev_price
+                if diff > 0:
+                    mark = f"🔺+{diff:,}"
+                elif diff < 0:
+                    mark = f"🔻{diff:,}"
+                else:
+                    mark = "→"
+                cap_lines.append(f" {cap_display} {format_price(cur_price)}円({mark})")
+            else:
+                cap_lines.append(f" {cap_display} {format_price(cur_price)}円")
+
+        if cap_lines:
+            lines.append(f"【{group_name}】" + " ".join(cap_lines))
+
+    lines.append(f"\n👇 色別・全店比較\n{SITE_URL}")
+    text = "\n".join(lines)
+
+    post_tweet(text, dry_run)
+
+
+# ============================================================
 # 日報ツイート
 # ============================================================
 def post_daily_report(dry_run=False):
@@ -313,7 +399,7 @@ def post_daily_report(dry_run=False):
 # ============================================================
 def main():
     if len(sys.argv) < 2:
-        print("Usage: tweet_bot.py [alert|daily|save_open] [--dry-run]")
+        print("Usage: tweet_bot.py [alert|noon|daily|save_open] [--dry-run]")
         return 1
 
     cmd = sys.argv[1]
@@ -324,6 +410,8 @@ def main():
 
     if cmd == "alert":
         check_price_alerts(dry_run)
+    elif cmd == "noon":
+        post_noon_iphone(dry_run)
     elif cmd == "daily":
         post_daily_report(dry_run)
     elif cmd == "save_open":
