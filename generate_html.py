@@ -27,8 +27,16 @@ CATEGORY_META = {
     "portal":     {"row_class": "row-portal",     "label": "Portal"},
     "iphone17pm": {"row_class": "row-iphone17pm", "label": "17 Pro Max"},
     "iphone17p":  {"row_class": "row-iphone17p",  "label": "17 Pro"},
+    "iphone_air": {"row_class": "row-iphone-air", "label": "iPhone Air"},
     "iphone17":   {"row_class": "row-iphone17",   "label": "iPhone 17"},
 }
+
+# 表示順（iPhone系を先頭に）
+CATEGORY_ORDER = [
+    "iphone17pm", "iphone17p", "iphone_air", "iphone17",
+    "switch2", "oled", "standard", "lite",
+    "pro", "disc", "digital", "jponly", "portal",
+]
 
 SHOPS = [
     {"id": "rudeya",   "name": "ルデヤ",   "url": "https://kaitori-rudeya.com/",         "highlight": True},
@@ -61,6 +69,10 @@ def generate_html():
         sid = shop["id"]
         if sid in prices_data.get("shops", {}):
             shop_times[sid] = prices_data["shops"][sid].get("updated_at", "")
+
+    # カテゴリ順でソート
+    cat_order_map = {cat: idx for idx, cat in enumerate(CATEGORY_ORDER)}
+    products.sort(key=lambda p: cat_order_map.get(p["category"], 999))
 
     # テーブル行HTML生成
     rows_html = []

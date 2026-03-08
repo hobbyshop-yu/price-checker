@@ -270,7 +270,8 @@ thead tr:nth-child(2) .left-sticky-5 {
 .row-switch2 .left-sticky-2,
 .row-switch2 .left-sticky-3,
 .row-switch2 .left-sticky-4,
-.row-switch2 .left-sticky-5 {
+.row-switch2 .left-sticky-5,
+.row-switch2 .left-sticky-6 {
   background-color: #e7f0ff;
 }
 
@@ -282,7 +283,8 @@ thead tr:nth-child(2) .left-sticky-5 {
 .row-oled .left-sticky-2,
 .row-oled .left-sticky-3,
 .row-oled .left-sticky-4,
-.row-oled .left-sticky-5 {
+.row-oled .left-sticky-5,
+.row-oled .left-sticky-6 {
   background-color: #e9f8ee;
 }
 
@@ -294,7 +296,8 @@ thead tr:nth-child(2) .left-sticky-5 {
 .row-standard .left-sticky-2,
 .row-standard .left-sticky-3,
 .row-standard .left-sticky-4,
-.row-standard .left-sticky-5 {
+.row-standard .left-sticky-5,
+.row-standard .left-sticky-6 {
   background-color: #eef2f7;
 }
 
@@ -306,7 +309,8 @@ thead tr:nth-child(2) .left-sticky-5 {
 .row-lite .left-sticky-2,
 .row-lite .left-sticky-3,
 .row-lite .left-sticky-4,
-.row-lite .left-sticky-5 {
+.row-lite .left-sticky-5,
+.row-lite .left-sticky-6 {
   background-color: #fef0f5;
 }
 
@@ -319,7 +323,8 @@ thead tr:nth-child(2) .left-sticky-5 {
 .row-pro .left-sticky-2,
 .row-pro .left-sticky-3,
 .row-pro .left-sticky-4,
-.row-pro .left-sticky-5 {
+.row-pro .left-sticky-5,
+.row-pro .left-sticky-6 {
   background-color: #e7f0ff;
 }
 
@@ -331,7 +336,8 @@ thead tr:nth-child(2) .left-sticky-5 {
 .row-disc .left-sticky-2,
 .row-disc .left-sticky-3,
 .row-disc .left-sticky-4,
-.row-disc .left-sticky-5 {
+.row-disc .left-sticky-5,
+.row-disc .left-sticky-6 {
   background-color: #e9f8ee;
 }
 
@@ -343,7 +349,8 @@ thead tr:nth-child(2) .left-sticky-5 {
 .row-digital .left-sticky-2,
 .row-digital .left-sticky-3,
 .row-digital .left-sticky-4,
-.row-digital .left-sticky-5 {
+.row-digital .left-sticky-5,
+.row-digital .left-sticky-6 {
   background-color: #eef2f7;
 }
 
@@ -355,7 +362,8 @@ thead tr:nth-child(2) .left-sticky-5 {
 .row-limited .left-sticky-2,
 .row-limited .left-sticky-3,
 .row-limited .left-sticky-4,
-.row-limited .left-sticky-5 {
+.row-limited .left-sticky-5,
+.row-limited .left-sticky-6 {
   background-color: #fef0f5;
 }
 
@@ -367,7 +375,8 @@ thead tr:nth-child(2) .left-sticky-5 {
 .row-portal .left-sticky-2,
 .row-portal .left-sticky-3,
 .row-portal .left-sticky-4,
-.row-portal .left-sticky-5 {
+.row-portal .left-sticky-5,
+.row-portal .left-sticky-6 {
   background-color: #f3eefa;
 }
 
@@ -379,8 +388,66 @@ thead tr:nth-child(2) .left-sticky-5 {
 .row-jponly .left-sticky-2,
 .row-jponly .left-sticky-3,
 .row-jponly .left-sticky-4,
-.row-jponly .left-sticky-5 {
+.row-jponly .left-sticky-5,
+.row-jponly .left-sticky-6 {
   background-color: #fff8e7;
+}
+
+/* iPhone colors */
+/* 17 Pro Max - ゴールド / アンバー系 */
+.row-iphone17pm td {
+  background-color: #fff3e0;
+}
+
+.row-iphone17pm .left-sticky-1,
+.row-iphone17pm .left-sticky-2,
+.row-iphone17pm .left-sticky-3,
+.row-iphone17pm .left-sticky-4,
+.row-iphone17pm .left-sticky-5,
+.row-iphone17pm .left-sticky-6 {
+  background-color: #fff3e0;
+}
+
+/* 17 Pro - ブルー / インディゴ系 */
+.row-iphone17p td {
+  background-color: #e8eaf6;
+}
+
+.row-iphone17p .left-sticky-1,
+.row-iphone17p .left-sticky-2,
+.row-iphone17p .left-sticky-3,
+.row-iphone17p .left-sticky-4,
+.row-iphone17p .left-sticky-5,
+.row-iphone17p .left-sticky-6 {
+  background-color: #e8eaf6;
+}
+
+/* iPhone Air - ティール / シアン系 */
+.row-iphone-air td {
+  background-color: #e0f7fa;
+}
+
+.row-iphone-air .left-sticky-1,
+.row-iphone-air .left-sticky-2,
+.row-iphone-air .left-sticky-3,
+.row-iphone-air .left-sticky-4,
+.row-iphone-air .left-sticky-5,
+.row-iphone-air .left-sticky-6 {
+  background-color: #e0f7fa;
+}
+
+/* iPhone 17 - グリーン系 */
+.row-iphone17 td {
+  background-color: #e8f5e9;
+}
+
+.row-iphone17 .left-sticky-1,
+.row-iphone17 .left-sticky-2,
+.row-iphone17 .left-sticky-3,
+.row-iphone17 .left-sticky-4,
+.row-iphone17 .left-sticky-5,
+.row-iphone17 .left-sticky-6 {
+  background-color: #e8f5e9;
 }
 
 /* --- Price Cell Styles --- */
