@@ -978,3 +978,34 @@ table.price-table tbody tr:hover td {
   max-width: 100%;
   height: auto;
 }
+
+/* --- Page Navigation Bar --- */
+.page-nav-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #f0f4f8;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  margin: 8px 0;
+}
+
+.page-nav-bar a {
+  display: inline-block;
+  padding: 6px 14px;
+  background: #fff;
+  border: 1px solid #d0d7de;
+  border-radius: 20px;
+  color: #24292f;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.page-nav-bar a:hover {
+  background: #1a73e8;
+  color: #fff;
+  border-color: #1a73e8;
+}

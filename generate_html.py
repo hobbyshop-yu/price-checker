@@ -201,6 +201,14 @@ def generate_html():
     </div>
   </div>
 
+  <div class="page-nav-bar">
+    <a href="history.html">📈 買取価格推移</a>
+    <a href="article-iphone-rakuten.html">📱 転売ガイド</a>
+    <a href="about.html">📖 サイトについて</a>
+    <a href="contact.html">📧 お問い合わせ</a>
+    <a href="privacy.html">🔒 プライバシー</a>
+  </div>
+
   <div class="table-container">
     <table class="price-table">
       <thead>
