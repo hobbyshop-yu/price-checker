@@ -1009,3 +1009,62 @@ table.price-table tbody tr:hover td {
   color: #fff;
   border-color: #1a73e8;
 }
+
+/* --- History Charts on Top Page --- */
+.history-section {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 0 12px;
+}
+
+.history-title {
+  text-align: center;
+  font-size: 18px;
+  color: #1a73e8;
+  margin-bottom: 16px;
+}
+
+.top-chart-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.top-chart-card h3 {
+  font-size: 14px;
+  color: #58a6ff;
+  margin: 0 0 8px;
+}
+
+.top-chart-wrap {
+  position: relative;
+  height: 260px;
+}
+
+.history-link {
+  display: inline-block;
+  padding: 10px 24px;
+  background: #1a73e8;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 24px;
+  transition: background 0.2s;
+}
+
+.history-link:hover {
+  background: #1557b0;
+}
+
+@media (max-width: 600px) {
+  .top-chart-wrap {
+    height: 200px;
+  }
+
+  .history-title {
+    font-size: 15px;
+  }
+}

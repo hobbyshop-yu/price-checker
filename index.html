@@ -6,6 +6,9 @@
   <title>Switch / PS5 / iPhone 買取価格比較表</title>
   <meta name="description" content="Nintendo Switch 2・PS5 Pro・iPhone 17 Pro Maxの最新買取価格を主要買取店で比較。自動更新データ。">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-V9CWRP3CNG"></script>
   <script>
@@ -19,7 +22,7 @@
 
   <div class="page-header">
     <h1>Nintendo Switch / PS5 / iPhone 買取価格比較表</h1>
-    <p class="subtitle">最終更新：2026/03/09 (08:46)（自動取得）</p>
+    <p class="subtitle">最終更新：2026/03/09 (10:15)（自動取得）</p>
   </div>
 
   <div class="filter-bar" id="filter-bar">
@@ -489,10 +492,87 @@
     ※ 価格は新品未開封品の買取価格です。中古品は別途査定となります。<br>
     ※ 価格は随時変動します。最新価格は各買取店の公式サイトをご確認ください。<br>
     ※ 各店舗の実際の買取価格と異なる場合があります。<br>
-    最終更新: 2026/03/09 (08:46)
+    最終更新: 2026/03/09 (10:15)
   </div>
 
   <script src="filter.js"></script>
+
+  <div class="history-section">
+    <h2 class="history-title">📈 価格推移チャート（直近1週間）</h2>
+    <div id="top-charts"></div>
+    <div style="text-align:center;margin:16px 0;">
+      <a href="history.html" class="history-link">🔍 全期間の詳細チャートを見る →</a>
+    </div>
+  </div>
+
+  <script>
+  (async function() {
+    try {
+      const resp = await fetch('data/history.json?' + Date.now());
+      const hd = await resp.json();
+      const COLORS = {
+        'iphone17pm_256':'#ff6384','iphone17pm_512':'#ff9f40','iphone17pm_1tb':'#ffcd56',
+        'iphone17p_256':'#4bc0c0','iphone17p_512':'#36a2eb','iphone17p_1tb':'#9966ff',
+        'iphone_air_256':'#c9cbcf','iphone_air_512':'#7c8a97',
+        'iphone17_256':'#3fb950','iphone17_512':'#2ea043',
+      };
+      const RETAIL = {
+        'iphone17pm_256':194800,'iphone17pm_512':229800,'iphone17pm_1tb':264800,
+        'iphone17p_256':179800,'iphone17p_512':214800,'iphone17p_1tb':249800,
+        'iphone_air_256':159800,'iphone_air_512':194800,
+        'iphone17_256':129800,'iphone17_512':159800,
+      };
+      const GROUPS = [
+        { name:'iPhone 17 Pro Max', ids:['iphone17pm_256','iphone17pm_512','iphone17pm_1tb'] },
+        { name:'iPhone 17 Pro', ids:['iphone17p_256','iphone17p_512','iphone17p_1tb'] },
+        { name:'iPhone Air / 17', ids:['iphone_air_256','iphone_air_512','iphone17_256','iphone17_512'] },
+      ];
+      const allDates = hd.dates;
+      const cutoff = new Date(); cutoff.setDate(cutoff.getDate()-7);
+      const cutStr = cutoff.toISOString().split('T')[0];
+      let si = allDates.findIndex(d => d >= cutStr);
+      if(si===-1) si=0;
+      const dates = allDates.slice(si);
+      const area = document.getElementById('top-charts');
+
+      GROUPS.forEach(g => {
+        const card = document.createElement('div');
+        card.className = 'top-chart-card';
+        card.innerHTML = '<h3>'+g.name+'</h3><div class="top-chart-wrap"><canvas></canvas></div>';
+        area.appendChild(card);
+        const ctx = card.querySelector('canvas').getContext('2d');
+        const datasets = [];
+        const annotations = {};
+        g.ids.forEach(id => {
+          if(!hd.products[id]) return;
+          const prices = hd.products[id].slice(si);
+          const dn = hd.display_names[id]||id;
+          datasets.push({ label:dn, data:dates.map((d,i)=>({x:d,y:prices[i]})).filter(p=>p.y!=null),
+            borderColor:COLORS[id]||'#999', backgroundColor:(COLORS[id]||'#999')+'20',
+            borderWidth:2, pointRadius:2, pointHoverRadius:5, tension:0.3, fill:false });
+          if(RETAIL[id]) {
+            annotations['r_'+id] = { type:'line', yMin:RETAIL[id], yMax:RETAIL[id],
+              borderColor:(COLORS[id]||'#999')+'80', borderWidth:1.5, borderDash:[6,4],
+              label:{ display:true, content:dn+' 定価 '+RETAIL[id].toLocaleString()+'円',
+                position:'start', backgroundColor:'#161b22ee', color:COLORS[id]||'#ccc',
+                font:{size:9}, padding:{top:2,bottom:2,left:4,right:4} } };
+          }
+        });
+        new Chart(ctx, { type:'line', data:{datasets},
+          options:{ responsive:true, maintainAspectRatio:false,
+            interaction:{mode:'index',intersect:false},
+            scales:{ x:{type:'time',time:{unit:'day',tooltipFormat:'yyyy/MM/dd'},
+              grid:{color:'#21262d'},ticks:{color:'#8b949e',maxTicksLimit:7} },
+              y:{grid:{color:'#21262d'},ticks:{color:'#8b949e',callback:v=>(v/10000).toFixed(1)+'万'} } },
+            plugins:{ annotation:{annotations},
+              legend:{labels:{color:'#c9d1d9',usePointStyle:true,padding:12,font:{size:11} } },
+              tooltip:{ backgroundColor:'#1c2128',titleColor:'#e6edf3',bodyColor:'#c9d1d9',
+                borderColor:'#30363d',borderWidth:1,
+                callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toLocaleString()+'円'} } } } });
+      });
+    } catch(e) { console.error('Chart load error:',e); }
+  })();
+  </script>
 
   <footer class="site-footer">
     <div class="footer-inner">
