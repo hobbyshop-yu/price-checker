@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026/03/09 16:00",
+  "updated_at": "2026/03/09 16:15",
   "shops": {
     "rudeya": {
       "name": "買取ルデヤ",
       "short_name": "ルデヤ",
       "url": "https://kaitori-rudeya.com/",
-      "updated_at": "2026/03/09 16:00",
+      "updated_at": "2026/03/09 16:15",
       "prices": {
         "switch2_domestic": 44300,
         "oled_neon": 42900,
@@ -25,8 +25,8 @@
         "portal_white": 30100,
         "portal_black": 30100,
         "iphone17pm_256_sv": 207000,
-        "iphone17pm_256_db": 204000,
-        "iphone17pm_256_co": 202000,
+        "iphone17pm_256_db": 205000,
+        "iphone17pm_256_co": 203000,
         "iphone17pm_512_sv": 235500,
         "iphone17pm_512_db": 229500,
         "iphone17pm_512_co": 228500,
@@ -47,7 +47,7 @@
       "name": "森森買取",
       "short_name": "森森",
       "url": "https://www.morimori-kaitori.jp/",
-      "updated_at": "2026/03/09 16:00",
+      "updated_at": "2026/03/09 16:15",
       "prices": {
         "switch2_domestic": 40500,
         "oled_neon": 43000,
@@ -88,7 +88,7 @@
       "name": "買取ホムラ",
       "short_name": "ホムラ",
       "url": "https://kaitori-homura.com/",
-      "updated_at": "2026/03/09 16:00",
+      "updated_at": "2026/03/09 16:15",
       "prices": {
         "switch2_domestic": 44500,
         "oled_white": 42500,
@@ -114,8 +114,42 @@
       "name": "海峡通信",
       "short_name": "海峡",
       "url": "https://www.mobile-ichiban.com/",
-      "updated_at": "2026/03/09 16:00",
-      "prices": {}
+      "updated_at": "2026/03/09 16:15",
+      "prices": {
+        "oled_neon": 42700,
+        "oled_white": 42000,
+        "standard_neon": 33500,
+        "standard_gray": 33500,
+        "lite_yellow": 22700,
+        "lite_turquoise": 22500,
+        "lite_coral": 22600,
+        "lite_gray": 22600,
+        "lite_blue": 22700,
+        "ps5pro_7100": 109700,
+        "ps5pro_7000": 109700,
+        "ps5_disc": 75900,
+        "ps5_de": 63900,
+        "ps5_jponly": 47800,
+        "portal_white": 30000,
+        "portal_black": 30000,
+        "iphone17pm_256_sv": 207000,
+        "iphone17pm_256_db": 207000,
+        "iphone17pm_256_co": 207000,
+        "iphone17pm_512_sv": 234000,
+        "iphone17pm_512_db": 234000,
+        "iphone17pm_512_co": 234000,
+        "iphone17pm_1tb_sv": 265000,
+        "iphone17pm_1tb_db": 265000,
+        "iphone17pm_1tb_co": 265000,
+        "iphone17p_256_sv": 167000,
+        "iphone17p_256_db": 167000,
+        "iphone17p_256_co": 167000,
+        "iphone17p_512_sv": 214000,
+        "iphone17p_512_db": 214000,
+        "iphone17p_512_co": 214000,
+        "iphone17_256": 112000,
+        "iphone17_512": 145000
+      }
     }
   }
 }
