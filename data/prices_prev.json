@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026/04/04 10:45",
+  "updated_at": "2026/04/04 11:00",
   "shops": {
     "rudeya": {
       "name": "買取ルデヤ",
       "short_name": "ルデヤ",
       "url": "https://kaitori-rudeya.com/",
-      "updated_at": "2026/04/04 10:45",
+      "updated_at": "2026/04/04 11:00",
       "prices": {
         "switch2_domestic": 44000,
         "oled_neon": 44500,
@@ -47,7 +47,7 @@
       "name": "森森買取",
       "short_name": "森森",
       "url": "https://www.morimori-kaitori.jp/",
-      "updated_at": "2026/04/04 10:45",
+      "updated_at": "2026/04/04 11:00",
       "prices": {
         "switch2_domestic": 43400,
         "oled_neon": 44700,
@@ -88,33 +88,14 @@
       "name": "買取ホムラ",
       "short_name": "ホムラ",
       "url": "https://kaitori-homura.com/",
-      "updated_at": "2026/04/04 10:45",
-      "prices": {
-        "switch2_domestic": 45500,
-        "oled_white": 42600,
-        "oled_neon": 44700,
-        "standard_neon": 33800,
-        "standard_gray": 33800,
-        "lite_turquoise": 23100,
-        "lite_coral": 23100,
-        "lite_yellow": 23100,
-        "lite_gray": 23100,
-        "lite_blue": 23100,
-        "iphone17p_256_co": 198500,
-        "iphone17p_256_sv": 198500,
-        "iphone17p_256_db": 198500,
-        "iphone17p_512_co": 222000,
-        "iphone17p_512_sv": 223000,
-        "iphone17p_512_db": 222000,
-        "iphone17pm_256_co": 220000,
-        "iphone17pm_256_sv": 220000
-      }
+      "updated_at": "2026/04/04 11:00",
+      "prices": {}
     },
     "kaikyo": {
       "name": "海峡通信",
       "short_name": "海峡",
       "url": "https://www.mobile-ichiban.com/",
-      "updated_at": "2026/04/04 10:45",
+      "updated_at": "2026/04/04 11:00",
       "prices": {
         "oled_neon": 44300,
         "oled_white": 42300,
