@@ -1,22 +1,22 @@
 {
-  "updated_at": "2026/04/08 15:01",
+  "updated_at": "2026/04/08 15:15",
   "shops": {
     "rudeya": {
       "name": "買取ルデヤ",
       "short_name": "ルデヤ",
       "url": "https://kaitori-rudeya.com/",
-      "updated_at": "2026/04/08 15:01",
+      "updated_at": "2026/04/08 15:15",
       "prices": {
         "switch2_domestic": 44000,
-        "oled_neon": 44800,
-        "oled_white": 42800,
+        "oled_neon": 45000,
+        "oled_white": 42900,
         "standard_neon": 33800,
         "standard_gray": 33800,
-        "lite_yellow": 23500,
-        "lite_turquoise": 23200,
-        "lite_coral": 23200,
-        "lite_gray": 23400,
-        "lite_blue": 23500,
+        "lite_yellow": 23550,
+        "lite_turquoise": 23550,
+        "lite_coral": 23550,
+        "lite_gray": 23550,
+        "lite_blue": 23550,
         "ps5pro_7100": 126700,
         "ps5pro_7000": 126700,
         "ps5_disc": 90200,
@@ -47,7 +47,7 @@
       "name": "森森買取",
       "short_name": "森森",
       "url": "https://www.morimori-kaitori.jp/",
-      "updated_at": "2026/04/08 15:01",
+      "updated_at": "2026/04/08 15:15",
       "prices": {
         "switch2_domestic": 43300,
         "oled_neon": 45000,
@@ -88,7 +88,7 @@
       "name": "買取ホムラ",
       "short_name": "ホムラ",
       "url": "https://kaitori-homura.com/",
-      "updated_at": "2026/04/08 15:01",
+      "updated_at": "2026/04/08 15:15",
       "prices": {
         "switch2_domestic": 45300,
         "oled_white": 43000,
@@ -114,7 +114,7 @@
       "name": "海峡通信",
       "short_name": "海峡",
       "url": "https://www.mobile-ichiban.com/",
-      "updated_at": "2026/04/08 15:01",
+      "updated_at": "2026/04/08 15:15",
       "prices": {
         "oled_neon": 44800,
         "oled_white": 42700,
