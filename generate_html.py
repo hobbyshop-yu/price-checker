@@ -254,21 +254,24 @@ def generate_html():
       const resp = await fetch('data/history.json?' + Date.now());
       const hd = await resp.json();
       const COLORS = {{
-        'iphone17pm_256':'#ff6384','iphone17pm_512':'#ff9f40','iphone17pm_1tb':'#ffcd56',
+        'iphone17pm_256':'#ff6384','iphone17pm_512':'#ff9f40','iphone17pm_1tb':'#ffcd56','iphone17pm_2tb':'#e8c3b9',
         'iphone17p_256':'#4bc0c0','iphone17p_512':'#36a2eb','iphone17p_1tb':'#9966ff',
-        'iphone_air_256':'#c9cbcf','iphone_air_512':'#7c8a97',
+        'iphone_air_256':'#c9cbcf','iphone_air_512':'#7c8a97','iphone_air_1tb':'#a78bfa',
         'iphone17_256':'#3fb950','iphone17_512':'#2ea043',
+        'iphone17e_256':'#f97316','iphone17e_512':'#ea580c',
       }};
       const RETAIL = {{
-        'iphone17pm_256':194800,'iphone17pm_512':229800,'iphone17pm_1tb':264800,
+        'iphone17pm_256':194800,'iphone17pm_512':229800,'iphone17pm_1tb':264800,'iphone17pm_2tb':329800,
         'iphone17p_256':179800,'iphone17p_512':214800,'iphone17p_1tb':249800,
-        'iphone_air_256':159800,'iphone_air_512':194800,
-        'iphone17_256':129800,'iphone17_512':159800,
+        'iphone_air_256':159800,'iphone_air_512':194800,'iphone_air_1tb':229800,
+        'iphone17_256':129800,'iphone17_512':164800,
+        'iphone17e_256':99800,'iphone17e_512':134800,
       }};
       const GROUPS = [
-        {{ name:'iPhone 17 Pro Max', ids:['iphone17pm_256','iphone17pm_512','iphone17pm_1tb'] }},
+        {{ name:'iPhone 17 Pro Max', ids:['iphone17pm_256','iphone17pm_512','iphone17pm_1tb','iphone17pm_2tb'] }},
         {{ name:'iPhone 17 Pro', ids:['iphone17p_256','iphone17p_512','iphone17p_1tb'] }},
-        {{ name:'iPhone Air / 17', ids:['iphone_air_256','iphone_air_512','iphone17_256','iphone17_512'] }},
+        {{ name:'iPhone Air', ids:['iphone_air_256','iphone_air_512','iphone_air_1tb'] }},
+        {{ name:'iPhone 17 / 17e', ids:['iphone17_256','iphone17_512','iphone17e_256','iphone17e_512'] }},
       ];
       const allDates = hd.dates;
       const cutoff = new Date(); cutoff.setDate(cutoff.getDate()-7);
