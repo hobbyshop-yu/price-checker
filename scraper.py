@@ -188,6 +188,22 @@ MORIMORI_IPHONE_KW = {
 }
 
 
+def fetch_morimori(url, retries=2):
+    """もりもり専用fetch: タイムアウト延長 + リトライ"""
+    for attempt in range(retries + 1):
+        try:
+            resp = requests.get(url, headers=HEADERS, timeout=60)
+            resp.raise_for_status()
+            resp.encoding = resp.apparent_encoding
+            return BeautifulSoup(resp.text, "html.parser")
+        except Exception as e:
+            if attempt < retries:
+                print(f"    retry {attempt+1}/{retries} for {url.split('/')[-1]}")
+                time.sleep(5)
+            else:
+                raise e
+
+
 def scrape_morimori(products):
     print("\n=== 森森 ===")
     prices = {}
@@ -197,9 +213,9 @@ def scrape_morimori(products):
             url = MORIMORI_URLS.get(p["id"])
             if not url:
                 continue
-            time.sleep(3)  # レート制限回避（もりもりは厳しめ）
+            time.sleep(5)  # レート制限回避（もりもりは厳しめ）
             try:
-                soup2 = fetch(url)
+                soup2 = fetch_morimori(url)
                 text = soup2.get_text()
                 m = re.search(r"買取価格\s*([\d,]+)\s*円", text)
                 if m:
@@ -212,9 +228,9 @@ def scrape_morimori(products):
 
         # 2. iPhone カテゴリページからリンクを取得し個別ページで価格取得
         for cat_label, cat_url in MORIMORI_IPHONE_CATS.items():
-            time.sleep(3)
+            time.sleep(5)
             try:
-                soup_cat = fetch(cat_url)
+                soup_cat = fetch_morimori(cat_url)
                 for link in soup_cat.select("a[href*='/product/']"):
                     name = link.get_text(separator=" ", strip=True)
                     href = link.get("href", "")
@@ -231,9 +247,9 @@ def scrape_morimori(products):
                                 continue
                             # 個別ページにアクセスして価格取得
                             product_url = "https://www.morimori-kaitori.jp" + href
-                            time.sleep(3)
+                            time.sleep(5)
                             try:
-                                soup_prod = fetch(product_url)
+                                soup_prod = fetch_morimori(product_url)
                                 pt = soup_prod.get_text()
                                 pm = re.search(r"買取価格\s*([\d,]+)\s*円", pt)
                                 if pm:
