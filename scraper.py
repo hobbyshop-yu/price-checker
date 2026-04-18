@@ -192,26 +192,16 @@ def scrape_morimori(products):
     print("\n=== 森森 ===")
     prices = {}
     try:
-        soup = fetch("https://www.morimori-kaitori.jp/")
-        jan_urls = {}
-        for link in soup.select("a[href*='/product/']"):
-            text = link.get_text(separator=" ", strip=True)
-            jan_m = re.search(r"JAN[：:]?\s*(\d{13})", text)
-            if jan_m:
-                jan_urls[jan_m.group(1)] = "https://www.morimori-kaitori.jp" + link.get("href", "")
-
+        # 1. 個別商品URLで直接取得（Switch / PS5）
         for p in products:
-            jan = p.get("morimori_jan", "")
-            url = jan_urls.get(jan) or MORIMORI_URLS.get(p["id"])
+            url = MORIMORI_URLS.get(p["id"])
             if not url:
                 continue
-            time.sleep(DELAY)
+            time.sleep(3)  # レート制限回避（もりもりは厳しめ）
             try:
                 soup2 = fetch(url)
                 text = soup2.get_text()
-                m = re.search(r"通常買取価格\s*([\d,]+)\s*円", text)
-                if not m:
-                    m = re.search(r"買取価格\s*([\d,]+)\s*円", text)
+                m = re.search(r"買取価格\s*([\d,]+)\s*円", text)
                 if m:
                     prices[p["id"]] = int(m.group(1).replace(",", ""))
                     print(f"  [OK] {p['id']}: {prices[p['id']]:,}")
@@ -220,12 +210,11 @@ def scrape_morimori(products):
             except Exception as e:
                 print(f"  [NG] {p['id']}: {e}")
 
-        # iPhone カテゴリページからリンクを取得し個別ページで価格取得
+        # 2. iPhone カテゴリページからリンクを取得し個別ページで価格取得
         for cat_label, cat_url in MORIMORI_IPHONE_CATS.items():
-            time.sleep(DELAY)
+            time.sleep(3)
             try:
                 soup_cat = fetch(cat_url)
-                # a[href*=/product/]リンクから商品名とURLを取得
                 for link in soup_cat.select("a[href*='/product/']"):
                     name = link.get_text(separator=" ", strip=True)
                     href = link.get("href", "")
@@ -242,13 +231,11 @@ def scrape_morimori(products):
                                 continue
                             # 個別ページにアクセスして価格取得
                             product_url = "https://www.morimori-kaitori.jp" + href
-                            time.sleep(DELAY)
+                            time.sleep(3)
                             try:
                                 soup_prod = fetch(product_url)
                                 pt = soup_prod.get_text()
-                                pm = re.search(r"通常買取価格\s*([\d,]+)\s*円", pt)
-                                if not pm:
-                                    pm = re.search(r"買取価格\s*([\d,]+)\s*円", pt)
+                                pm = re.search(r"買取価格\s*([\d,]+)\s*円", pt)
                                 if pm:
                                     price = int(pm.group(1).replace(",", ""))
                                     prices[pid] = price
