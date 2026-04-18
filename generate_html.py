@@ -254,19 +254,27 @@ def generate_html():
       const resp = await fetch('data/history.json?' + Date.now());
       const hd = await resp.json();
       const COLORS = {{
-        'iphone17pm_256':'#ff6384','iphone17pm_512':'#ff9f40','iphone17pm_1tb':'#ffcd56','iphone17pm_2tb':'#e8c3b9',
-        'iphone17p_256':'#4bc0c0','iphone17p_512':'#36a2eb','iphone17p_1tb':'#9966ff',
-        'iphone_air_256':'#c9cbcf','iphone_air_512':'#7c8a97','iphone_air_1tb':'#a78bfa',
-        'iphone17_256':'#3fb950','iphone17_512':'#2ea043',
-        'iphone17e_256':'#f97316','iphone17e_512':'#ea580c',
+        'iphone17pm_256':'#ff6384',
+        'iphone17p_256':'#36a2eb',
+        'iphone_air_256':'#a78bfa',
+        'iphone17_256':'#3fb950',
+        'iphone17e_256':'#f97316',
+      }};
+      const LABELS = {{
+        'iphone17pm_256':'17 Pro Max',
+        'iphone17p_256':'17 Pro',
+        'iphone_air_256':'Air',
+        'iphone17_256':'17',
+        'iphone17e_256':'17e',
       }};
       const RETAIL = {{
-        'iphone17pm_256':194800,'iphone17pm_512':229800,'iphone17pm_1tb':264800,'iphone17pm_2tb':329800,
-        'iphone17p_256':179800,'iphone17p_512':214800,'iphone17p_1tb':249800,
-        'iphone_air_256':159800,'iphone_air_512':194800,'iphone_air_1tb':229800,
-        'iphone17_256':129800,'iphone17_512':164800,
-        'iphone17e_256':99800,'iphone17e_512':134800,
+        'iphone17pm_256':194800,
+        'iphone17p_256':179800,
+        'iphone_air_256':159800,
+        'iphone17_256':129800,
+        'iphone17e_256':99800,
       }};
+      const IDS = ['iphone17pm_256','iphone17p_256','iphone_air_256','iphone17_256','iphone17e_256'];
       const allDates = hd.dates;
       const cutoff = new Date(); cutoff.setDate(cutoff.getDate()-7);
       const cutStr = cutoff.toISOString().split('T')[0];
@@ -281,17 +289,17 @@ def generate_html():
       area.appendChild(card);
       const ctx = card.querySelector('canvas').getContext('2d');
       const datasets = [];
-      Object.keys(hd.products).forEach(id => {{
-        if(!RETAIL[id]) return;
+      IDS.forEach(id => {{
+        if(!hd.products[id]) return;
         const prices = hd.products[id].slice(si);
-        const dn = hd.display_names[id]||id;
+        const dn = LABELS[id]||id;
         const retail = RETAIL[id];
         datasets.push({{ label:dn, data:dates.map((d,i)=>{{
           if(prices[i]==null) return null;
           return {{x:d,y:prices[i]-retail}};
         }}).filter(p=>p!=null),
           borderColor:COLORS[id]||'#999', backgroundColor:(COLORS[id]||'#999')+'20',
-          borderWidth:2, pointRadius:2, pointHoverRadius:5, tension:0.3, fill:false }});
+          borderWidth:2.5, pointRadius:3, pointHoverRadius:6, tension:0.3, fill:false }});
       }});
       new Chart(ctx, {{ type:'line', data:{{datasets}},
         options:{{ responsive:true, maintainAspectRatio:false,
@@ -305,7 +313,7 @@ def generate_html():
             label:{{display:true,content:'損益分岐点',position:'start',
               backgroundColor:'#161b22ee',color:'#f85149',font:{{size:10,weight:'bold'}},
               padding:{{top:2,bottom:2,left:4,right:4}} }} }} }} }},
-            legend:{{labels:{{color:'#c9d1d9',usePointStyle:true,padding:10,font:{{size:10}} }} }},
+            legend:{{labels:{{color:'#c9d1d9',usePointStyle:true,padding:14,font:{{size:12}} }} }},
             tooltip:{{ backgroundColor:'#1c2128',titleColor:'#e6edf3',bodyColor:'#c9d1d9',
               borderColor:'#30363d',borderWidth:1,
               callbacks:{{label:ctx=>{{const v=ctx.parsed.y;const s=v>=0?'+':'';const e=v>=0?'\U0001f7e2':'\U0001f534';
