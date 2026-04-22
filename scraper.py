@@ -216,8 +216,8 @@ def scrape_morimori(products):
             time.sleep(5)  # レート制限回避（もりもりは厳しめ）
             try:
                 soup2 = fetch_morimori(url)
-                text = soup2.get_text()
-                m = re.search(r"買取価格\s*([\d,]+)\s*円", text)
+                text = soup2.get_text(separator=" ")
+                m = re.search(r"買取価格\s+([\d,]+)\s*円", text)
                 if m:
                     prices[p["id"]] = int(m.group(1).replace(",", ""))
                     print(f"  [OK] {p['id']}: {prices[p['id']]:,}")
@@ -250,8 +250,8 @@ def scrape_morimori(products):
                             time.sleep(5)
                             try:
                                 soup_prod = fetch_morimori(product_url)
-                                pt = soup_prod.get_text()
-                                pm = re.search(r"買取価格\s*([\d,]+)\s*円", pt)
+                                pt = soup_prod.get_text(separator=" ")
+                                pm = re.search(r"買取価格\s+([\d,]+)\s*円", pt)
                                 if pm:
                                     price = int(pm.group(1).replace(",", ""))
                                     prices[pid] = price
