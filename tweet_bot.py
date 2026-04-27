@@ -15,6 +15,12 @@ from pathlib import Path
 
 JST = timezone(timedelta(hours=9))
 
+
+def format_date_short():
+    """月/日をゼロ埋めなしで返す（Linux/Windows互換）。"""
+    now = datetime.now(JST)
+    return f"{now.month}/{now.day}"
+
 DATA_DIR = Path(__file__).parent / "data"
 PRICES_FILE = DATA_DIR / "prices.json"
 PREV_FILE = DATA_DIR / "prices_prev.json"
@@ -277,10 +283,7 @@ def post_noon_iphone(dry_run=False):
     print("=== iPhone 速報チェック ===")
 
     # 当日既に投稿済みかチェック
-    try:
-        today = datetime.now(JST).strftime("%-m/%-d")
-    except ValueError:
-        today = datetime.now(JST).strftime("%m/%d").lstrip("0").replace("/0", "/")
+    today = format_date_short()
     today_key = datetime.now(JST).strftime("%Y-%m-%d")
 
     noon_posted = load_json(NOON_POSTED_FILE)
@@ -362,27 +365,21 @@ def post_noon_iphone(dry_run=False):
                 else:
                     diff_str = "→"
 
-            # 利益表示
-            profit_str = ""
-            if best_pid in retail_prices:
-                profit = cur_price - retail_prices[best_pid]
-                if profit > 0:
-                    profit_str = f"💰+{profit:,}"
-                elif profit < 0:
-                    profit_str = f"⚠️{profit:,}"
-
             parts = [f"{cap_display} {format_price(cur_price)}円"]
             if diff_str:
-                parts.append(f"({diff_str})")
-            if profit_str:
-                parts.append(profit_str)
+                parts.append(diff_str)
             cap_lines.append(" ".join(parts))
 
         if cap_lines:
-            lines.append(f"【{group_name}】\n" + "\n".join(f" {cl}" for cl in cap_lines))
+            lines.append(f"【{group_name}】" + " / ".join(cap_lines))
 
-    lines.append(f"\n👇 全店比較\n{SITE_URL}\n{HASHTAGS_IPHONE}")
+    lines.append(f"\n{SITE_URL}\n{HASHTAGS_IPHONE}")
     text = "\n".join(lines)
+
+    # 280字制限: グループを後ろから削る
+    while len(text) > 270 and len(lines) > 3:
+        lines.pop(-2)  # 最後のグループを削除（URLとタグの前）
+        text = "\n".join(lines)
 
     result = post_tweet(text, dry_run)
     if result and not dry_run:
@@ -428,12 +425,7 @@ def post_daily_report(dry_run=False):
             "pct": pct,
         })
 
-    today = datetime.now(JST).strftime("%-m/%-d")
-    # Windows対応
-    try:
-        today = datetime.now(JST).strftime("%-m/%-d")
-    except ValueError:
-        today = datetime.now(JST).strftime("%m/%d").lstrip("0").replace("/0", "/")
+    today = format_date_short()
 
     if not changes:
         text = f"📊 本日の買取価格まとめ（{today}）\n\n本日は大きな値動きはありませんでした。\n\n👇 最新価格\n{SITE_URL}\n{HASHTAGS_GENERAL}"
