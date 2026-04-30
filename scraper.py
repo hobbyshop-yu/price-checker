@@ -188,18 +188,34 @@ MORIMORI_IPHONE_KW = {
 }
 
 
-def fetch_morimori(url, retries=2):
-    """もりもり専用fetch: タイムアウト延長 + リトライ"""
+def fetch_morimori(url, session=None, retries=3):
+    """もりもり専用fetch: セッション維持 + フルブラウザヘッダー + リトライ"""
+    morimori_headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                      "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+        "Referer": "https://www.morimori-kaitori.jp/",
+    }
+    if session is None:
+        session = requests.Session()
+        session.headers.update(morimori_headers)
     for attempt in range(retries + 1):
         try:
-            resp = requests.get(url, headers=HEADERS, timeout=60)
+            resp = session.get(url, timeout=60)
             resp.raise_for_status()
             resp.encoding = resp.apparent_encoding
-            return BeautifulSoup(resp.text, "html.parser")
+            return BeautifulSoup(resp.text, "html.parser"), session
         except Exception as e:
             if attempt < retries:
-                print(f"    retry {attempt+1}/{retries} for {url.split('/')[-1]}")
-                time.sleep(5)
+                wait = 5 * (attempt + 1)
+                print(f"    retry {attempt+1}/{retries} for {url.split('/')[-1]} (wait {wait}s)")
+                time.sleep(wait)
+                # 新しいセッションで再試行
+                session = requests.Session()
+                session.headers.update(morimori_headers)
             else:
                 raise e
 
@@ -207,6 +223,7 @@ def fetch_morimori(url, retries=2):
 def scrape_morimori(products):
     print("\n=== 森森 ===")
     prices = {}
+    session = None  # セッション共有でCookie維持
     try:
         # 1. 個別商品URLで直接取得（Switch / PS5）
         for p in products:
@@ -215,7 +232,7 @@ def scrape_morimori(products):
                 continue
             time.sleep(5)  # レート制限回避（もりもりは厳しめ）
             try:
-                soup2 = fetch_morimori(url)
+                soup2, session = fetch_morimori(url, session=session)
                 text = soup2.get_text(separator=" ")
                 m = re.search(r"買取価格\s+([\d,]+)\s*円", text)
                 if m:
@@ -230,7 +247,7 @@ def scrape_morimori(products):
         for cat_label, cat_url in MORIMORI_IPHONE_CATS.items():
             time.sleep(5)
             try:
-                soup_cat = fetch_morimori(cat_url)
+                soup_cat, session = fetch_morimori(cat_url, session=session)
                 for link in soup_cat.select("a[href*='/product/']"):
                     name = link.get_text(separator=" ", strip=True)
                     href = link.get("href", "")
@@ -249,7 +266,7 @@ def scrape_morimori(products):
                             product_url = "https://www.morimori-kaitori.jp" + href
                             time.sleep(5)
                             try:
-                                soup_prod = fetch_morimori(product_url)
+                                soup_prod, session = fetch_morimori(product_url, session=session)
                                 pt = soup_prod.get_text(separator=" ")
                                 pm = re.search(r"買取価格\s+([\d,]+)\s*円", pt)
                                 if pm:
