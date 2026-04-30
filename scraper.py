@@ -188,96 +188,78 @@ MORIMORI_IPHONE_KW = {
 }
 
 
-def fetch_morimori(url, session=None, retries=3):
-    """もりもり専用fetch: セッション維持 + フルブラウザヘッダー + リトライ"""
-    morimori_headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                      "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-        "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Connection": "keep-alive",
-        "Referer": "https://www.morimori-kaitori.jp/",
-    }
-    if session is None:
-        session = requests.Session()
-        session.headers.update(morimori_headers)
-    for attempt in range(retries + 1):
-        try:
-            resp = session.get(url, timeout=60)
-            resp.raise_for_status()
-            resp.encoding = resp.apparent_encoding
-            return BeautifulSoup(resp.text, "html.parser"), session
-        except Exception as e:
-            if attempt < retries:
-                wait = 5 * (attempt + 1)
-                print(f"    retry {attempt+1}/{retries} for {url.split('/')[-1]} (wait {wait}s)")
-                time.sleep(wait)
-                # 新しいセッションで再試行
-                session = requests.Session()
-                session.headers.update(morimori_headers)
-            else:
-                raise e
-
-
 def scrape_morimori(products):
     print("\n=== 森森 ===")
-    prices = {}
-    session = None  # セッション共有でCookie維持
-    try:
-        # 1. 個別商品URLで直接取得（Switch / PS5）
-        for p in products:
-            url = MORIMORI_URLS.get(p["id"])
-            if not url:
-                continue
-            time.sleep(5)  # レート制限回避（もりもりは厳しめ）
-            try:
-                soup2, session = fetch_morimori(url, session=session)
-                text = soup2.get_text(separator=" ")
-                m = re.search(r"買取価格\s+([\d,]+)\s*円", text)
-                if m:
-                    prices[p["id"]] = int(m.group(1).replace(",", ""))
-                    print(f"  [OK] {p['id']}: {prices[p['id']]:,}")
-                else:
-                    print(f"  [NG] {p['id']}: price not found")
-            except Exception as e:
-                print(f"  [NG] {p['id']}: {e}")
+    if not HAS_PLAYWRIGHT:
+        print("  [SKIP] Playwright not available")
+        return {}
 
-        # 2. iPhone カテゴリページからリンクを取得し個別ページで価格取得
-        for cat_label, cat_url in MORIMORI_IPHONE_CATS.items():
-            time.sleep(5)
-            try:
-                soup_cat, session = fetch_morimori(cat_url, session=session)
-                for link in soup_cat.select("a[href*='/product/']"):
-                    name = link.get_text(separator=" ", strip=True)
-                    href = link.get("href", "")
-                    if not href or not name:
-                        continue
-                    # キーワードマッチ
-                    for pid, kws in MORIMORI_IPHONE_KW.items():
-                        if pid in prices:
-                            continue
-                        if all(k in name for k in kws):
-                            if pid.startswith("iphone17p_") and "Max" in name:
+    prices = {}
+    try:
+        with sync_playwright() as pw:
+            browser = pw.chromium.launch(headless=True)
+            page = browser.new_page()
+
+            # 1. 個別商品URLで直接取得（Switch / PS5）
+            for p in products:
+                url = MORIMORI_URLS.get(p["id"])
+                if not url:
+                    continue
+                time.sleep(3)
+                try:
+                    page.goto(url, wait_until="domcontentloaded", timeout=30000)
+                    time.sleep(2)
+                    text = page.inner_text("body")
+                    m = re.search(r"買取価格\s+([\d,]+)\s*円", text)
+                    if m:
+                        prices[p["id"]] = int(m.group(1).replace(",", ""))
+                        print(f"  [OK] {p['id']}: {prices[p['id']]:,}")
+                    else:
+                        print(f"  [NG] {p['id']}: price not found")
+                except Exception as e:
+                    print(f"  [NG] {p['id']}: {e}")
+
+            # 2. iPhone カテゴリページからリンクを取得し個別ページで価格取得
+            for cat_label, cat_url in MORIMORI_IPHONE_CATS.items():
+                time.sleep(3)
+                try:
+                    page.goto(cat_url, wait_until="domcontentloaded", timeout=30000)
+                    time.sleep(2)
+                    links = page.query_selector_all("a[href*='/product/']")
+                    items = []
+                    for link in links:
+                        name = link.inner_text().strip()
+                        href = link.get_attribute("href") or ""
+                        if name and href:
+                            items.append((name, href))
+
+                    for name, href in items:
+                        for pid, kws in MORIMORI_IPHONE_KW.items():
+                            if pid in prices:
                                 continue
-                            if pid.startswith("iphone17_") and ("Pro" in name or "Air" in name):
-                                continue
-                            # 個別ページにアクセスして価格取得
-                            product_url = "https://www.morimori-kaitori.jp" + href
-                            time.sleep(5)
-                            try:
-                                soup_prod, session = fetch_morimori(product_url, session=session)
-                                pt = soup_prod.get_text(separator=" ")
-                                pm = re.search(r"買取価格\s+([\d,]+)\s*円", pt)
-                                if pm:
-                                    price = int(pm.group(1).replace(",", ""))
-                                    prices[pid] = price
-                                    print(f"  [OK] {pid}: {price:,} (morimori-cat)")
-                            except Exception as e2:
-                                print(f"  [NG] {pid}: {e2}")
-                            break
-            except Exception as e:
-                print(f"  [NG] iPhone-{cat_label}: {e}")
+                            if all(k in name for k in kws):
+                                if pid.startswith("iphone17p_") and "Max" in name:
+                                    continue
+                                if pid.startswith("iphone17_") and ("Pro" in name or "Air" in name):
+                                    continue
+                                product_url = "https://www.morimori-kaitori.jp" + href if href.startswith("/") else href
+                                time.sleep(3)
+                                try:
+                                    page.goto(product_url, wait_until="domcontentloaded", timeout=30000)
+                                    time.sleep(2)
+                                    pt = page.inner_text("body")
+                                    pm = re.search(r"買取価格\s+([\d,]+)\s*円", pt)
+                                    if pm:
+                                        price = int(pm.group(1).replace(",", ""))
+                                        prices[pid] = price
+                                        print(f"  [OK] {pid}: {price:,} (morimori-cat)")
+                                except Exception as e2:
+                                    print(f"  [NG] {pid}: {e2}")
+                                break
+                except Exception as e:
+                    print(f"  [NG] iPhone-{cat_label}: {e}")
+
+            browser.close()
 
     except Exception as e:
         print(f"  [ERROR] {e}")
