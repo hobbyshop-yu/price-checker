@@ -140,22 +140,52 @@ def post_tweet(text, dry_run=False):
     print(text)
     print("-" * 40)
 
+    # デバッグ: 投稿試行情報をファイルに保存
+    debug_file = DATA_DIR / "tweet_debug.json"
+    debug_info = {
+        "timestamp": datetime.now(JST).strftime("%Y-%m-%d %H:%M:%S"),
+        "char_count": len(text),
+        "dry_run": dry_run,
+        "text_preview": text[:100],
+    }
+
     if dry_run:
+        debug_info["result"] = "dry_run"
+        save_json(debug_file, debug_info)
         return True
 
     try:
         import tweepy
         client = tweepy.Client(
-            consumer_key=os.environ["X_API_KEY"],
-            consumer_secret=os.environ["X_API_SECRET"],
-            access_token=os.environ["X_ACCESS_TOKEN"],
-            access_token_secret=os.environ["X_ACCESS_TOKEN_SECRET"],
+            consumer_key=os.environ.get("X_API_KEY", ""),
+            consumer_secret=os.environ.get("X_API_SECRET", ""),
+            access_token=os.environ.get("X_ACCESS_TOKEN", ""),
+            access_token_secret=os.environ.get("X_ACCESS_TOKEN_SECRET", ""),
         )
-        client.create_tweet(text=text)
+
+        # 環境変数チェック
+        missing_keys = [k for k in ["X_API_KEY", "X_API_SECRET", "X_ACCESS_TOKEN", "X_ACCESS_TOKEN_SECRET"]
+                        if not os.environ.get(k)]
+        if missing_keys:
+            msg = f"Missing env vars: {missing_keys}"
+            print(f"  → {msg}")
+            debug_info["result"] = "error"
+            debug_info["error"] = msg
+            save_json(debug_file, debug_info)
+            return False
+
+        response = client.create_tweet(text=text)
         print("  → ツイート投稿成功 ✅")
+        debug_info["result"] = "success"
+        debug_info["tweet_id"] = str(response.data["id"]) if response.data else "unknown"
+        save_json(debug_file, debug_info)
         return True
     except Exception as e:
-        print(f"  → ツイート投稿失敗 ❌: {e}")
+        error_msg = f"{type(e).__name__}: {e}"
+        print(f"  → ツイート投稿失敗 ❌: {error_msg}")
+        debug_info["result"] = "error"
+        debug_info["error"] = error_msg
+        save_json(debug_file, debug_info)
         return False
 
 
