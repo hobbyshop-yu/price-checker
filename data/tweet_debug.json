@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-04-30 11:02:55",
-  "char_count": 95,
+  "timestamp": "2026-04-30 11:27:30",
+  "char_count": 176,
   "dry_run": false,
-  "text_preview": "📊 本日の買取価格まとめ（4/30）\n\n本日は大きな値動きはありませんでした。\n\n👇 最新価格\nhttps://kaitori.hobbyshop-yu.com\n#買取価格 #せどり #転売",
-  "result": "error",
-  "error": "HTTPException: 402 Payment Required\nYour enrolled account [2030169441502412800] does not have any credits to fulfill this request."
+  "text_preview": "📊 買取まとめ（4/30）\n\n📱 iPhone最高値\n17PM: 256 218,500 / 512 253,000 / 1TB 275,000\n17Pro: 256 200,000 / 512 22",
+  "result": "success",
+  "tweet_id": "2049676991255962072"
 }
