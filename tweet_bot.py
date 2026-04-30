@@ -193,8 +193,22 @@ def post_tweet(text, dry_run=False):
 # 価格変動アラート
 # ============================================================
 def check_price_alerts(dry_run=False):
-    """最高買取価格が3%以上変動した商品をツイート（色違い重複排除）。"""
+    """最高買取価格が5%以上変動した商品をツイート（色違い重複排除・1時間クールダウン）。"""
     print("=== 価格変動アラート ===")
+
+    # クールダウン: 直近1時間以内にツイートしていたらスキップ
+    debug_file = DATA_DIR / "tweet_debug.json"
+    if debug_file.exists():
+        debug = load_json(debug_file)
+        last_ts = debug.get("timestamp", "")
+        if last_ts and debug.get("result") == "success":
+            try:
+                last_dt = datetime.strptime(last_ts, "%Y-%m-%d %H:%M:%S").replace(tzinfo=JST)
+                if (datetime.now(JST) - last_dt).total_seconds() < 3600:
+                    print("  直近1時間以内に投稿済み。クールダウン中。")
+                    return
+            except (ValueError, TypeError):
+                pass
 
     current = load_json(PRICES_FILE)
     prev = load_json(PREV_FILE)
@@ -221,7 +235,7 @@ def check_price_alerts(dry_run=False):
         if prev_price == 0:
             continue
         change_pct = (cur_price - prev_price) / prev_price * 100
-        if abs(change_pct) >= 3.0:
+        if abs(change_pct) >= 5.0:
             alerts.append({
                 "pid": pid,
                 "name": DISPLAY_NAMES.get(pid, pid),
@@ -232,7 +246,7 @@ def check_price_alerts(dry_run=False):
             })
 
     if not alerts:
-        print("  3%以上の変動なし。")
+        print("  5%以上の変動なし。")
         save_json(PREV_FILE, current)
         return
 
@@ -421,7 +435,7 @@ def post_noon_iphone(dry_run=False):
 # 日報ツイート
 # ============================================================
 def post_daily_report(dry_run=False):
-    """本日の値動きサマリーをツイート。"""
+    """本日の値動きサマリー + iPhone現在価格をツイート（noon統合版）。"""
     print("=== 日報ツイート ===")
 
     current = load_json(PRICES_FILE)
@@ -433,90 +447,84 @@ def post_daily_report(dry_run=False):
 
     cur_best = get_best_prices(current)
     open_prices = daily_open["prices"]
+    retail_prices = get_retail_prices()
+    today = format_date_short()
 
+    # --- iPhone現在価格サマリー（noon統合） ---
+    iphone_lines = []
+    groups = [
+        ("17PM", "iphone17pm_", ["256", "512", "1tb"]),
+        ("17Pro", "iphone17p_", ["256", "512"]),
+    ]
+    for group_name, prefix, capacities in groups:
+        cap_parts = []
+        for cap in capacities:
+            cap_pids = [p for p in cur_best if p.startswith(prefix)
+                        and not (prefix == "iphone17p_" and p.startswith("iphone17pm_"))
+                        and (f"_{cap}_" in p or p.endswith(f"_{cap}"))]
+            if not cap_pids:
+                continue
+            best_pid = max(cap_pids, key=lambda p: cur_best[p]["price"])
+            price = cur_best[best_pid]["price"]
+            cap_display = cap.upper() if cap == "1tb" else cap
+            # 前日比
+            diff_mark = ""
+            if best_pid in open_prices and open_prices[best_pid] > 0:
+                d = price - open_prices[best_pid]
+                if d > 0:
+                    diff_mark = f"↑{d:,}"
+                elif d < 0:
+                    diff_mark = f"↓{d:,}"
+            cap_parts.append(f"{cap_display} {price:,}" + (f"({diff_mark})" if diff_mark else ""))
+        if cap_parts:
+            iphone_lines.append(f"{group_name}: " + " / ".join(cap_parts))
+
+    # --- メインツイート構築 ---
+    lines = [f"📊 買取まとめ（{today}）\n"]
+
+    # iPhone現在価格
+    if iphone_lines:
+        lines.append("📱 iPhone最高値")
+        lines.extend(iphone_lines)
+
+    # 値動きサマリー（大きい変動のみ3件）
     changes = []
     for pid, cur_info in cur_best.items():
         if pid not in open_prices:
             continue
-        cur_price = cur_info["price"]
-        open_price = open_prices[pid]
-        if open_price == 0:
+        diff = cur_info["price"] - open_prices[pid]
+        if diff == 0 or open_prices[pid] == 0:
             continue
-        diff = cur_price - open_price
-        if diff == 0:
-            continue
-        pct = diff / open_price * 100
-        changes.append({
-            "pid": pid,
-            "name": DISPLAY_NAMES.get(pid, pid),
-            "open": open_price,
-            "close": cur_price,
-            "diff": diff,
-            "pct": pct,
-        })
+        pct = diff / open_prices[pid] * 100
+        if abs(pct) >= 1.0:  # 1%以上の変動のみ
+            changes.append({"name": DISPLAY_NAMES.get(pid, pid), "diff": diff, "pct": pct})
 
-    today = format_date_short()
+    if changes:
+        ups = sorted([c for c in changes if c["diff"] > 0], key=lambda x: abs(x["pct"]), reverse=True)[:2]
+        downs = sorted([c for c in changes if c["diff"] < 0], key=lambda x: abs(x["pct"]), reverse=True)[:2]
+        if ups or downs:
+            lines.append("")
+            if ups:
+                for u in ups:
+                    lines.append(f"🔺{u['name']} +{u['diff']:,}")
+            if downs:
+                for d in downs:
+                    lines.append(f"🔻{d['name']} {d['diff']:,}")
+    elif not iphone_lines:
+        lines.append("本日は大きな値動きなし")
 
-    if not changes:
-        text = f"📊 本日の買取価格まとめ（{today}）\n\n本日は大きな値動きはありませんでした。\n\n👇 最新価格\n{SITE_URL}\n{HASHTAGS_GENERAL}"
-        post_tweet(text, dry_run)
-        return
-
-    # 利益データも追加
-    retail_prices = get_retail_prices()
-    for c in changes:
-        rp = retail_prices.get(c["pid"], 0)
-        c["profit"] = c["close"] - rp if rp else None
-
-    # 値上がり/値下がりに分けてソート
-    ups = sorted([c for c in changes if c["diff"] > 0], key=lambda x: abs(x["pct"]), reverse=True)
-    downs = sorted([c for c in changes if c["diff"] < 0], key=lambda x: abs(x["pct"]), reverse=True)
-
-    lines = [f"📊 本日の買取価格まとめ（{today}）\n"]
-
-    if ups:
-        lines.append("🔺 値上がり")
-        for u in ups[:3]:
-            profit_mark = ""
-            if u["profit"] is not None and u["profit"] > 0:
-                profit_mark = f" 💰+{u['profit']:,}"
-            lines.append(f"・{u['name']} +{u['diff']:,}円{profit_mark}")
-
-    if downs:
-        lines.append("\n🔻 値下がり")
-        for d in downs[:3]:
-            lines.append(f"・{d['name']} {d['diff']:,}円")
-
-    if not ups and not downs:
-        lines.append("変動なし")
-
-    all_pids = [c["pid"] for c in changes]
-    tags = get_hashtags(all_pids)
-    lines.append(f"\n👇 最新価格\n{SITE_URL}\n{tags}")
+    lines.append(f"\n{SITE_URL}\n{HASHTAGS_IPHONE}")
     text = "\n".join(lines)
 
     # 文字数制限
     while len(text) > 270:
-        if ups and len(ups) > 1:
-            ups.pop()
-        elif downs and len(downs) > 1:
-            downs.pop()
+        if len(iphone_lines) > 1:
+            iphone_lines.pop()
+            lines = [f"📊 買取まとめ（{today}）\n", "📱 iPhone最高値"] + iphone_lines
+            lines.append(f"\n{SITE_URL}\n{HASHTAGS_IPHONE}")
+            text = "\n".join(lines)
         else:
             break
-        lines = [f"📊 本日の買取価格まとめ（{today}）\n"]
-        if ups:
-            lines.append("🔺 値上がり")
-            for u in ups:
-                profit_mark = ""
-                if u["profit"] is not None and u["profit"] > 0:
-                    profit_mark = f" 💰+{u['profit']:,}"
-                lines.append(f"・{u['name']} +{u['diff']:,}円{profit_mark}")
-        if downs:
-            lines.append("\n🔻 値下がり")
-            for d in downs:
-                lines.append(f"・{d['name']} {d['diff']:,}円")
-        lines.append(f"\n👇 最新価格\n{SITE_URL}\n{tags}")
-        text = "\n".join(lines)
 
     post_tweet(text, dry_run)
 
