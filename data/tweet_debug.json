@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-05-01 14:36:29",
-  "char_count": 186,
+  "timestamp": "2026-05-01 15:39:44",
+  "char_count": 187,
   "dry_run": false,
-  "text_preview": "⚡ 買取価格速報\n\n📈 17PM 512 オレンジ\n  253,000円（+16,800円） 💰利益+23,200円\n\n📈 17PM 1TB オレンジ\n  275,000円（+14,300円） 💰利益",
-  "result": "error",
-  "error": "Forbidden: 403 Forbidden\nYou are not allowed to create a Tweet with duplicate content."
+  "text_preview": "⚡ 買取価格速報\n\n📉 17PM 512 オレンジ\n  236,200円（-16,800円） 💰利益+6,400円\n\n📉 17PM 1TB オレンジ\n  260,700円（-14,300円） ⚠️定価",
+  "result": "success",
+  "tweet_id": "2050102858394255841"
 }
