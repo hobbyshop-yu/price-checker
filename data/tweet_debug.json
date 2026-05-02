@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-05-02 21:37:54",
-  "char_count": 266,
+  "timestamp": "2026-05-02 23:06:38",
+  "char_count": 186,
   "dry_run": false,
-  "text_preview": "📊 買取まとめ（5/2）\n\n📱 iPhone最高値\n17PM: 256 213,000(↓-6,000) / 512 242,000(↓-11,000) / 1TB 268,000(↓-7,000)\n",
-  "result": "success",
-  "tweet_id": "2050555381223444810"
+  "text_preview": "⚡ 買取価格速報\n\n📈 17PM 512 オレンジ\n  253,000円（+18,000円） 💰利益+23,200円\n\n📈 17PM 1TB オレンジ\n  275,000円（+15,000円） 💰利益",
+  "result": "error",
+  "error": "Forbidden: 403 Forbidden\nYou are not allowed to create a Tweet with duplicate content."
 }
