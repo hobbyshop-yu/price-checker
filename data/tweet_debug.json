@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-05-05 11:09:52",
-  "char_count": 187,
+  "timestamp": "2026-05-05 11:21:27",
+  "char_count": 186,
   "dry_run": false,
-  "text_preview": "⚡ 買取価格速報\n\n📉 17PM 512 オレンジ\n  235,000円（-18,000円） 💰利益+5,200円\n\n📉 17PM 1TB オレンジ\n  260,000円（-15,000円） ⚠️定価",
+  "text_preview": "⚡ 買取価格速報\n\n📈 17PM 512 オレンジ\n  253,000円（+18,000円） 💰利益+23,200円\n\n📈 17PM 1TB オレンジ\n  275,000円（+15,000円） 💰利益",
   "result": "error",
   "error": "HTTPException: 402 Payment Required\nYour enrolled account [2030169441502412800] does not have any credits to fulfill this request."
 }
