@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-05-06 08:53:01",
-  "char_count": 186,
+  "timestamp": "2026-05-06 22:21:12",
+  "char_count": 260,
   "dry_run": false,
-  "text_preview": "⚡ 買取価格速報\n\n📈 17PM 512 オレンジ\n  253,000円（+17,000円） 💰利益+23,200円\n\n📈 17PM 1TB オレンジ\n  275,000円（+14,000円） 💰利益",
+  "text_preview": "📊 買取まとめ（5/6）\n\n📱 iPhone最高値\n17PM: 256 215,000(↓-4,000) / 512 249,000(↓-4,000) / 1TB 270,000(↓-5,000)\n1",
   "result": "error",
   "error": "HTTPException: 402 Payment Required\nYour enrolled account [2030169441502412800] does not have any credits to fulfill this request."
 }
