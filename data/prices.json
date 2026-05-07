@@ -1,15 +1,15 @@
 {
-  "updated_at": "2026/05/07 10:45",
+  "updated_at": "2026/05/07 11:01",
   "shops": {
     "rudeya": {
       "name": "買取ルデヤ",
       "short_name": "ルデヤ",
       "url": "https://kaitori-rudeya.com/",
-      "updated_at": "2026/05/07 10:45",
+      "updated_at": "2026/05/07 11:01",
       "prices": {
         "switch2_domestic": 41500,
-        "oled_neon": 44300,
-        "oled_white": 42400,
+        "oled_neon": 45300,
+        "oled_white": 42500,
         "standard_neon": 33200,
         "standard_gray": 33400,
         "lite_yellow": 23700,
@@ -47,7 +47,7 @@
       "name": "森森買取",
       "short_name": "森森",
       "url": "https://www.morimori-kaitori.jp/",
-      "updated_at": "2026/05/07 10:45",
+      "updated_at": "2026/05/07 11:01",
       "prices": {
         "switch2_domestic": 42100,
         "oled_neon": 46100,
@@ -88,7 +88,7 @@
       "name": "買取ホムラ",
       "short_name": "ホムラ",
       "url": "https://kaitori-homura.com/",
-      "updated_at": "2026/05/07 10:45",
+      "updated_at": "2026/05/07 11:01",
       "prices": {
         "switch2_domestic": 42500,
         "oled_white": 42000,
@@ -100,21 +100,21 @@
         "lite_yellow": 23800,
         "lite_gray": 23800,
         "lite_blue": 23300,
-        "iphone17p_256_co": 191000,
-        "iphone17p_256_sv": 191000,
-        "iphone17p_256_db": 191000,
-        "iphone17p_512_co": 216500,
-        "iphone17p_512_sv": 216500,
-        "iphone17p_512_db": 216500,
-        "iphone17pm_256_co": 208500,
-        "iphone17pm_256_sv": 208500
+        "iphone17p_256_co": 195000,
+        "iphone17p_256_sv": 195000,
+        "iphone17p_256_db": 195000,
+        "iphone17p_512_co": 221500,
+        "iphone17p_512_sv": 221500,
+        "iphone17p_512_db": 221500,
+        "iphone17pm_256_co": 215000,
+        "iphone17pm_256_sv": 215000
       }
     },
     "kaikyo": {
       "name": "海峡通信",
       "short_name": "海峡",
       "url": "https://www.mobile-ichiban.com/",
-      "updated_at": "2026/05/07 10:45",
+      "updated_at": "2026/05/07 11:01",
       "prices": {
         "oled_neon": 44000,
         "oled_white": 42200,
