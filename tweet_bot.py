@@ -196,16 +196,20 @@ def check_price_alerts(dry_run=False):
     """最高買取価格が5%以上変動した商品をツイート（色違い重複排除・1時間クールダウン）。"""
     print("=== 価格変動アラート ===")
 
-    # クールダウン: 直近1時間以内にツイートしていたらスキップ
+    # クールダウン: 直近の投稿からの経過時間でスキップ
     debug_file = DATA_DIR / "tweet_debug.json"
     if debug_file.exists():
         debug = load_json(debug_file)
         last_ts = debug.get("timestamp", "")
-        if last_ts and debug.get("result") == "success":
+        last_result = debug.get("result", "")
+        if last_ts:
             try:
                 last_dt = datetime.strptime(last_ts, "%Y-%m-%d %H:%M:%S").replace(tzinfo=JST)
-                if (datetime.now(JST) - last_dt).total_seconds() < 3600:
-                    print("  直近1時間以内に投稿済み。クールダウン中。")
+                elapsed = (datetime.now(JST) - last_dt).total_seconds()
+                # 成功時は3時間、エラー時は30分のクールダウン
+                cooldown = 10800 if last_result == "success" else 1800
+                if elapsed < cooldown:
+                    print(f"  クールダウン中（{int(elapsed//60)}分経過、{int(cooldown//60)}分必要）")
                     return
             except (ValueError, TypeError):
                 pass
