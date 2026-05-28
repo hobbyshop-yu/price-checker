@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026/05/29 05:30",
+  "updated_at": "2026/05/29 05:45",
   "shops": {
     "rudeya": {
       "name": "買取ルデヤ",
       "short_name": "ルデヤ",
       "url": "https://kaitori-rudeya.com/",
-      "updated_at": "2026/05/29 05:30",
+      "updated_at": "2026/05/29 05:45",
       "prices": {
         "switch2_domestic": 50500,
         "oled_neon": 49700,
@@ -47,14 +47,14 @@
       "name": "森森買取",
       "short_name": "森森",
       "url": "https://www.morimori-kaitori.jp/",
-      "updated_at": "2026/05/29 05:30",
+      "updated_at": "2026/05/29 05:45",
       "prices": {}
     },
     "homura": {
       "name": "買取ホムラ",
       "short_name": "ホムラ",
       "url": "https://kaitori-homura.com/",
-      "updated_at": "2026/05/29 05:30",
+      "updated_at": "2026/05/29 05:45",
       "prices": {
         "switch2_domestic": 50000,
         "oled_white": 48500,
@@ -80,8 +80,42 @@
       "name": "海峡通信",
       "short_name": "海峡",
       "url": "https://www.mobile-ichiban.com/",
-      "updated_at": "2026/05/29 05:30",
-      "prices": {}
+      "updated_at": "2026/05/29 05:45",
+      "prices": {
+        "oled_neon": 49500,
+        "oled_white": 48300,
+        "standard_neon": 37700,
+        "standard_gray": 28100,
+        "lite_yellow": 28100,
+        "lite_turquoise": 28100,
+        "lite_coral": 28100,
+        "lite_gray": 28100,
+        "lite_blue": 28100,
+        "ps5pro_7100": 134500,
+        "ps5pro_7000": 134500,
+        "ps5_disc": 93500,
+        "ps5_de": 79500,
+        "ps5_jponly": 46000,
+        "portal_white": 33500,
+        "portal_black": 33500,
+        "iphone17pm_256_sv": 196500,
+        "iphone17pm_256_db": 196500,
+        "iphone17pm_256_co": 196500,
+        "iphone17pm_512_sv": 231500,
+        "iphone17pm_512_db": 231500,
+        "iphone17pm_512_co": 231500,
+        "iphone17pm_1tb_sv": 265500,
+        "iphone17pm_1tb_db": 265500,
+        "iphone17pm_1tb_co": 265500,
+        "iphone17p_256_sv": 168000,
+        "iphone17p_256_db": 168000,
+        "iphone17p_256_co": 168000,
+        "iphone17p_512_sv": 214000,
+        "iphone17p_512_db": 214000,
+        "iphone17p_512_co": 214000,
+        "iphone17_256": 103000,
+        "iphone17_512": 145000
+      }
     }
   }
 }
