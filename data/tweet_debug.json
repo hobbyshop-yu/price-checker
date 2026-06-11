@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-06-11 16:49:11",
-  "char_count": 139,
+  "timestamp": "2026-06-11 18:19:22",
+  "char_count": 140,
   "dry_run": false,
-  "text_preview": "⚡ 買取価格速報\n\n📈 17Pro 256 シルバー\n  173,000円（+10,000円） ⚠️定価割れ-6,800円\n\n👇 最新価格\nhttps://kaitori.hobbyshop-yu.c",
+  "text_preview": "⚡ 買取価格速報\n\n📉 17Pro 256 シルバー\n  163,000円（-10,000円） ⚠️定価割れ-16,800円\n\n👇 最新価格\nhttps://kaitori.hobbyshop-yu.",
   "result": "error",
   "error": "HTTPException: 402 Payment Required\nYour enrolled account [2030169441502412800] does not have any credits to fulfill this request."
 }
