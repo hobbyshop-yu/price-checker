@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-06-13 01:04:30",
-  "char_count": 241,
+  "timestamp": "2026-06-13 04:22:38",
+  "char_count": 244,
   "dry_run": false,
-  "text_preview": "⚡ 買取価格速報\n\n📈 17PM 512 オレンジ\n  223,000円（+26,500円） ⚠️定価割れ-6,800円\n\n📈 17PM 1TB オレンジ\n  259,000円（+29,000円） ⚠",
+  "text_preview": "⚡ 買取価格速報\n\n📉 17PM 512 オレンジ\n  196,500円（-26,500円） ⚠️定価割れ-33,300円\n\n📉 17PM 1TB オレンジ\n  230,000円（-29,000円） ",
   "result": "error",
   "error": "HTTPException: 402 Payment Required\nYour enrolled account [2030169441502412800] does not have any credits to fulfill this request."
 }
