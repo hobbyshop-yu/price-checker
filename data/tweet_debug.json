@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-06-18 15:22:55",
-  "char_count": 139,
+  "timestamp": "2026-06-18 23:35:49",
+  "char_count": 262,
   "dry_run": false,
-  "text_preview": "⚡ 買取価格速報\n\n📈 17Pro 256 シルバー\n  177,000円（+22,000円） ⚠️定価割れ-2,800円\n\n👇 最新価格\nhttps://kaitori.hobbyshop-yu.c",
+  "text_preview": "📊 買取まとめ（6/18）\n\n📱 iPhone最高値\n17PM: 256 194,000(↑4,000) / 512 230,000(↑4,500) / 1TB 264,000(↑5,000)\n17P",
   "result": "error",
   "error": "HTTPException: 402 Payment Required\nYour enrolled account [2030169441502412800] does not have any credits to fulfill this request."
 }
