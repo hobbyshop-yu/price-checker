@@ -1,5 +1,5 @@
 {
-  "date": "2026-06-21",
+  "date": "2026-06-22",
   "prices": {
     "switch2_domestic": 47500,
     "oled_white": 46200,
@@ -26,10 +26,10 @@
     "ps5_jponly": 47000,
     "portal_white": 34000,
     "portal_black": 34000,
-    "iphone17pm_256_db": 193500,
-    "iphone17pm_512_sv": 230000,
-    "iphone17pm_512_db": 230000,
-    "iphone17pm_512_co": 230000,
+    "iphone17pm_256_db": 193000,
+    "iphone17pm_512_sv": 229000,
+    "iphone17pm_512_db": 229000,
+    "iphone17pm_512_co": 229000,
     "iphone17pm_1tb_sv": 264000,
     "iphone17pm_1tb_db": 264000,
     "iphone17pm_1tb_co": 264000,
