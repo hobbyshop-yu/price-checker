@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-06-25 22:53:07",
-  "char_count": 97,
+  "timestamp": "2026-06-26 22:51:46",
+  "char_count": 176,
   "dry_run": false,
-  "text_preview": "📊 買取まとめ（6/25）\n\n本日は大きな値動きなし\n\nhttps://kaitori.hobbyshop-yu.com\n#iPhone転売 #iPhone17ProMax #買取価格 #せどり",
+  "text_preview": "📊 買取まとめ（6/26）\n\n📱 iPhone最高値\n17PM: 256 192,000 / 512 228,000 / 1TB 263,000\n17Pro: 256 155,000 / 512 21",
   "result": "error",
   "error": "HTTPException: 402 Payment Required\nYour enrolled account [2030169441502412800] does not have any credits to fulfill this request."
 }
