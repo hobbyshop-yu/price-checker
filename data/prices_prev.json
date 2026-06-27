@@ -1,32 +1,32 @@
 {
-  "updated_at": "2026/06/27 11:31",
+  "updated_at": "2026/06/27 11:45",
   "shops": {
     "rudeya": {
       "name": "買取ルデヤ",
       "short_name": "ルデヤ",
       "url": "https://kaitori-rudeya.com/",
-      "updated_at": "2026/06/27 11:31",
+      "updated_at": "2026/06/27 11:45",
       "prices": {}
     },
     "morimori": {
       "name": "森森買取",
       "short_name": "森森",
       "url": "https://www.morimori-kaitori.jp/",
-      "updated_at": "2026/06/27 11:31",
+      "updated_at": "2026/06/27 11:45",
       "prices": {}
     },
     "homura": {
       "name": "買取ホムラ",
       "short_name": "ホムラ",
       "url": "https://kaitori-homura.com/",
-      "updated_at": "2026/06/27 11:31",
+      "updated_at": "2026/06/27 11:45",
       "prices": {}
     },
     "kaikyo": {
       "name": "海峡通信",
       "short_name": "海峡",
       "url": "https://www.mobile-ichiban.com/",
-      "updated_at": "2026/06/27 11:31",
+      "updated_at": "2026/06/27 11:45",
       "prices": {
         "oled_neon": 48000,
         "oled_white": 46500,
@@ -41,7 +41,7 @@
         "ps5pro_7000": 136300,
         "ps5_disc": 94700,
         "ps5_de": 81200,
-        "ps5_jponly": 47000,
+        "ps5_jponly": 46500,
         "portal_white": 34000,
         "portal_black": 34000,
         "iphone17pm_256_sv": 192500,
