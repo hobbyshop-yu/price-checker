@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-07-01 22:57:55",
-  "char_count": 193,
+  "timestamp": "2026-07-03 22:24:46",
+  "char_count": 255,
   "dry_run": false,
-  "text_preview": "📊 買取まとめ（7/1）\n\n📱 iPhone最高値\n17PM: 256 202,000(↓-2,000) / 512 232,500(↓-2,000) / 1TB 265,500\n17Pro: 256",
+  "text_preview": "📊 買取まとめ（7/3）\n\n📱 iPhone最高値\n17PM: 256 193,000(↓-3,000) / 512 228,000(↓-2,000) / 1TB 263,000(↓-1,000)\n1",
   "result": "error",
   "error": "HTTPException: 402 Payment Required\nYour enrolled account [2030169441502412800] does not have any credits to fulfill this request."
 }
