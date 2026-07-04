@@ -1,10 +1,10 @@
 {
-  "date": "2026-07-04",
+  "date": "2026-07-05",
   "prices": {
-    "oled_neon": 48200,
+    "oled_neon": 48300,
     "oled_white": 45700,
     "standard_neon": 37500,
-    "standard_gray": 38200,
+    "standard_gray": 38400,
     "lite_yellow": 27500,
     "lite_turquoise": 27400,
     "lite_coral": 27400,
