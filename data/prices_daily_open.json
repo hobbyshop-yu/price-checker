@@ -1,5 +1,5 @@
 {
-  "date": "2026-07-17",
+  "date": "2026-07-18",
   "prices": {
     "oled_neon": 48500,
     "oled_white": 45000,
@@ -7,14 +7,14 @@
     "standard_gray": 38600,
     "lite_yellow": 27500,
     "lite_turquoise": 27400,
-    "lite_coral": 27200,
+    "lite_coral": 27400,
     "lite_gray": 27400,
     "lite_blue": 27500,
-    "ps5pro_7100": 151500,
-    "ps5pro_7000": 151500,
-    "ps5_disc": 102000,
-    "ps5_de": 86500,
-    "ps5_jponly": 47300,
+    "ps5pro_7100": 152500,
+    "ps5pro_7000": 152500,
+    "ps5_disc": 102700,
+    "ps5_de": 87500,
+    "ps5_jponly": 47000,
     "portal_white": 34500,
     "portal_black": 34500,
     "iphone17pm_256_sv": 193000,
@@ -33,6 +33,6 @@
     "iphone17p_512_db": 211000,
     "iphone17p_512_co": 211000,
     "iphone17_256": 113000,
-    "iphone17_512": 154000
+    "iphone17_512": 157500
   }
 }
