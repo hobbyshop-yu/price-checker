@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-07-27 23:02:14",
-  "char_count": 97,
+  "timestamp": "2026-07-28 22:22:07",
+  "char_count": 228,
   "dry_run": false,
-  "text_preview": "📊 買取まとめ（7/27）\n\n本日は大きな値動きなし\n\nhttps://kaitori.hobbyshop-yu.com\n#iPhone転売 #iPhone17ProMax #買取価格 #せどり",
+  "text_preview": "📊 買取まとめ（7/28）\n\n📱 iPhone最高値\n17PM: 256 199,000(↑2,000) / 512 230,000 / 1TB 262,000\n17Pro: 256 169,000 ",
   "result": "error",
   "error": "HTTPException: 402 Payment Required\ncredits depleted"
 }
