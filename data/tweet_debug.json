@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-07-29 22:28:17",
-  "char_count": 244,
+  "timestamp": "2026-07-31 22:21:20",
+  "char_count": 262,
   "dry_run": false,
-  "text_preview": "📊 買取まとめ（7/29）\n\n📱 iPhone最高値\n17PM: 256 200,500(↑1,500) / 512 233,000(↑3,000) / 1TB 262,000\n17Pro: 256 ",
+  "text_preview": "📊 買取まとめ（7/31）\n\n📱 iPhone最高値\n17PM: 256 197,000(↓-4,500) / 512 229,000(↓-5,500) / 1TB 258,000(↓-4,000)\n",
   "result": "error",
   "error": "HTTPException: 402 Payment Required\ncredits depleted"
 }
