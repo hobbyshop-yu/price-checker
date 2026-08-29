@@ -1,67 +1,33 @@
 {
-  "updated_at": "2026/08/29 20:16",
+  "updated_at": "2026/08/29 20:31",
   "shops": {
     "rudeya": {
       "name": "買取ルデヤ",
       "short_name": "ルデヤ",
       "url": "https://kaitori-rudeya.com/",
-      "updated_at": "2026/08/29 20:16",
+      "updated_at": "2026/08/29 20:31",
       "prices": {}
     },
     "morimori": {
       "name": "森森買取",
       "short_name": "森森",
       "url": "https://www.morimori-kaitori.jp/",
-      "updated_at": "2026/08/29 20:16",
+      "updated_at": "2026/08/29 20:31",
       "prices": {}
     },
     "homura": {
       "name": "買取ホムラ",
       "short_name": "ホムラ",
       "url": "https://kaitori-homura.com/",
-      "updated_at": "2026/08/29 20:16",
+      "updated_at": "2026/08/29 20:31",
       "prices": {}
     },
     "kaikyo": {
       "name": "海峡通信",
       "short_name": "海峡",
       "url": "https://www.mobile-ichiban.com/",
-      "updated_at": "2026/08/29 20:16",
-      "prices": {
-        "oled_neon": 48900,
-        "oled_white": 44800,
-        "standard_neon": 38600,
-        "standard_gray": 38900,
-        "lite_yellow": 28200,
-        "lite_turquoise": 27000,
-        "lite_coral": 27400,
-        "lite_gray": 27400,
-        "lite_blue": 28200,
-        "ps5pro_7100": 178600,
-        "ps5pro_7000": 178600,
-        "ps5_disc": 108700,
-        "ps5_de": 93300,
-        "ps5_jponly": 47000,
-        "portal_white": 33000,
-        "portal_black": 33000,
-        "iphone17pm_256_sv": 197000,
-        "iphone17pm_256_db": 197000,
-        "iphone17pm_256_co": 197000,
-        "iphone17pm_512_sv": 227500,
-        "iphone17pm_512_db": 227500,
-        "iphone17pm_512_co": 227500,
-        "iphone17pm_1tb_sv": 254000,
-        "iphone17pm_1tb_db": 254000,
-        "iphone17pm_1tb_co": 254000,
-        "iphone17p_256_sv": 163000,
-        "iphone17p_256_db": 163000,
-        "iphone17p_256_co": 163000,
-        "iphone17p_512_sv": 212000,
-        "iphone17p_512_db": 212000,
-        "iphone17p_512_co": 212000,
-        "iphone17_256": 117000,
-        "iphone17_512": 159000
-      }
+      "updated_at": "2026/08/29 20:31",
+      "prices": {}
     }
   }
 }
